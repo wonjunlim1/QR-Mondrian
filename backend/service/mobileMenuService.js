@@ -62,5 +62,58 @@ module.exports = {
             throw error;
         }
     
-    }
+    },
+
+    /* Get Detail Mobile Menu */
+    getMobileMenuDetail: async (restaurant_id, branch_id, table_number, menu_id) => {
+      try {
+        const menu = await MainMenu.findOne({
+          where: { id: menu_id },
+          include: [
+            {
+              model: MainCategory,
+              where: { restaurant_id: restaurant_id },
+            },
+            {
+              model: BranchMenuStatus,
+              where: { branch_id: branch_id },
+            },
+            {
+              model: OptionCategory,
+              include: [
+                {
+                  model: OptionMenu,
+                },
+              ],
+            },
+          ],
+        });
+        const formattedMenu = {
+          id: menu.id,
+          name: menu.name,
+          price: menu.price,
+          description: menu.description,
+          image_url: menu.image_url,
+          option_categories: menu.OptionCategories.map((optionCategory) => {
+            return {
+              option_category_name: optionCategory.name,
+              option_menus: optionCategory.OptionMenus.map((optionMenu) => {
+                return {
+                  id: optionMenu.id,
+                  name: optionMenu.name,
+                  price: optionMenu.price,
+                  description: optionMenu.description,
+                };
+              }),
+            };
+          }),
+        };
+
+        return {'menu details': formattedMenu} 
+          
+      } catch (error) {
+          throw error;
+      }
+  
+  },
 }

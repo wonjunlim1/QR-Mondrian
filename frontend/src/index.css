@@ -1,13 +1,96 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: bold;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  line-height: normal;
+  font-family: -apple-system, BlinkMacSystemFont, 'Pretendard-Regular', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+:root {
+  /* fonts */
+  --font-regular: 'Pretendard';
+  --font-bold: 'Pretendard-Bold';
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  /* font sizes */
+  --headline-1: 24px;
+  --title-1: 20px;
+  --title-2: 17px;
+  --body-1: 16px;
+  --body-2: 15px;
+  --label-1: 18px;
+  --label-2: 16px;
+  --label-3: 14px;
+  --caption-1: 12px;
+
+  /* Colors */
+  --primary-normal: #003a54;
+  --interaction-primary-hover: #002A3D;
+  --interaction-primary-pressed: #001B27;
+  --secondary-normal: #E8EAED;
+  --interaction-secondary-hover: #D7DADF;
+  --interaction-secondary-pressed: #C1C5CD;
+  --white-white: #FFFFFF;
+  --status-alert-1: #f44336;
+  --status-alert-2: #ffeeec;
+  --status-postive-1: #2979ff;
+  --status-positive-2: #e6edff;
+  --text-strong: #0e0f10;
+  --text-normal: #2a2d32;
+  --text-alternative-1: #686f7d;
+  --text-alternative-2: #818998;
+  --text-assistive: #D7DADF;
+  --background-normal: #fff;
+  --background-alternative: #f4f4f6;
+  --line-strong: #c1c5cd;
+  --line-normal: #d7dadf;
+  --line-alternative: #e8eaed;
+  --color-gray-600: #565c67;
+  --color-gray-900: #0E0F10;
+
+  /* Gaps */
+  --gap-11xs: 2px;
+  --gap-9xs: 4px;
+  --gap-5xs: 8px;
+  --gap-xs: 12px;
+  --gap-base: 16px;
+  --gap-2xl: 21px;
+  --gap-5xl: 24px;
+  --gap-6xl: 25px;
+  --gap-13xl: 32px;
+  --gap-21xl: 40px;
+  --gap-29xl: 48px;
+
+  /* Paddings */
+  --padding-11xs: 2px;
+  --padding-9xs: 4px;
+  --padding-7xs: 6px;
+  --padding-5xs: 8px;
+  --padding-3xs: 10px;
+  --padding-xs: 12px;
+  --padding-base: 16px;
+  --padding-5xl: 24px;
+  --padding-13xl: 32px;
+  --padding-21xl: 40px;
+
+  /* border radiuses */
+  --br-9xs: 4px;
+  --br-5xs: 8px;
+  --br-base: 16px;
+  --br-5xl: 24px;
+  --br-81xl: 100px;
 }

@@ -172,7 +172,64 @@ module.exports = {
         }
       }
       status = 1;
-    } 
+    } else if (pastOrders[0].order_status === false) {
+      console.log("S2 no active order");
+      // Create a new order with order_status = 1 (active) and total_price = currentSum
+      const order = await Order.create({
+        restaurant_id: restaurant_id,
+        branch_id: branch_id,
+        table_number: table_number,
+        total_price: currentOrderPrice,
+        order_status: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+
+      orderId = order.id;
+
+      // Create a new sub_order with order_status = 'pending' and partial_price = currentSum
+      const subOrder = await SubOrder.create({
+        order_id: orderId,
+        partial_price: currentOrderPrice,
+        order_status: "pending",
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+
+      // Create order items and order item options
+      for (const item of curr_order) {
+        const { main_menus } = item;
+
+        if (main_menus && Array.isArray(main_menus)) {
+          for (const main_menu of main_menus) {
+            const {
+              id: main_menu_id,
+              price: main_menu_price,
+              option_menus,
+            } = main_menu;
+            const orderItem = await OrderItem.create({
+              sub_order_id: subOrder.id,
+              main_menu_id,
+              main_menu_price,
+            });
+
+            if (option_menus && Array.isArray(option_menus)) {
+              for (const option of option_menus) {
+                const { id: option_menu_id, price: option_menu_price } = option;
+                await OrderItemOption.create({
+                  sub_order_item_id: orderItem.id,
+                  option_menu_id,
+                  option_menu_price,
+                });
+              }
+            }
+          }
+        }
+      }
+      status =
+        "No active order, order successfully created with order id of ${orderId}";
+    }
+    
     // console.log(status)
     // return {'status' : status};
   },

@@ -46,6 +46,68 @@ const CartPage = () => {
     [currentOrdersData]
   );
 
+  const onModifyButtonClick = useCallback(
+    (temp_id, menu_id) => {
+      console.log(temp_id);
+      navigate(
+        `/menu_m/${restaurantId}/${branchId}/${tableNumber}/${menu_id}`,
+        { state: { temp_id } }
+      );
+    },
+    [navigate, restaurantId, branchId, tableNumber]
+  );
+
+  const onSubmitButtonClick = useCallback(async () => {
+    // Get the cart data from local storage
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Check if cart is not empty
+    if (cartData.length > 0) {
+      // Transform the cart data to the new format
+      const main_menus = cartData.map((item) => ({
+        id: item.menu_id,
+        price: item.menu_price,
+        option_menus: item.option_menus.map((option) => ({
+          id: option.option_id,
+          price: option.option_price,
+        })),
+      }));
+
+      const transformedCartData = {
+        current_order: [
+          {
+            restaurant_id: restaurantId,
+            branch_id: branchId,
+            table_number: tableNumber,
+            main_menus: main_menus,
+          },
+        ],
+      };
+
+      // Send a POST request with the transformed data
+      try {
+        const response = await fetch(
+          `http://localhost:8080/cart_m/${restaurantId}/${branchId}/${tableNumber}/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(transformedCartData),
+          }
+        );
+        console.log(transformedCartData);
+        console.log(response);
+        localStorage.removeItem("cart");
+        navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}`);
+
+        // Handle response...
+      } catch (error) {
+        // Handle error...
+      }
+    }
+  }, [navigate, restaurantId, branchId, tableNumber]);
+
   useEffect(() => {
     const check_cart = localStorage.getItem("cart");
     if (check_cart) {

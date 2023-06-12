@@ -34,6 +34,30 @@ const MenuDetailPage = () => {
     }
   };
 
+  const handleCheck = (categoryIndex, optionIndex) => {
+    setMenuDetailData((prevData) => {
+      const newData = JSON.parse(JSON.stringify(prevData));
+
+      const option =
+        newData.option_categories[categoryIndex].option_menus[optionIndex];
+      option.checked = !option.checked;
+
+      let newTotal = menuDetailData.price;
+      newData.option_categories.forEach((category) => {
+        category.option_menus.forEach((option) => {
+          if (option.checked) {
+            newTotal += option.price;
+          }
+        });
+      });
+
+      setPartialTotal(newTotal);
+      setTotal(newTotal * quantity);
+      //console.log(newData);
+      return newData;
+    });
+  };
+
   return (
     <div className={styles.mobile}>
       <div className={styles.gnbMobileParent}>

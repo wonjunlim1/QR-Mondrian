@@ -1,0 +1,441 @@
+.gnbSpace {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    justify-content: flex-end;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+.arrowLeftIcon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .icon {
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-base);
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .b {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 26px;
+  }
+  .gnbMobile {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .price,
+  .title {
+    position: relative;
+  }
+  .title {
+    letter-spacing: -0.01em;
+    line-height: 26px;
+  }
+  .price {
+    font-size: var(--title-2);
+    line-height: 24px;
+    color: var(--text-normal);
+    text-align: right;
+  }
+  .titlearea1 {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .divider {
+    align-self: stretch;
+    position: relative;
+    border-top: 1px solid var(--line-normal);
+    box-sizing: border-box;
+    height: 1px;
+  }
+  .titlearea {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-xs);
+  }
+  .name {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 24px;
+  }
+  .div2 {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-normal);
+  }
+  .menuimageIcon {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border: 0px solid transparent;
+    border-radius: var(--br-9xs) ; 
+  }
+  .priceChild {
+    position: relative;
+    width: 72px;
+    height: 72px;
+  }
+  .priceChild {
+    border-radius: 50%;
+    background-color: var(--text-strong);
+    width: 4px;
+    height: 4px;
+  }
+  .label {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 20px;
+  }
+  .price2 {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-5xs);
+    color: var(--text-strong);
+  }
+  .div4,
+  .price2,
+  .price3 {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .price3 {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-5xs);
+  }
+  .div4 {
+    align-self: stretch;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .totalprice {
+    align-self: stretch;
+    position: relative;
+    font-size: var(--label-2);
+    letter-spacing: 0.01em;
+    line-height: 24px;
+    color: var(--text-strong);
+  }
+  .div3,
+  .price1 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .price1 {
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-5xs);
+  }
+  .div3 {
+    align-self: stretch;
+    flex-direction: row;
+    gap: var(--gap-base);
+    font-size: var(--label-3);
+  }
+  .label4 {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 28px;
+  }
+  .button {
+    border-radius: var(--br-5xs);
+    background-color: var(--background-normal);
+    border: 1px solid var(--color-gray-600);
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    align-items: center;
+    justify-content: center;
+  }
+  .buttonChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-9xs) 0 0 var(--br-9xs);
+    background-color: var(--line-alternative);
+    width: 40px;
+    height: 40px;
+  }
+  .minusIcon {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 10px);
+    width: 20px;
+    height: 20px;
+  }
+  .counter {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--padding-base);
+    align-items: center;
+    justify-content: center;
+  }
+  .buttonIcon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  .div5,
+  .nuberinput {
+    display: flex;
+    flex-direction: row;
+  }
+  .nuberinput {
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: center;
+  }
+  .div5 {
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--gap-base);
+    font-size: var(--label-1);
+  }
+  .divider1,
+  .order {
+    align-self: stretch;
+  }
+  .order {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: var(--gap-base);
+  }
+  .divider1 {
+    position: relative;
+    border-top: 1px solid var(--line-alternative);
+    box-sizing: border-box;
+    height: 1px;
+  }
+  .div,
+  .div1 {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .div1 {
+    gap: var(--gap-base);
+    font-size: var(--label-2);
+    color: var(--text-alternative-1);
+  }
+  .div {
+    background-color: var(--background-normal);
+    padding: var(--padding-5xl) var(--padding-base);
+    gap: var(--gap-5xl);
+  }
+  .name2,
+  .price11 {
+    position: relative;
+    line-height: 24px;
+  }
+  .price11 {
+    font-size: var(--title-2);
+    text-align: right;
+  }
+  .name2 {
+    letter-spacing: 0.01em;
+    opacity: 0.6;
+  }
+  .checkCircleIcon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .state {
+    position: relative;
+    letter-spacing: 0.03em;
+    line-height: 16px;
+  }
+  .div14,
+  .label10 {
+    display: flex;
+    flex-direction: row;
+  }
+  .label10 {
+    border-radius: var(--br-9xs);
+    background-color: var(--status-positive-2);
+    overflow: hidden;
+    padding: var(--padding-9xs) var(--padding-5xs);
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-9xs);
+    font-size: var(--caption-1);
+    color: var(--status-postive-1);
+  }
+  .div14 {
+    align-self: stretch;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .priceChild5 {
+    position: relative;
+    border-radius: 50%;
+    background-color: var(--line-normal);
+    width: 4px;
+    height: 4px;
+  }
+  .totalprice2 {
+    align-self: stretch;
+    position: relative;
+    font-size: var(--label-2);
+    letter-spacing: 0.01em;
+    line-height: 24px;
+    color: var(--text-alternative-2);
+    opacity: 0.6;
+  }
+  .price12 {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-5xs);
+    font-size: var(--label-3);
+    color: var(--line-normal);
+  }
+  .alertTriangleIcon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+  }
+  .label13 {
+    border-radius: var(--br-9xs);
+    background-color: var(--status-alert-2);
+    overflow: hidden;
+    flex-direction: row;
+    padding: var(--padding-9xs) var(--padding-5xs);
+    gap: var(--gap-9xs);
+    font-size: var(--caption-1);
+    color: var(--status-alert-1);
+  }
+  .div12,
+  .div13,
+  .label13,
+  .label16 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .label16 {
+    border-radius: var(--br-9xs);
+    background-color: var(--line-alternative);
+    overflow: hidden;
+    flex-direction: row;
+    padding: var(--padding-9xs) var(--padding-5xs);
+    gap: var(--gap-9xs);
+    font-size: var(--caption-1);
+    color: var(--text-alternative-1);
+  }
+  .div12,
+  .div13 {
+    align-self: stretch;
+    flex-direction: column;
+  }
+  .div13 {
+    gap: var(--gap-base);
+    font-size: var(--label-2);
+  }
+  .div12 {
+    background-color: var(--background-normal);
+    border-bottom: 1px solid var(--line-alternative);
+    padding: var(--padding-5xl) var(--padding-base);
+    gap: var(--gap-5xl);
+    color: var(--text-alternative-2);
+  }
+  .layout {
+    gap: var(--gap-5xs);
+    font-size: var(--title-1);
+  }
+  .gnbMobileParent,
+  .layout {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .label20 {
+    position: relative;
+    font-size: var(--caption-1);
+    letter-spacing: 0.03em;
+    line-height: 16px;
+  }
+  .price21 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: var(--gap-9xs);
+  }
+  .button4 {
+    flex: 1;
+    border-radius: var(--br-5xs);
+    background-color: var(--primary-normal);
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    align-items: center;
+    justify-content: center;
+    font-size: var(--label-1);
+    color: var(--background-normal);
+  }
+  .div20,
+  .mobile {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .div20 {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    box-shadow: 0-4px 20px rgba(0, 0, 0, 0.08);
+    border-top: 1px solid var(--line-alternative);
+    flex-direction: row;
+    padding: var(--padding-xs) var(--padding-base);
+    align-items: center;
+    gap: var(--gap-base);
+    font-size: var(--label-3);
+    color: var(--text-normal);
+  }
+  .mobile {
+    position: relative;
+    background-color: var(--background-alternative);
+    width: 100%;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-5xs);
+    text-align: left;
+    font-size: var(--label-2);
+    color: var(--text-strong);
+    font-family: var(--label-3);
+  }
+  

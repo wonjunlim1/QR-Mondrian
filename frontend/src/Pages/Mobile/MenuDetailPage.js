@@ -15,23 +15,45 @@ const MenuDetailPage = () => {
   const [total, setTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
-  const onBackIconClick = useCallback(() => {
-    navigate(-1); // Use -1 to go back to the previous page
-  }, [navigate]);
+  const currentTempId = location.state ? location.state.temp_id : 0;
 
-  const onCartIconClick = useCallback(() => {
-    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}/`);
-  }, [navigate, restaurantId, branchId, tableNumber]);
+  const {
+    restaurant_id: restaurantId,
+    branch_id: branchId,
+    table_number: tableNumber,
+    menu_id: menuId,
+  } = useParams();
 
   const changeQuantity = (num) => {
     const newQuantity = quantity + num;
     if (newQuantity >= 1) {
-      // Or replace 0 with the minimum value you want
       setQuantity(newQuantity);
       let newTotal = partialTotal * newQuantity;
       setTotal(newTotal);
-      //console.log(total);
     }
+  };
+
+  const handleCheck = (categoryIndex, optionIndex) => {
+    setMenuDetailData((prevData) => {
+      const newData = JSON.parse(JSON.stringify(prevData));
+
+      const option =
+        newData.option_categories[categoryIndex].option_menus[optionIndex];
+      option.checked = !option.checked;
+
+      let newTotal = menuDetailData.price;
+      newData.option_categories.forEach((category) => {
+        category.option_menus.forEach((option) => {
+          if (option.checked) {
+            newTotal += option.price;
+          }
+        });
+      });
+
+      setPartialTotal(newTotal);
+      setTotal(newTotal * quantity);
+      return newData;
+    });
   };
 
   useEffect(() => {
@@ -89,30 +111,90 @@ const MenuDetailPage = () => {
     fetchMenuDetailData();
   }, [restaurantId, branchId, tableNumber, menuId, quantity, currentTempId]);
 
+  const onSubmitButtonClick = useCallback(
+    (currentMenuData, currentQuantity) => {
+      // Retrieve the existing data from local storage
+      let existingCart = localStorage.getItem("cart");
 
-  const handleCheck = (categoryIndex, optionIndex) => {
-    setMenuDetailData((prevData) => {
-      const newData = JSON.parse(JSON.stringify(prevData));
+      let temp_id = 1;
 
-      const option =
-        newData.option_categories[categoryIndex].option_menus[optionIndex];
-      option.checked = !option.checked;
+      if (existingCart) {
+        existingCart = JSON.parse(existingCart);
+        if (
+          Array.isArray(existingCart) &&
+          existingCart.length > 0 &&
+          currentTempId === 0
+        ) {
+          const maxTempId = Math.max(
+            ...existingCart.map((item) => item.temp_id)
+          );
+          temp_id = maxTempId + 1;
+        }
+      }
+      if (currentTempId !== 0) {
+        temp_id = currentTempId;
+      }
 
-      let newTotal = menuDetailData.price;
-      newData.option_categories.forEach((category) => {
-        category.option_menus.forEach((option) => {
-          if (option.checked) {
-            newTotal += option.price;
-          }
+      const newCart = [];
+
+      for (let i = 0; i < currentQuantity; i++) {
+        const checkedOptions = currentMenuData.option_categories.flatMap(
+          (category, categoryIndex) =>
+            category.option_menus
+              .map((option, optionIndex) => ({
+                option,
+                optionIndex,
+                categoryIndex,
+              }))
+              .filter(({ option }) => option.checked)
+              .map(({ option, optionIndex, categoryIndex }) => ({
+                option_id: option.id,
+                option_name: option.name,
+                option_price: option.price,
+                option_category_idx: categoryIndex,
+                option_idx: optionIndex,
+              }))
+        );
+        newCart.push({
+          temp_id: temp_id,
+          menu_id: currentMenuData.id,
+          menu_name: currentMenuData.name,
+          menu_price: currentMenuData.price,
+          image_url: currentMenuData.image_url,
+          option_menus: checkedOptions,
         });
-      });
+      }
+      existingCart = existingCart ? existingCart : [];
 
-      setPartialTotal(newTotal);
-      setTotal(newTotal * quantity);
-      //console.log(newData);
-      return newData;
-    });
-  };
+      if (currentTempId !== 0 && existingCart) {
+        existingCart = existingCart.filter(
+          (item) => item.temp_id !== currentTempId
+        );
+      }
+      let finalCart = [...existingCart, ...newCart];
+
+      localStorage.setItem("cart", JSON.stringify(finalCart));
+      let check_cart = localStorage.getItem("cart");
+      if (currentTempId !== 0) {
+        navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
+      } else {
+        navigate(-1);
+      }
+    },
+    [navigate, currentTempId, restaurantId, branchId, tableNumber]
+  );
+
+  const onBackIconClick = useCallback(() => {
+    navigate(-1); // Use -1 to go back to the previous page
+  }, [navigate]);
+
+  const onCartIconClick = useCallback(() => {
+    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}/`);
+  }, [navigate, restaurantId, branchId, tableNumber]);
+
+  if (!menuDetailData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={styles.mobile}>

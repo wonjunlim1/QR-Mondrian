@@ -15,6 +15,14 @@ const MenuDetailPage = () => {
   const [total, setTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
+  const onBackIconClick = useCallback(() => {
+    navigate(-1); // Use -1 to go back to the previous page
+  }, [navigate]);
+
+  const onCartIconClick = useCallback(() => {
+    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}/`);
+  }, [navigate, restaurantId, branchId, tableNumber]);
+
   return (
     <div className={styles.mobile}>
       <div className={styles.gnbMobileParent}>

@@ -23,6 +23,17 @@ const MenuDetailPage = () => {
     navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}/`);
   }, [navigate, restaurantId, branchId, tableNumber]);
 
+  const changeQuantity = (num) => {
+    const newQuantity = quantity + num;
+    if (newQuantity >= 1) {
+      // Or replace 0 with the minimum value you want
+      setQuantity(newQuantity);
+      let newTotal = partialTotal * newQuantity;
+      setTotal(newTotal);
+      //console.log(total);
+    }
+  };
+
   return (
     <div className={styles.mobile}>
       <div className={styles.gnbMobileParent}>

@@ -21,6 +21,10 @@ const CartPage = () => {
     table_number: tableNumber,
   } = useParams(); 
 
+  const onArrowIconClick = useCallback(() => {
+    navigate(-1); // Use -1 to go back to the previous page
+  }, [navigate]);
+
   return (
     <div className={styles.mobile}>
       <div className={styles.gnbMobileParent}>

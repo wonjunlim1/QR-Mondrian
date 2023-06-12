@@ -34,6 +34,62 @@ const MenuDetailPage = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchMenuDetailData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/menu_m/${restaurantId}/${branchId}/${tableNumber}/${menuId}`
+        );
+        const jsonData = await response.json();
+        const modifiedData = jsonData.data["menu details"];
+        modifiedData.option_categories = modifiedData.option_categories.map(
+          (category) => ({
+            ...category,
+            option_menus: category.option_menus.map((option) => ({
+              ...option,
+              checked: false,
+            })),
+          })
+        );
+        if (currentTempId !== 0) {
+          const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+          const cartItem = existingCart.find(
+            (item) => item.temp_id === currentTempId
+          );
+          if (cartItem) {
+            cartItem.option_menus.forEach((option) => {
+              const category =
+                modifiedData.option_categories[option.option_category_idx];
+              if (category) {
+                const menuOption = category.option_menus[option.option_idx];
+                if (menuOption) {
+                  menuOption.checked = true;
+                }
+              }
+            });
+          }
+        }
+
+        let newTotal = modifiedData.price;
+        modifiedData.option_categories.forEach((category) => {
+          category.option_menus.forEach((option) => {
+            if (option.checked) {
+              newTotal += option.price;
+            }
+          });
+        });
+
+        setMenuDetailData(modifiedData);
+        setPartialTotal(newTotal);
+        setTotal(newTotal * quantity);
+      } catch (error) {
+        console.log("Error fetching menu data:", error);
+      }
+    };
+    fetchMenuDetailData();
+  }, [restaurantId, branchId, tableNumber, menuId, quantity, currentTempId]);
+
+
   const handleCheck = (categoryIndex, optionIndex) => {
     setMenuDetailData((prevData) => {
       const newData = JSON.parse(JSON.stringify(prevData));

@@ -1,9 +1,16 @@
-import React, {useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation} from 'react-router-dom';
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 
-import WebLoginPage from './Pages/Web/LoginPage';  
-import WebOrderPage from './Pages/Web/OrderPage';  
-import MobileMenuPage from './Pages/Mobile/MenuPage';
+import WebLoginPage from "./Pages/Web/LoginPage";
+import WebOrderPage from "./Pages/Web/OrderPage";
+import MobileMenuPage from "./Pages/Mobile/MenuPage";
+import MobileMenuDetailPage from "./Pages/Mobile/MenuDetailPage";
+import MobileCartPage from "./Pages/Mobile/CartPage";
 
 function PageHandler() {
   const location = useLocation();
@@ -31,9 +38,9 @@ function PageHandler() {
         metaDescription = "";
         break;
       default:
-          title = "SPQR";
-          metaDescription = "";
-          break;
+        title = "SPQR";
+        metaDescription = "";
+        break;
     }
 
     if (title) {
@@ -49,9 +56,7 @@ function PageHandler() {
       }
     }
   }, [pathname]);
-
 }
-
 
 function App() {
   return (
@@ -60,7 +65,18 @@ function App() {
       <Routes>
         <Route path="/login_w" element={<WebLoginPage />} />
         <Route path="/order_w" element={<WebOrderPage />} />
-        <Route path="/menu_m/:restaurant_id/:branch_id/:table_number" element={<MobileMenuPage/>}/>
+        <Route
+          path="/menu_m/:restaurant_id/:branch_id/:table_number"
+          element={<MobileMenuPage />}
+        />
+        <Route
+          path="/menu_m/:restaurant_id/:branch_id/:table_number/:menu_id"
+          element={<MobileMenuDetailPage />}
+        />
+        <Route
+          path="/cart_m/:restaurant_id/:branch_id/:table_number"
+          element={<MobileCartPage />}
+        />
       </Routes>
     </Router>
   );

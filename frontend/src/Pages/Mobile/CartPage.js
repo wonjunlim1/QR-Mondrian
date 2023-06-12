@@ -25,6 +25,42 @@ const CartPage = () => {
     navigate(-1); // Use -1 to go back to the previous page
   }, [navigate]);
 
+  const onDeleteIconClick = useCallback(
+    (temp_id) => {
+      const updatedData = currentOrdersData.filter(
+        (item) => item.temp_id !== temp_id
+      );
+
+      setCurrentOrdersData(updatedData);
+
+      localStorage.setItem("cart", JSON.stringify(updatedData));
+
+      const totalPrice = updatedData.reduce((total, item) => {
+        const itemTotal =
+          item.menu_price +
+          item.option_menus.reduce((a, b) => a + b.option_price, 0);
+        return total + itemTotal;
+      }, 0);
+      setCurrentOrdersPrice(totalPrice);
+    },
+    [currentOrdersData]
+  );
+
+  useEffect(() => {
+    const check_cart = localStorage.getItem("cart");
+    if (check_cart) {
+      const parsedCart = JSON.parse(check_cart);
+      setCurrentOrdersData(parsedCart);
+      const totalPrice = parsedCart.reduce((total, item) => {
+        const itemTotal =
+          item.menu_price +
+          item.option_menus.reduce((a, b) => a + b.option_price, 0);
+        return total + itemTotal;
+      }, 0);
+      setCurrentOrdersPrice(totalPrice);
+    }
+  }, []);
+
   return (
     <div className={styles.mobile}>
       <div className={styles.gnbMobileParent}>

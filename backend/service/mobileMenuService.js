@@ -16,14 +16,6 @@ module.exports = {
                       model: BranchMenuStatus,
                       where: { branch_id: branch_id },
                     },
-                    {
-                      model: OptionCategory,
-                      include: [
-                        {
-                          model: OptionMenu,
-                        },
-                      ],
-                    },
                   ],
                 },
               ],
@@ -39,19 +31,7 @@ module.exports = {
                     price: mainMenu.price,
                     description: mainMenu.description,
                     image_url: mainMenu.image_url,
-                    option_categories: mainMenu.OptionCategories.map((optionCategory) => {
-                      return {
-                        option_category_name: optionCategory.name,
-                        option_menus: optionCategory.OptionMenus.map((optionMenu) => {
-                          return {
-                            id: optionMenu.id,
-                            name: optionMenu.name,
-                            price: optionMenu.price,
-                            description: optionMenu.description,
-                          };
-                        }),
-                      };
-                    }),
+                    
                   };
                 }),
               };

@@ -19,7 +19,7 @@ const CartPage = () => {
     restaurant_id: restaurantId,
     branch_id: branchId,
     table_number: tableNumber,
-  } = useParams(); 
+  } = useParams();
 
   const onArrowIconClick = useCallback(() => {
     navigate(-1); // Use -1 to go back to the previous page
@@ -109,6 +109,58 @@ const CartPage = () => {
   }, [navigate, restaurantId, branchId, tableNumber]);
 
   useEffect(() => {
+    const fetchPastOrdersData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/cart_m/${restaurantId}/${branchId}/${tableNumber}`
+        );
+        const jsonData = await response.json();
+        const flattenedPastOrders = jsonData.data["past_orders"]
+          ? jsonData.data["past_orders"].flatMap((subOrderArray) =>
+              subOrderArray.map((subOrder) => {
+                // map each main_menu to include order_status from its parent sub_order
+                subOrder.main_menus = subOrder.main_menus.map((menu) => {
+                  return { ...menu, order_status: subOrder.order_status };
+                });
+                return subOrder;
+              })
+            )
+          : [];
+
+        setPastOrdersData(flattenedPastOrders);
+
+        // Calculate the total price after fetching the data
+        const totalPrice = flattenedPastOrders.reduce((acc, order) => {
+          return (
+            acc +
+            order.main_menus.reduce((menuAcc, menu) => {
+              return (
+                menuAcc +
+                menu.price +
+                (menu.option_menus
+                  ? menu.option_menus.reduce(
+                      (optionAcc, option) => optionAcc + option.price,
+                      0
+                    )
+                  : 0)
+              );
+            }, 0)
+          );
+        }, 0);
+
+        // Update the total price state
+        setPastOrdersPrice(totalPrice);
+
+        setPastOrdersDataGetCalled(true);
+      } catch (error) {
+        console.log("Error fetching menu data:", error);
+      }
+    };
+
+    fetchPastOrdersData();
+  }, [restaurantId, branchId, tableNumber]);
+
+  useEffect(() => {
     const check_cart = localStorage.getItem("cart");
     if (check_cart) {
       const parsedCart = JSON.parse(check_cart);
@@ -122,6 +174,7 @@ const CartPage = () => {
       setCurrentOrdersPrice(totalPrice);
     }
   }, []);
+
 
   return (
     <div className={styles.mobile}>

@@ -114,6 +114,65 @@ module.exports = {
       order: [["created_at", "DESC"]],
       limit: 1,
     });
+
+    let orderId;
+    // Check if past orders exist or if the order is active
+    if (pastOrders.length === 0) {
+      console.log("S1: no past order, order successfully created");
+      // Create a new order with order_status = 1 (active) and total_price = currentSum
+      const order = await Order.create({
+        restaurant_id: restaurant_id,
+        branch_id: branch_id,
+        table_number: table_number,
+        total_price: currentOrderPrice,
+        order_status: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+
+      orderId = order.id;
+
+      // Create a new sub_order with order_status = 'pending' and partial_price = currentSum
+      const subOrder = await SubOrder.create({
+        order_id: orderId,
+        partial_price: currentOrderPrice,
+        order_status: "Pending",
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
+
+      // Create order items and order item options
+      for (const item of curr_order) {
+        const { main_menus } = item;
+
+        if (main_menus && Array.isArray(main_menus)) {
+          for (const main_menu of main_menus) {
+            const {
+              id: main_menu_id,
+              price: main_menu_price,
+              option_menus,
+            } = main_menu;
+            const orderItem = await OrderItem.create({
+              sub_order_id: subOrder.id,
+              main_menu_id,
+              main_menu_price,
+            });
+
+            if (option_menus && Array.isArray(option_menus)) {
+              for (const option of option_menus) {
+                const { id: option_menu_id, price: option_menu_price } = option;
+                await OrderItemOption.create({
+                  sub_order_item_id: orderItem.id,
+                  option_menu_id,
+                  option_menu_price,
+                });
+              }
+            }
+          }
+        }
+      }
+      status = 1;
+    } 
     // console.log(status)
     // return {'status' : status};
   },

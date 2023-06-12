@@ -1,288 +1,269 @@
 @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  .gnbMobile {
-    align-self: stretch;
-    background-color: var(--primary-normal);
-    justify-content: flex-end;
-    height: 56px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-  }
-  .header {
-    display: flex;
-    align-self: stretch;
-    flex-direction: row;
-    padding: var(--padding-base);
-    justify-content: flex-start;
-    color: var(--text-alternative-1);
-  }
-  .logo{
-    width: 56px;
-    height: 56px;
-    position: relative;
-  }
-  .logoChild {
-    width: 56px;
-    height: 56px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: var(--br-5xs);
-    object-fit: cover;
-  }
-  .tablenumber {
-    display: flex;
-    align-items: center;
-    margin-left: var(--gap-5xs);
-    border-radius: var(--br-5xs);
-    background-color: var(--background-normal);
-    flex-direction: column;
-    padding: var(--padding-5xs) var(--padding-base) var(--padding-9xs);
-    justify-content: flex-start;
-  }
-  .label{
-    position: relative;
-    letter-spacing: 0.03em;
-    line-height: 16px;
-  }
-  .number {
-    position: relative;
-    letter-spacing: 0.03em;
-    line-height: 16px;
-    font-size: var(--label-1);
-    letter-spacing: 0.01em;
-    line-height: 28px;
-    color: var(--text-strong);
-  }
-  .icon {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: var(--padding-base);
-    justify-content: flex-start;
-    margin-left: auto;
-  }
-  .cartWhiteIcon {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .tabmenuitemPill {
-    border-radius: var(--br-81xl);
-    background-color: var(--primary-normal);
-    flex-direction: row;
-    padding: var(--padding-5xs) var(--padding-base);
-    color: var(--background-normal);
-  }
-  .tabmenugroup,
-  .tabmenuitemPill,
-  .tabmenuitemPill1,
-  .tabmenuitemPillParent {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .tabmenuitemPill1 {
-    border-radius: var(--br-81xl);
-    border: 1px solid var(--line-strong);
-    flex-direction: row;
-    padding: var(--padding-5xs) var(--padding-base);
-  }
-  .tabmenugroup,
-  .tabmenuitemPillParent {
-    overflow-x: auto;
-  }
-  .tabmenuitemPillParent {
-    flex-direction: row;
-    gap: var(--gap-5xs);
+  0% {
     opacity: 0;
   }
-  .tabmenuitemPillParent.animate {
-    animation: 1s ease 0s 1 normal forwards fade-in;
+  to {
+    opacity: 1;
   }
-  .tabmenugroup {
-    align-self: stretch;
-    background-color: var(--background-normal);
-    flex-direction: column;
-    padding: var(--padding-base);
-    font-size: var(--label-3);
-  }
-  .label1 {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 20px;
-  }
-  .title {
-    position: relative;
-    letter-spacing: -0.01em;
-    line-height: 26px;
-  }
-  .titlearea {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .menuimageIcon {
-    position: relative;
-    width: 96px;
-    height: 96px;
-  }
-  .description,
-  .name {
-    position: relative;
-    font-family: var(--font-bold);
-    text-align: left;
-  }
-  .name {
-    align-self: stretch;
-    font-size: var(--title-2);
-    line-height: 24px;
-    color: var(--text-normal);
-  }
-  .description {
-    font-size: var(--caption-1);
-    letter-spacing: 0.03em;
-    line-height: 16px;
-    color: var(--text-alternative-1);
-  }
-  .description,
-  .menuinfo,
-  .price {
-    align-self: stretch;
-  }
-  .price {
-    position: relative;
-    font-size: var(--label-3);
-    letter-spacing: 0.01em;
-    line-height: 20px;
-    font-family: var(--font-bold);
-    color: var(--text-normal);
-    text-align: left;
-  }
-  .menuinfo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-5xs);
-  }
-  .divMenu {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    flex-direction: row;
-    gap: var(--gap-base);
-  }
-  .divMenu,
-  .menuCard,
-  .titlearea1 {
-    align-self: stretch;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .menuCard {
-    background-color: var(--background-normal);
-    border-bottom: 1px solid var(--line-alternative);
-    flex-direction: column;
-    padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
-    gap: var(--gap-5xl);
-  }
-  .titlearea1 {
-    flex-direction: row;
-    font-size: var(--title-1);
-    color: var(--text-strong);
-  }
-  .name3 {
-    line-height: 24px;
-  }
-  .description3,
-  .name3,
-  .price3 {
-    align-self: stretch;
-    position: relative;
-  }
-  .description3 {
-    font-size: var(--caption-1);
-    letter-spacing: 0.03em;
-    line-height: 16px;
-    color: var(--text-alternative-1);
-  }
-  .price3 {
-    font-size: var(--label-3);
-    letter-spacing: 0.01em;
-    line-height: 20px;
-  }
-  .divMenu3 {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-base);
-  }
-  .menuCard1 {
-    align-self: stretch;
-    background-color: var(--background-normal);
-    border-bottom: 1px solid var(--line-alternative);
-    padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
-    gap: var(--gap-5xl);
-    font-size: var(--title-2);
-    color: var(--text-normal);
-  }
-  .layout,
-  .menuCard1,
-  .mobile {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .layout {
-    align-self: stretch;
-    background-color: var(--background-alternative);
-    gap: var(--gap-5xs);
-    font-size: var(--title-1);
-  }
-  .mobile {
-    position: relative;
-    background-color: var(--primary-normal);
-    width: 100%;
-    overflow: hidden;
-    text-align: left;
-    font-size: var(--caption-1);
-    color: var(--text-strong);
-    font-family: var(--font-bold);
-  }
-  @media screen and (max-width: 420px) {
-    .tabmenuitemPillParent {
-      width: 100%;
-    }
-    .tabmenugroup {
-      opacity: 0;
-    }
-    .tabmenugroup.animate {
-      animation: 1s ease 0s 1 normal forwards fade-in;
-    }
-    @keyframes fade-in {
-      0% {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-  }
+}
+.gnbMobile {
+  align-self: stretch;
+  background-color: var(--primary-normal);
+  justify-content: flex-end;
+  height: 56px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.header {
+  display: flex;
+  align-self: stretch;
+  flex-direction: row;
+  padding: var(--padding-base);
+  justify-content: flex-start;
+  color: var(--text-alternative-1);
+}
+.logo{
+  width: 56px;
+  height: 56px;
+  position: relative;
+}
+.logoChild {
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-5xs);
+  object-fit: cover;
+}
+.tablenumber {
+  display: flex;
+  align-items: center;
+  margin-left: var(--gap-5xs);
+  border-radius: var(--br-5xs);
+  background-color: var(--background-normal);
+  flex-direction: column;
+  padding: var(--padding-5xs) var(--padding-base) var(--padding-9xs);
+  justify-content: flex-start;
+}
+.label{
+  position: relative;
+  letter-spacing: 0.03em;
+  line-height: 16px;
+}
+.number {
+  position: relative;
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  font-size: var(--label-1);
+  letter-spacing: 0.01em;
+  line-height: 28px;
+  color: var(--text-strong);
+}
+.icon {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: var(--padding-base);
+  justify-content: flex-start;
+  margin-left: auto;
+}
+.cartWhiteIcon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.tabmenuitemPill {
+  border-radius: var(--br-81xl);
+  background-color: var(--primary-normal);
+  flex-direction: row;
+  padding: var(--padding-5xs) var(--padding-base);
+  color: var(--background-normal);
+}
+.tabmenugroup,
+.tabmenuitemPill,
+.tabmenuitemPill1,
+.tabmenuitemPillParent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.tabmenuitemPill1 {
+  border-radius: var(--br-81xl);
+  border: 1px solid var(--line-strong);
+  flex-direction: row;
+  padding: var(--padding-5xs) var(--padding-base);
+}
+.tabmenugroup,
+.tabmenuitemPillParent {
+  overflow-x: auto;
+}
+.tabmenuitemPillParent {
+  flex-direction: row;
+  gap: var(--gap-5xs);
+}
+.tabmenugroup {
+  align-self: stretch;
+  background-color: var(--background-normal);
+  flex-direction: column;
+  padding: var(--padding-base);
+  font-size: var(--label-3);
+}
+.label1 {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+}
+.title {
+  position: relative;
+  letter-spacing: -0.01em;
+  line-height: 26px;
+}
+.titlearea {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.menuimageIcon {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border: 0px solid transparent;
+  border-radius: var(--br-9xs) ; 
+}
+.description,
+.name {
+  position: relative;
+  font-family: var(--font-bold);
+  text-align: left;
+}
+.name {
+  align-self: stretch;
+  font-size: var(--title-2);
+  line-height: 24px;
+  color: var(--text-normal);
+}
+.description {
+  font-size: var(--caption-1);
+  font-family: var(--font-regular);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  color: var(--text-alternative-1);
+}
+.description,
+.menuinfo,
+.price {
+  align-self: stretch;
+}
+.price {
+  position: relative;
+  font-size: var(--label-3);
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  font-family: var(--font-bold);
+  color: var(--text-normal);
+  text-align: left;
+}
+.menuinfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+}
+.divMenu {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  flex-direction: row;
+  gap: var(--gap-base);
+}
+.divMenu,
+.menuCard,
+.titlearea1 {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.menuCard {
+  background-color: var(--background-normal);
+  border-bottom: 1px solid var(--line-alternative);
+  flex-direction: column;
+  padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
+  gap: var(--gap-5xl);
+}
+.titlearea1 {
+  flex-direction: row;
+  font-size: var(--title-1);
+  color: var(--text-strong);
+}
+.name3 {
+  line-height: 24px;
+}
+.description3,
+.name3,
+.price3 {
+  align-self: stretch;
+  position: relative;
+}
+.description3 {
+  font-size: var(--caption-1);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  color: var(--text-alternative-1);
+}
+.price3 {
+  font-size: var(--label-3);
+  letter-spacing: 0.01em;
+  line-height: 20px;
+}
+.divMenu3 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+}
+.menuCard1 {
+  align-self: stretch;
+  background-color: var(--background-normal);
+  border-bottom: 1px solid var(--line-alternative);
+  padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
+  gap: var(--gap-5xl);
+  font-size: var(--title-2);
+  color: var(--text-normal);
+}
+.layout,
+.menuCard1,
+.mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.layout {
+  align-self: stretch;
+  background-color: var(--background-alternative);
+  gap: var(--gap-5xs);
+  font-size: var(--title-1);
+}
+.mobile {
+  position: relative;
+  background-color: var(--primary-normal);
+  width: 100%;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--caption-1);
+  color: var(--text-strong);
+  font-family: var(--font-bold);
+}

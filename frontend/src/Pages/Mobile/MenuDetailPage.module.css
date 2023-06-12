@@ -1,0 +1,354 @@
+.gnbSpace {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    justify-content: flex-end;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+.arrowLeftIcon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .icon {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-base);
+    background-color: transparent;
+    justify-content: flex-start;
+  }
+  .gnbMobile,
+  .icon,
+  .icon1 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .icon1 {
+    padding: var(--padding-base);
+    justify-content: flex-start;
+  }
+  .gnbMobile {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    justify-content: space-between;
+  }
+  .menuimageIcon {
+    position: relative;
+    border-radius: var(--br-5xs);
+    width: 184px;
+    height: 184px;
+    object-fit: cover;
+  }
+  .label {
+    position: relative;
+    letter-spacing: -0.02em;
+    line-height: 32px;
+    font-family: var(--font-bold);
+  }
+  .description,
+  .value {
+    position: relative;
+    letter-spacing: 0.01em;
+  }
+  .description {
+    align-self: stretch;
+    font-size: var(--body-2);
+    line-height: 24px;
+    color: var(--text-alternative-2);
+  }
+
+  .label1{
+    position: relative;
+    letter-spacing: 0.01em;
+    font-family: var(--font-bold);
+  }
+  .label1,
+  .value {
+    line-height: 20px;
+  }
+  .value {
+    font-size: var(--label-1);
+    font-family: var(--font-bold);
+    line-height: 28px;
+  }
+  .menuinfo,
+  .menuinfo1,
+  .price {
+    align-self: stretch;
+    display: flex;
+  }
+  .price {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--label-3);
+    color: var(--text-normal);
+  }
+  .menuinfo,
+  .menuinfo1 {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-base);
+  }
+  .menuinfo {
+    background-color: var(--background-normal);
+    border-bottom: 1px solid var(--line-alternative);
+    padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
+    align-items: center;
+    gap: var(--gap-5xl);
+    font-size: var(--headline-1);
+    color: var(--text-strong);
+  }
+  .label2 {
+    align-self: stretch;
+    position: relative;
+    line-height: 24px;
+  }
+  .unchecked1 {
+    cursor: pointer;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: var(--br-9xs);
+    border: 2px solid var(--line-strong);
+    box-sizing: border-box;
+  }
+  .unchecked {
+    position: relative;
+    width: 24px;
+    height: 24px;
+  }
+  .optionlabelname {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 24px;
+    max-width: 75%;
+  }
+  .optionlabelprice {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 24px;
+  }
+  .optionlabelquantity {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 24px;
+  }
+  .labelcontainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 89%; /* Adjust width as needed */
+  }
+  .radiooptions,
+  .radiooptions1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .radiooptions1 {
+    justify-content: flex-start;
+    gap: var(--gap-5xs);
+  }
+  .radiooptions {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+  .checkedChild {
+    cursor: pointer;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: var(--br-9xs);
+    background-color: var(--primary-normal);
+  }
+  .checkedItem {
+    position: absolute;
+    height: 35.77%;
+    width: 54.17%;
+    top: 33.33%;
+    right: 20.83%;
+    bottom: 30.89%;
+    left: 25%;
+    border-radius: 1px;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .unchecked2 {
+    cursor: pointer;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--br-9xs);
+    border: 10px solid var(--line-strong);
+    box-sizing: border-box;
+  }
+  input[type=checkbox]{
+    accent-color: var(--primary-normal);
+}
+  .divOption,
+  .optionlist {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .optionlist {
+    gap: var(--gap-5xs);
+    color: var(--text-alternative-1);
+  }
+  .divOption {
+    background-color: var(--background-normal);
+    border-bottom: 1px solid var(--line-alternative);
+    padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
+    gap: var(--gap-base);
+  }
+  .buttonChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-9xs) 0 0 var(--br-9xs);
+    background-color: var(--background-normal);
+    width: 40px;
+    height: 40px;
+  }
+  .minusIcon {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 10px);
+    width: 20px;
+    height: 20px;
+  }
+  .button,
+  .div1 {
+    position: relative;
+  }
+  .button {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+  }
+  .div1 {
+    letter-spacing: 0.01em;
+    line-height: 28px;
+  }
+  .counter {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--padding-base);
+    align-items: center;
+    justify-content: center;
+  }
+  .buttonItem {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0 var(--br-9xs) var(--br-9xs) 0;
+    background-color: var(--background-normal);
+    width: 40px;
+    height: 40px;
+  }
+  .div,
+  .nuberinput {
+    display: flex;
+    flex-direction: row;
+  }
+  .nuberinput {
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: center;
+    font-size: var(--label-1);
+    color: var(--text-alternative-1);
+  }
+  .div {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    border-bottom: 1px solid var(--line-alternative);
+    padding: var(--padding-5xs) var(--padding-base);
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bodylayout,
+  .gnbMobileParent {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .bodylayout {
+    align-items: center;
+    gap: var(--gap-5xs);
+  }
+  .gnbMobileParent {
+    align-items: flex-start;
+  }
+  .label5 {
+    position: relative;
+    font-size: var(--label-1);
+    letter-spacing: 0.01em;
+    line-height: 28px;
+    color: var(--background-normal);
+    text-align: left;
+  }
+  .button2 {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-5xs) var(--padding-base);
+    background-color: var(--primary-normal);
+    flex: 1;
+    border-radius: var(--br-5xs);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .div2,
+  .mobile {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .div2 {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    box-shadow: 0-4px 20px rgba(0, 0, 0, 0.08);
+    border-top: 1px solid var(--line-normal);
+    flex-direction: row;
+    padding: var(--padding-xs) var(--padding-base);
+    align-items: center;
+    gap: var(--gap-base);
+    font-size: var(--label-3);
+  }
+  .mobile {
+    position: relative;
+    background-color: var(--background-alternative);
+    width: 100%;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-5xs);
+    text-align: left;
+    font-size: var(--label-2);
+    color: var(--text-normal);
+  }
+  

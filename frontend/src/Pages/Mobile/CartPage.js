@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styles from "./CartPage.module.css";
-import arrowBackIcon from "../../Assets/Images/arrow-back.svg";
+import backIcon from "../../Assets/Images/arrow-back.svg";
 import deleteIcon from "../../Assets/Images/delete.svg";
 import pendingIcon from "../../Assets/Images/pending.svg";
 import acceptedIcon from "../../Assets/Images/accepted.svg";
@@ -12,15 +12,15 @@ const CartPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Check if last page was editting a menu
-  const fromEditMenu = location.state ? location.state.editMenu : false;
-
   // Initializing states
   const [pastOrdersData, setPastOrdersData] = useState(null);
   const [pastOrdersPrice, setPastOrdersPrice] = useState(0);
   const [currentCartData, setCurrentCartData] = useState([]);
   const [currentCartPrice, setCurrentCartPrice] = useState(0);
   const [pastOrdersDataCalled, setPastOrdersDataCalled] = useState(false);
+
+  // Check if last page was editting a menu
+  const fromEditMenu = location.state ? location.state.editMenu : false;
 
   // Extracting params from URL
   const {
@@ -211,7 +211,7 @@ const CartPage = () => {
             <img
               className={styles.backIcon}
               alt=""
-              src={arrowBackIcon}
+              src={backIcon}
               onClick={onBackIconClick}
             />
           </div>

@@ -109,7 +109,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  overflow-x: auto;  
+  overflow-x: scroll;  
   white-space: nowrap;
   align-self: stretch;
   background-color: var(--background-normal);

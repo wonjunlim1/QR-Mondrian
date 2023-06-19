@@ -11,9 +11,9 @@ const MenuPage = () => {
   // Initializing states
   const [menuData, setMenuData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(0);
-  const menuCategoryRefs = useRef([]);
   const [isAutomaticScroll, setIsAutomaticScroll] = useState(false);
-  const debounceTimeoutRef = useRef(null);
+  const menuCategoryRefs = useRef([]);
+  const categoryPillRefs = useRef([]);
 
   // Extracting params from URL
   const {
@@ -40,19 +40,35 @@ const MenuPage = () => {
     navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
   }, [navigate, restaurantId, branchId, tableNumber]);
 
-  // Function to handle click on category pill
-  const onCategoryClick = (index) => {
-    setIsAutomaticScroll(true); // Set manual scroll to false
-    window.scrollTo({
-      top: menuCategoryRefs.current[index].offsetTop - 183,
-      behavior: "smooth",
+  // Function to create a Promise that resolves when automatic scrolling ends
+  const smoothScrollTo = (y) =>
+    new Promise((resolve) => {
+      const onScroll = () => {
+        if (window.pageYOffset === y) {
+          window.removeEventListener("scroll", onScroll);
+          resolve();
+        }
+      };
+      window.addEventListener("scroll", onScroll);
+      window.scrollTo({ top: y, behavior: "smooth" });
     });
 
-    clearTimeout(debounceTimeoutRef.current);
-    debounceTimeoutRef.current = setTimeout(() => {
-      setIsAutomaticScroll(false);
-    }, 2000);
+  // Function to handle clicks on category pills
+  const onCategoryClick = async (index) => {
+    setIsAutomaticScroll(true); // Set manual scroll to false
+    const y = menuCategoryRefs.current[index].offsetTop - 183;
+    await smoothScrollTo(y);
+    setIsAutomaticScroll(false);
     setSelectedCategory(index);
+    let temp_index = index;
+    if (index >= 1) {
+      temp_index = index - 1;
+    }
+    categoryPillRefs.current[temp_index].scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
   };
 
   /** Effect Hooks */
@@ -77,7 +93,6 @@ const MenuPage = () => {
   // Effect to enable highlight change while user scrolls
   useEffect(() => {
     if (isAutomaticScroll) return;
-
     const handleScroll = () => {
       const { current } = menuCategoryRefs;
       const scrollTop =
@@ -91,6 +106,14 @@ const MenuPage = () => {
 
       if (index !== -1) {
         setSelectedCategory(index);
+        let temp_index = index;
+        if (index >= 1) {
+          temp_index = index - 1;
+        }
+        categoryPillRefs.current[temp_index].scrollIntoView({
+          behavior: "instant",
+          inline: "center",
+        });
       }
     };
 
@@ -140,6 +163,7 @@ const MenuPage = () => {
                     ? styles.categoryPillSelected
                     : styles.categoryPill
                 }
+                ref={(el) => (categoryPillRefs.current[index] = el)}
               >
                 <div className={styles.menuCategoryLabel}>
                   {menuCategory.category_name}

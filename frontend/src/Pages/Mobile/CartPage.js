@@ -295,11 +295,13 @@ const CartPage = () => {
                     />
                   </div>
                   <div className={styles.divCurrentCartContent}>
-                    <img
-                      className={styles.menuImage}
-                      alt={item.menu_name}
-                      src={item.image_url}
-                    />
+                    {item.image_url && (
+                      <img
+                        className={styles.menuImage}
+                        alt={item.menu_name}
+                        src={item.image_url}
+                      />
+                    )}
                     <div className={styles.divCurrentCartPriceWrapper}>
                       <div className={styles.divItemPriceWrapper}>
                         <div className={styles.priceBlack}>

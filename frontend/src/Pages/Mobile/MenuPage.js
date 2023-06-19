@@ -5,18 +5,42 @@ import styles from "./MenuPage.module.css";
 import cartIcon from "../../Assets/Images/cart-white.svg";
 
 const MenuPage = () => {
+  // Navigation utility from React Router
   const navigate = useNavigate();
+
+  // Initializing states
   const [menuData, setMenuData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(0);
 
+  // Extracting params from URL
   const {
     restaurant_id: restaurantId,
     branch_id: branchId,
     table_number: tableNumber,
   } = useParams();
 
+  // Path for restaruant logo image
   const restaurantLogoImage = `https://spqr-menu.s3.ap-northeast-2.amazonaws.com/${restaurantId}/logo.jpg`;
 
+  /** Event Handlers */
+
+  // Function to handle click on menu item
+  const onMenuClick = useCallback(
+    (id) => {
+      navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}/${id}`);
+    },
+    [navigate, restaurantId, branchId, tableNumber]
+  );
+
+  // Function to handle click on cart icon
+  const onCartIconClick = useCallback(() => {
+    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
+  }, [navigate, restaurantId, branchId, tableNumber]);
+  console.log(menuData);
+
+  /** Effect Hooks */
+
+  // Effect fetch menu data once the component mounts
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
@@ -33,20 +57,12 @@ const MenuPage = () => {
     fetchMenuData();
   }, [restaurantId, branchId, tableNumber]);
 
-  const onMenuClick = useCallback(
-    (id) => {
-      navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}/${id}`);
-    },
-    [navigate, restaurantId, branchId, tableNumber]
-  );
-  const onCartIconClick = useCallback(() => {
-    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
-  }, [navigate, restaurantId, branchId, tableNumber]);
-  console.log(menuData);
+  // Return null while data is loading
   if (!menuData) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
+  // Render the component
   return (
     <div className={styles.mobile}>
       <div className={styles.gnbMobile}></div>
@@ -91,12 +107,14 @@ const MenuPage = () => {
                 className={styles.divMenu}
                 onClick={() => onMenuClick(menu.id)}
               >
-                <img
-                  className={styles.menuimageIcon}
-                  alt={menu.name}
-                  loading="lazy"
-                  src={menu.image_url}
-                />
+                {menu.image_url && (
+                  <img
+                    className={styles.menuimageIcon}
+                    alt={menu.name}
+                    loading="lazy"
+                    src={menu.image_url}
+                  />
+                )}
                 <div className={styles.menuinfo}>
                   <b className={styles.name}>{menu.name}</b>
                   {menu.description && (

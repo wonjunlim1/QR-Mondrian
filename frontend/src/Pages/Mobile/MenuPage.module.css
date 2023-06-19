@@ -1,16 +1,8 @@
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 .gnbMobile {
   align-self: stretch;
   background-color: var(--primary-normal);
   justify-content: flex-end;
-  height: 56px;
+  height: var(--hs-normal);
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -117,7 +109,7 @@
   align-self: stretch;
   background-color: var(--background-normal);
   flex-direction: column;
-  padding: var(--padding-base);
+  padding: var(--padding-base) var(--padding-base) var(--padding-9xs) var(--padding-base);
   font-size: var(--label-3);
 }
 
@@ -164,12 +156,21 @@
   position: relative;
   font-family: var(--font-bold);
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
+
 .name {
   align-self: stretch;
   font-size: var(--title-2);
   line-height: 24px;
   color: var(--text-normal);
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%; 
 }
 .description {
   font-size: var(--caption-1);
@@ -177,18 +178,30 @@
   letter-spacing: 0.03em;
   line-height: 16px;
   color: var(--text-alternative-1);
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%; 
 }
 .description,
 .menuinfo,
 .price {
   align-self: stretch;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: keep-all; 
 }
 .price {
   position: relative;
   font-size: var(--label-3);
   letter-spacing: 0.01em;
   line-height: 20px;
-  font-family: var(--font-bold);
+  font-family: var(--font-regular);
   color: var(--text-normal);
   text-align: left;
 }
@@ -242,6 +255,11 @@
   letter-spacing: 0.03em;
   line-height: 16px;
   color: var(--text-alternative-1);
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%; 
 }
 .price3 {
   font-size: var(--label-3);

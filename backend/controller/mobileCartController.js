@@ -44,6 +44,14 @@ module.exports = {
     const branch_id = req.params.branch_id;
     const table_number = req.params.table_number;
     const current_order = req.body;
+
+    // Check if the current_order is empty or null
+    if (!current_order || Object.keys(current_order).length === 0) {
+      return res
+        .status(sc.BAD_REQUEST)
+        .send(ut.fail(sc.BAD_REQUEST, "No order data provided."));
+    }
+
     try {
       const currentCart = await mobileCartService.postCurrentOrder(
         restaurant_id,

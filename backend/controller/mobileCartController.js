@@ -53,7 +53,7 @@ module.exports = {
     }
 
     try {
-      const currentCart = await mobileCartService.postCurrentOrder(
+      const newOrderId = await mobileCartService.postCurrentOrder(
         restaurant_id,
         branch_id,
         table_number,
@@ -62,7 +62,7 @@ module.exports = {
       return res
         .status(sc.OK)
         .send(
-          ut.success(sc.OK, "Order successfully created/updated.", currentCart)
+          ut.success(sc.OK, `Order successfully created/updated with new/updated order_id:${newOrderId}`)
         );
     } catch (error) {
       console.error(error);

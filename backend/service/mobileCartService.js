@@ -116,7 +116,8 @@ module.exports = {
       limit: 1,
     });
 
-    let oderId;
+    let newOrderId;
+
     // Check if past orders exist or if the order is active
     if (pastOrders.length === 0) {
       console.log("S1: no past order, order successfully created");
@@ -172,7 +173,7 @@ module.exports = {
           }
         }
       }
-      status = 1;
+      newOrderId = orderId
     } else if (pastOrders[0].order_status === false) {
       console.log("S2 no active order");
       // Create a new order with order_status = 1 (active) and total_price = currentSum
@@ -228,7 +229,8 @@ module.exports = {
         }
       }
       status =
-        "No active order, order successfully created with order id of ${orderId}";
+        "No active order, order successfully created";
+      newOrderId = orderId
     }
     // If past order exists, get the order ID of the past order
     else if (pastOrders[0].order_status === true) {
@@ -283,10 +285,10 @@ module.exports = {
           }
         }
       }
-      status =
-        "Active suborder found, order successfully updated to order id of ${orderId}";
+      status = "Active suborder found, order successfully updated to order id of ${orderId}";
+      newOrderId = orderId
     }
-    // console.log(status)
-    // return {'status' : status};
+
+    return newOrderId
   },
 };

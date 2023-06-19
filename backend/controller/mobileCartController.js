@@ -52,6 +52,13 @@ module.exports = {
         .send(ut.fail(sc.BAD_REQUEST, "No order data provided."));
     }
 
+    // Check if the res_id, branch_id, table_number from the url and the reqeust body match
+    else if (restaurant_id != current_order.current_order[0].restaurant_id || branch_id != current_order.current_order[0].branch_id || table_number != current_order.current_order[0].table_number) {
+      return res
+        .status(sc.BAD_REQUEST)
+        .send(ut.fail(sc.BAD_REQUEST, "Id from the url and the request body does not match."));
+    }
+
     try {
       const newOrderId = await mobileCartService.postCurrentOrder(
         restaurant_id,

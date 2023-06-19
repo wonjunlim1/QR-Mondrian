@@ -1,37 +1,48 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./CartPage.module.css";
-import arrowIcon from "../../Assets/Images/arrow-back.svg";
+import arrowBackIcon from "../../Assets/Images/arrow-back.svg";
 import deleteIcon from "../../Assets/Images/delete.svg";
 import pendingIcon from "../../Assets/Images/pending.svg";
 import acceptedIcon from "../../Assets/Images/accepted.svg";
 import rejectedIcon from "../../Assets/Images/rejected.svg";
 
 const CartPage = () => {
+  // Navigation utility from React Router
   const navigate = useNavigate();
+
+  // Initializing states
   const [pastOrdersData, setPastOrdersData] = useState(null);
   const [pastOrdersPrice, setPastOrdersPrice] = useState(0);
-  const [pastOrdersDataGetCalled, setPastOrdersDataGetCalled] = useState(false);
-  const [currentOrdersData, setCurrentOrdersData] = useState([]);
-  const [currentOrdersPrice, setCurrentOrdersPrice] = useState(0);
+  const [currentCartData, setCurrentCartData] = useState([]);
+  const [currentCartPrice, setCurrentCartPrice] = useState(0);
+  const [pastOrdersDataCalled, setPastOrdersDataCalled] = useState(false);
 
+  // Extracting params from URL
   const {
     restaurant_id: restaurantId,
     branch_id: branchId,
     table_number: tableNumber,
   } = useParams();
 
-  const onArrowIconClick = useCallback(() => {
+  /** Event Handlers */
+
+  // Callback function to navigate back
+  const onBackIconClick = useCallback(() => {
     navigate(-1); // Use -1 to go back to the previous page
   }, [navigate]);
 
-  const onDeleteIconClick = useCallback(
+  // Callback function to delete specific item from the current order data
+  const onItemDeleteIconClick = useCallback(
+    // Filter out the item that matches the passed id
+    // Update the current order data state
+    // Update the total order price
     (temp_id) => {
-      const updatedData = currentOrdersData.filter(
+      const updatedData = currentCartData.filter(
         (item) => item.temp_id !== temp_id
       );
 
-      setCurrentOrdersData(updatedData);
+      setCurrentCartData(updatedData);
 
       localStorage.setItem("cart", JSON.stringify(updatedData));
 
@@ -41,14 +52,15 @@ const CartPage = () => {
           item.option_menus.reduce((a, b) => a + b.option_price, 0);
         return total + itemTotal;
       }, 0);
-      setCurrentOrdersPrice(totalPrice);
+      setCurrentCartPrice(totalPrice);
     },
-    [currentOrdersData]
+    [currentCartData]
   );
 
+  // Callback function to modify an item from the current order data
   const onModifyButtonClick = useCallback(
+    // Redirect to menu details page with temporary id state
     (temp_id, menu_id) => {
-      console.log(temp_id);
       navigate(
         `/menu_m/${restaurantId}/${branchId}/${tableNumber}/${menu_id}`,
         { state: { temp_id } }
@@ -57,13 +69,16 @@ const CartPage = () => {
     [navigate, restaurantId, branchId, tableNumber]
   );
 
+  // Callback function to submit the order
   const onSubmitButtonClick = useCallback(async () => {
-    // Get the cart data from local storage
+    // Check and get current order data from local storage
+    // Transform the data and send a POST request to the server
+    // Clear the cart data in the local storage
+    // Redirect to the restaurant menu page
+
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // Check if cart is not empty
     if (cartData.length > 0) {
-      // Transform the cart data to the new format
       const main_menus = cartData.map((item) => ({
         id: item.menu_id,
         price: item.menu_price,
@@ -84,7 +99,6 @@ const CartPage = () => {
         ],
       };
 
-      // Send a POST request with the transformed data
       try {
         const response = await fetch(
           `http://localhost:8080/cart_m/${restaurantId}/${branchId}/${tableNumber}/`,
@@ -96,19 +110,18 @@ const CartPage = () => {
             body: JSON.stringify(transformedCartData),
           }
         );
-        console.log(transformedCartData);
-        console.log(response);
         localStorage.removeItem("cart");
         navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}`);
-
-        // Handle response...
-      } catch (error) {
-        // Handle error...
-      }
+        console.log(response);
+      } catch (error) {}
     }
   }, [navigate, restaurantId, branchId, tableNumber]);
 
+  /** Effect Hooks */
+
+  // Effect to fetch past orders data when restaurant id, branch id or table number change
   useEffect(() => {
+    // Call the async function to fetch the past orders data
     const fetchPastOrdersData = async () => {
       try {
         const response = await fetch(
@@ -118,7 +131,6 @@ const CartPage = () => {
         const flattenedPastOrders = jsonData.data["past_orders"]
           ? jsonData.data["past_orders"].flatMap((subOrderArray) =>
               subOrderArray.map((subOrder) => {
-                // map each main_menu to include order_status from its parent sub_order
                 subOrder.main_menus = subOrder.main_menus.map((menu) => {
                   return { ...menu, order_status: subOrder.order_status };
                 });
@@ -129,7 +141,6 @@ const CartPage = () => {
 
         setPastOrdersData(flattenedPastOrders);
 
-        // Calculate the total price after fetching the data
         const totalPrice = flattenedPastOrders.reduce((acc, order) => {
           return (
             acc +
@@ -148,10 +159,9 @@ const CartPage = () => {
           );
         }, 0);
 
-        // Update the total price state
         setPastOrdersPrice(totalPrice);
 
-        setPastOrdersDataGetCalled(true);
+        setPastOrdersDataCalled(true);
       } catch (error) {
         console.log("Error fetching menu data:", error);
       }
@@ -160,81 +170,91 @@ const CartPage = () => {
     fetchPastOrdersData();
   }, [restaurantId, branchId, tableNumber]);
 
+  // Effect to check and update current order data when the component mounts
   useEffect(() => {
+    // Get cart data from local storage
+    // Parse and set the current order data and total price
     const check_cart = localStorage.getItem("cart");
     if (check_cart) {
       const parsedCart = JSON.parse(check_cart);
-      setCurrentOrdersData(parsedCart);
+      setCurrentCartData(parsedCart);
       const totalPrice = parsedCart.reduce((total, item) => {
         const itemTotal =
           item.menu_price +
           item.option_menus.reduce((a, b) => a + b.option_price, 0);
         return total + itemTotal;
       }, 0);
-      setCurrentOrdersPrice(totalPrice);
+      setCurrentCartPrice(totalPrice);
     }
   }, []);
 
-  if (!pastOrdersDataGetCalled) {
-    return <div>Loading...</div>;
+  // Return loading state while fetching past orders data
+  if (!pastOrdersDataCalled) {
+    return <div></div>;
   }
 
+  // Render the component
   return (
     <div className={styles.mobile}>
-      <div className={styles.gnbMobileParent}>
-        <div className={styles.gnbSpace}></div>
-        <div className={styles.gnbMobile}>
+      <div className={styles.content}>
+        <div className={styles.headerSpace}></div>
+        <div className={styles.header}>
           <div className={styles.icon}>
             <img
-              className={styles.arrowLeftIcon}
+              className={styles.backIcon}
               alt=""
-              src={arrowIcon}
-              onClick={onArrowIconClick}
+              src={arrowBackIcon}
+              onClick={onBackIconClick}
             />
           </div>
-          <b className={styles.b}>장바구니</b>
+          <b className={styles.headerText}>장바구니</b>
           <div />
         </div>
         <div className={styles.layout}>
-          <div className={styles.div}>
-            <div className={styles.titlearea}>
-              <div className={styles.titlearea1}>
-                <b className={styles.title}>현재 주문서</b>
+          <div className={styles.divCurrentCart}>
+            <div className={styles.titleAreaWrapper}>
+              <div className={styles.titleArea}>
+                <b className={styles.titleCurrentCart}>현재 주문서</b>
                 <b
-                  className={styles.price}
-                >{`총 ${currentOrdersPrice.toLocaleString()}원`}</b>
+                  className={styles.priceCurrentCart}
+                >{`총 ${currentCartPrice.toLocaleString()}원`}</b>
               </div>
-              <div className={styles.divider} />
+              <div className={styles.mainDivider} />
             </div>
-            {currentOrdersData.map((item, idx, array) => (
-              <div key={item.temp_id} className={styles.div1}>
-                <div className={styles.order}>
-                  <div className={styles.div2}>
-                    <b className={styles.name}>{item.menu_name}</b>
+            {currentCartData.map((item, idx, array) => (
+              <div
+                key={item.temp_id}
+                className={styles.divCurrentCartItemWrapper}
+              >
+                <div className={styles.divItemWrapper}>
+                  <div className={styles.divCurrentCartItemHeader}>
+                    <b className={styles.currentCartItemName}>
+                      {item.menu_name}
+                    </b>
                     <img
-                      className={styles.arrowLeftIcon}
+                      className={styles.deleteIcon}
                       alt="delete"
                       src={deleteIcon}
-                      onClick={() => onDeleteIconClick(item.temp_id)}
+                      onClick={() => onItemDeleteIconClick(item.temp_id)}
                     />
                   </div>
-                  <div className={styles.div3}>
+                  <div className={styles.divCurrentCartContent}>
                     <img
-                      className={styles.menuimageIcon}
+                      className={styles.menuImage}
                       alt={item.menu_name}
                       src={item.image_url}
                     />
-                    <div className={styles.price1}>
-                      <div className={styles.div4}>
-                        <div className={styles.price2}>
-                          <div className={styles.priceChild} />
-                          <div className={styles.label}>
+                    <div className={styles.divCurrentCartPriceWrapper}>
+                      <div className={styles.divItemPriceWrapper}>
+                        <div className={styles.priceBlack}>
+                          <div className={styles.priceBulletBlack} />
+                          <div className={styles.priceLabel}>
                             {`가격 : ${item.menu_price.toLocaleString()}원`}
                           </div>
                         </div>
-                        <div className={styles.price3}>
-                          <div className={styles.priceChild} />
-                          <div className={styles.label}>
+                        <div className={styles.priceGrey}>
+                          <div className={styles.priceBulletBlack} />
+                          <div className={styles.priceLabel}>
                             {`옵션 수(${
                               item.option_menus.length
                             }개) : ${item.option_menus
@@ -243,7 +263,7 @@ const CartPage = () => {
                           </div>
                         </div>
                       </div>
-                      <b className={styles.totalprice}>
+                      <b className={styles.itemTotalPriceBlack}>
                         {`${(
                           item.menu_price +
                           item.option_menus.reduce(
@@ -254,72 +274,76 @@ const CartPage = () => {
                       </b>
                     </div>
                   </div>
-                  <div className={styles.div5}>
+                  <div className={styles.divOptionChange}>
                     <div
-                      className={styles.button}
+                      className={styles.optionChangeButton}
                       onClick={() =>
                         onModifyButtonClick(item.temp_id, item.menu_id)
                       }
                     >
-                      <b className={styles.label4}>옵션변경</b>
+                      <b className={styles.buttonLabel}>옵션변경</b>
                     </div>
                   </div>
                 </div>
-                {idx < array.length - 1 && <div className={styles.divider1} />}
+                {idx < array.length - 1 && (
+                  <div className={styles.subDivider} />
+                )}
               </div>
             ))}
           </div>
-          <div className={styles.div12}>
-            <div className={styles.titlearea}>
-              <div className={styles.titlearea1}>
+          <div className={styles.divPastOrders}>
+            <div className={styles.titleAreaWrapper}>
+              <div className={styles.titleArea}>
                 <b className={styles.title}>지난 주문서</b>
-                <b className={styles.price11}>
+                <b className={styles.pricePastOrders}>
                   총 {pastOrdersPrice.toLocaleString()}원
                 </b>
               </div>
-              <div className={styles.divider} />
+              <div className={styles.mainDivider} />
             </div>
             {pastOrdersData.length > 0 && (
-              <div className={styles.div13}>
+              <div className={styles.divPastOrdersItemWrapper}>
                 {pastOrdersData.map((order, orderIndex) =>
                   order.main_menus.map((menu, menuIndex, array) => (
                     <React.Fragment key={`${order.sub_order_id}-${menuIndex}`}>
-                      <div className={styles.order}>
-                        <div className={styles.div14}>
-                          <b className={styles.name2}>{menu.name}</b>
+                      <div className={styles.divItemWrapper}>
+                        <div className={styles.divPastOrdersItemHeader}>
+                          <b className={styles.pastOrdersItemName}>
+                            {menu.name}
+                          </b>
                           <div
                             className={
                               order.order_status === "Pending"
-                                ? styles.label16
+                                ? styles.labelPending
                                 : order.order_status === "Accepted"
-                                ? styles.label10
+                                ? styles.labelAccepted
                                 : order.order_status === "Rejected"
-                                ? styles.label13
+                                ? styles.labelRejected
                                 : ""
                             }
                           >
                             {order.order_status === "Accepted" && (
                               <img
-                                className={styles.checkCircleIcon}
+                                className={styles.statusIcon}
                                 alt=""
                                 src={acceptedIcon}
                               />
                             )}
                             {order.order_status === "Rejected" && (
                               <img
-                                className={styles.alertTriangleIcon}
+                                className={styles.statusIcon}
                                 alt=""
                                 src={rejectedIcon}
                               />
                             )}
                             {order.order_status === "Pending" && (
                               <img
-                                className={styles.alertTriangleIcon}
+                                className={styles.statusIcon}
                                 alt=""
                                 src={pendingIcon}
                               />
                             )}
-                            <b className={styles.state}>
+                            <b className={styles.status}>
                               {order.order_status === "Pending"
                                 ? "확인 중"
                                 : order.order_status === "Accepted"
@@ -330,24 +354,27 @@ const CartPage = () => {
                             </b>
                           </div>
                         </div>
-                        <div className={styles.price12}>
-                          <div className={styles.div4}>
-                            <div key={menu.name} className={styles.price3}>
-                              <div className={styles.priceChild5} />
-                              <div className={styles.label}>
+                        <div className={styles.divPastOrdersPriceWrapper}>
+                          <div className={styles.divItemPriceWrapper}>
+                            <div key={menu.name} className={styles.priceGrey}>
+                              <div className={styles.priceBulletGrey} />
+                              <div className={styles.priceLabel}>
                                 가격 : {menu.price.toLocaleString()}원
                               </div>
                             </div>
                             {menu.option_menus.map((option) => (
-                              <div key={option.name} className={styles.price3}>
-                                <div className={styles.priceChild5} />
-                                <div className={styles.label}>{`${
+                              <div
+                                key={option.name}
+                                className={styles.priceGrey}
+                              >
+                                <div className={styles.priceBulletGrey} />
+                                <div className={styles.priceLabel}>{`${
                                   option.name
                                 } : ${option.price.toLocaleString()}원`}</div>
                               </div>
                             ))}
                           </div>
-                          <b className={styles.totalprice2}>
+                          <b className={styles.itemTotalPriceGrey}>
                             {(
                               menu.price +
                               menu.option_menus.reduce(
@@ -361,7 +388,7 @@ const CartPage = () => {
                       </div>
                       {(orderIndex < pastOrdersData.length - 1 ||
                         menuIndex < array.length - 1) && (
-                        <div className={styles.divider1} />
+                        <div className={styles.subDivider} />
                       )}
                     </React.Fragment>
                   ))
@@ -371,21 +398,21 @@ const CartPage = () => {
           </div>
         </div>
       </div>
-      <div className={styles.div20}>
-        <div className={styles.price21}>
-          <div className={styles.label}>
+      <div className={styles.footer}>
+        <div className={styles.totalPriceWrapper}>
+          <div className={styles.priceLabel}>
             <span>현재 주문 금액 : </span>
-            <b>{`${currentOrdersPrice.toLocaleString()}원`}</b>
+            <b>{`${currentCartPrice.toLocaleString()}원`}</b>
           </div>
-          <div className={styles.label20}>
+          <div className={styles.priceLabelSmall}>
             <span>총 주문 금액 : </span>
             <b>{`${(
-              currentOrdersPrice + pastOrdersPrice
+              currentCartPrice + pastOrdersPrice
             ).toLocaleString()}원`}</b>
           </div>
         </div>
-        <div className={styles.button4} onClick={onSubmitButtonClick}>
-          <b className={styles.label4}>주문하기</b>
+        <div className={styles.submitButton} onClick={onSubmitButtonClick}>
+          <b className={styles.buttonLabel}>주문하기</b>
         </div>
       </div>
     </div>

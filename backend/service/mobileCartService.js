@@ -192,7 +192,7 @@ module.exports = {
       const subOrder = await SubOrder.create({
         order_id: orderId,
         partial_price: currentOrderPrice,
-        order_status: "pending",
+        order_status: "Pending",
         created_at: new Date(),
         updated_at: new Date(),
       });
@@ -248,7 +248,7 @@ module.exports = {
       const subOrder = await SubOrder.create({
         order_id: orderId,
         partial_price: currentOrderPrice,
-        order_status: "pending",
+        order_status: "Pending",
         created_at: new Date(),
         updated_at: new Date(),
       });

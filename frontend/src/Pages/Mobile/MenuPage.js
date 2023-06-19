@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import styles from "./MenuPage.module.css";
@@ -11,6 +11,9 @@ const MenuPage = () => {
   // Initializing states
   const [menuData, setMenuData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const menuCategoryRefs = useRef([]);
+  const [isAutomaticScroll, setIsAutomaticScroll] = useState(false);
+  const debounceTimeoutRef = useRef(null);
 
   // Extracting params from URL
   const {
@@ -36,11 +39,25 @@ const MenuPage = () => {
   const onCartIconClick = useCallback(() => {
     navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
   }, [navigate, restaurantId, branchId, tableNumber]);
-  console.log(menuData);
+
+  // Function to handle click on category pill
+  const onCategoryClick = (index) => {
+    setIsAutomaticScroll(true); // Set manual scroll to false
+    window.scrollTo({
+      top: menuCategoryRefs.current[index].offsetTop - 183,
+      behavior: "smooth",
+    });
+
+    clearTimeout(debounceTimeoutRef.current);
+    debounceTimeoutRef.current = setTimeout(() => {
+      setIsAutomaticScroll(false);
+    }, 2000);
+    setSelectedCategory(index);
+  };
 
   /** Effect Hooks */
 
-  // Effect fetch menu data once the component mounts
+  // Effect to fetch menu data once the component mounts
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
@@ -57,6 +74,33 @@ const MenuPage = () => {
     fetchMenuData();
   }, [restaurantId, branchId, tableNumber]);
 
+  // Effect to enable highlight change while user scrolls
+  useEffect(() => {
+    if (isAutomaticScroll) return;
+
+    const handleScroll = () => {
+      const { current } = menuCategoryRefs;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+
+      const index = current.findIndex(
+        (categoryRef) =>
+          scrollTop >= categoryRef.offsetTop - 183 &&
+          scrollTop < categoryRef.offsetTop - 183 + categoryRef.offsetHeight
+      );
+
+      if (index !== -1) {
+        setSelectedCategory(index);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isAutomaticScroll]);
+
   // Return null while data is loading
   if (!menuData) {
     return <div></div>;
@@ -65,66 +109,84 @@ const MenuPage = () => {
   // Render the component
   return (
     <div className={styles.mobile}>
-      <div className={styles.gnbMobile}></div>
-      <div className={styles.header}>
-        <div className={styles.logo}>
-          <img className={styles.logoChild} alt="" src={restaurantLogoImage} />
-        </div>
-        <div className={styles.tablenumber}>
-          <b className={styles.label}>테이블 번호</b>
-          <b className={styles.number}>{tableNumber}</b>
-        </div>
-        <div className={styles.icon} onClick={() => onCartIconClick()}>
-          <img className={styles.cartWhiteIcon} alt="" src={cartIcon} />
+      <div className={styles.headerFixed}>
+        <div className={styles.headerSpace}></div>
+        <div className={styles.header}>
+          <div className={styles.restaurantLogo}>
+            <img
+              className={styles.restaurantLogoChild}
+              alt=""
+              src={restaurantLogoImage}
+            />
+          </div>
+          <div className={styles.tableNumberWrapper}>
+            <b className={styles.tableNumberLabel}>테이블 번호</b>
+            <b className={styles.tableNumber}>{tableNumber}</b>
+          </div>
+          <div className={styles.icon} onClick={() => onCartIconClick()}>
+            <img className={styles.iconChild} alt="" src={cartIcon} />
+          </div>
         </div>
       </div>
-      <div className={styles.tabmenugroup}>
-        <div className={styles.tabmenuitemPillParent}>
-          {menuData.map((menuCategory, index) => (
-            <div
-              key={menuCategory.category_name}
-              onClick={() => setSelectedCategory(index)} // Set state here
-              className={
-                selectedCategory === index
-                  ? styles.tabmenuitemPill
-                  : styles.tabmenuitemPill1
-              }
-            >
-              <b className={styles.label1}>{menuCategory.category_name}</b>
-            </div>
-          ))}
+      <div className={styles.categoryScrollBarWrapperFixed}>
+        <div className={styles.categoryScrollBarWrapper}>
+          <div className={styles.categoryScrollBar}>
+            {menuData.map((menuCategory, index) => (
+              <div
+                key={menuCategory.category_name}
+                onClick={() => onCategoryClick(index)}
+                className={
+                  selectedCategory === index
+                    ? styles.categoryPillSelected
+                    : styles.categoryPill
+                }
+              >
+                <div className={styles.menuCategoryLabel}>
+                  {menuCategory.category_name}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className={styles.layout}>
-        {menuData.map((menuCategory) => (
-          <div key={menuCategory.category_name} className={styles.menuCard}>
-            <div className={styles.titlearea}>
-              <b className={styles.title}>{menuCategory.category_name}</b>
+        {menuData.map((menuCategory, index) => (
+          <div
+            key={menuCategory.category_name}
+            className={styles.menuCategoryWrapper}
+            ref={(el) => (menuCategoryRefs.current[index] = el)}
+          >
+            <div className={styles.categoryTitleWrapper}>
+              <b className={styles.categoryTitle}>
+                {menuCategory.category_name}
+              </b>
             </div>
             {menuCategory.main_menus.map((menu) => (
-              <button
+              <div
                 key={menu.id}
-                className={styles.divMenu}
+                className={styles.menuItemWrapper}
                 onClick={() => onMenuClick(menu.id)}
               >
                 {menu.image_url && (
                   <img
-                    className={styles.menuimageIcon}
+                    className={styles.menuImage}
                     alt={menu.name}
                     loading="lazy"
                     src={menu.image_url}
                   />
                 )}
-                <div className={styles.menuinfo}>
-                  <b className={styles.name}>{menu.name}</b>
+                <div className={styles.menuContent}>
+                  <b className={styles.menuName}>{menu.name}</b>
                   {menu.description && (
-                    <div className={styles.description}>{menu.description}</div>
+                    <div className={styles.menuDescription}>
+                      {menu.description}
+                    </div>
                   )}
-                  <b className={styles.price}>
+                  <b className={styles.menuPrice}>
                     {menu.price.toLocaleString()}원
                   </b>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         ))}

@@ -16,7 +16,7 @@ const MenuDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
 
   const currentTempId = location.state ? location.state.temp_id : 0;
-
+  console.log(currentTempId);
   const {
     restaurant_id: restaurantId,
     branch_id: branchId,
@@ -27,9 +27,11 @@ const MenuDetailPage = () => {
   const changeQuantity = (num) => {
     const newQuantity = quantity + num;
     if (newQuantity >= 1) {
+      // Or replace 0 with the minimum value you want
       setQuantity(newQuantity);
       let newTotal = partialTotal * newQuantity;
       setTotal(newTotal);
+      //console.log(total);
     }
   };
 
@@ -52,6 +54,7 @@ const MenuDetailPage = () => {
 
       setPartialTotal(newTotal);
       setTotal(newTotal * quantity);
+      //console.log(newData);
       return newData;
     });
   };
@@ -125,9 +128,11 @@ const MenuDetailPage = () => {
           existingCart.length > 0 &&
           currentTempId === 0
         ) {
+          // Find the largest temp_id
           const maxTempId = Math.max(
             ...existingCart.map((item) => item.temp_id)
           );
+          // Set temp_id to be one more than the largest existing temp_id
           temp_id = maxTempId + 1;
         }
       }
@@ -136,6 +141,8 @@ const MenuDetailPage = () => {
       }
 
       const newCart = [];
+      //console.log(currentQuantity);
+      //console.log(currentMenuData);
 
       for (let i = 0; i < currentQuantity; i++) {
         const checkedOptions = currentMenuData.option_categories.flatMap(
@@ -164,6 +171,9 @@ const MenuDetailPage = () => {
           option_menus: checkedOptions,
         });
       }
+      console.log(newCart);
+
+      // Parse the existing data to convert it back to an object
       existingCart = existingCart ? existingCart : [];
 
       if (currentTempId !== 0 && existingCart) {
@@ -171,10 +181,16 @@ const MenuDetailPage = () => {
           (item) => item.temp_id !== currentTempId
         );
       }
+
+      // Now let's add the new data to existing data
       let finalCart = [...existingCart, ...newCart];
 
+      // Store the updated data back in local storage
       localStorage.setItem("cart", JSON.stringify(finalCart));
       let check_cart = localStorage.getItem("cart");
+      console.log(check_cart);
+      //localStorage.removeItem("cart");
+      console.log(currentTempId);
       if (currentTempId !== 0) {
         navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
       } else {
@@ -217,9 +233,11 @@ const MenuDetailPage = () => {
             />
             <div className={styles.menuinfo1}>
               <b className={styles.label}>{menuDetailData.name}</b>
-              <div className={styles.description}>
-                {menuDetailData.description}
-              </div>
+              {menuDetailData.description && (
+                <div className={styles.description}>
+                  {menuDetailData.description}
+                </div>
+              )}
               <div className={styles.price}>
                 <b className={styles.label1}>가격</b>
                 <b className={styles.value}>

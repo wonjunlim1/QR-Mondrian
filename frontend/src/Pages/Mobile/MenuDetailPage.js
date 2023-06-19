@@ -275,11 +275,12 @@ const MenuDetailPage = () => {
                         checked={option.checked}
                         onChange={() => handleCheck(index, optionIndex)}
                       />
+                      <div className={styles.optionItemLabel}>
+                        {option.name}
+                      </div>
                     </div>
-                    <div className={styles.optionItemContent}>
-                      <div className={styles.optionItemName}>{option.name}</div>
-                      <div className={styles.optionItemPrice}></div>+
-                      {option.price.toLocaleString()}원
+                    <div className={styles.optionItemPrice}>
+                      {`+${option.price.toLocaleString()}원`}
                     </div>
                   </div>
                 ))}

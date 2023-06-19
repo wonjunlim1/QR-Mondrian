@@ -19,9 +19,15 @@
   display: flex;
   align-self: stretch;
   flex-direction: row;
-  padding: var(--padding-base);
+  padding: var(--padding-base) var(--padding-5xs) var(--padding-base) var(--padding-base);
   justify-content: flex-start;
   color: var(--text-alternative-1);
+}
+.stickyWrapper {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: inherit;
 }
 .logo{
   width: 56px;
@@ -83,6 +89,7 @@
   padding: var(--padding-5xs) var(--padding-base);
   color: var(--background-normal);
 }
+
 .tabmenugroup,
 .tabmenuitemPill,
 .tabmenuitemPill1,
@@ -90,21 +97,22 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  overflow-x: auto;  /* Enable horizontal scrolling */
+  white-space: nowrap;  /* Keep text in one line */
 }
+
 .tabmenuitemPill1 {
   border-radius: var(--br-81xl);
   border: 1px solid var(--line-strong);
   flex-direction: row;
   padding: var(--padding-5xs) var(--padding-base);
 }
-.tabmenugroup,
-.tabmenuitemPillParent {
-  overflow-x: auto;
-}
+
 .tabmenuitemPillParent {
   flex-direction: row;
   gap: var(--gap-5xs);
 }
+
 .tabmenugroup {
   align-self: stretch;
   background-color: var(--background-normal);
@@ -112,6 +120,20 @@
   padding: var(--padding-base);
   font-size: var(--label-3);
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.tabmenugroup::-webkit-scrollbar,
+.tabmenuitemPillParent::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.tabmenugroup,
+.tabmenuitemPillParent {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 .label1 {
   position: relative;
   letter-spacing: 0.01em;

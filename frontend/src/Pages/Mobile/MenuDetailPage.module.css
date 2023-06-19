@@ -40,6 +40,7 @@
   align-self: stretch;
   background-color: var(--background-normal);
   justify-content: space-between;
+  padding: var(--padding-base) var(--padding-5xs) var(--padding-base) 0;
 }
 
 .icon {
@@ -175,27 +176,23 @@
 
 .radioOptionWrapper {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-self: stretch;
   justify-content: space-between;
+  width: 100%;
 }
 
 .radioOption {
-  justify-content: flex-start;
-  gap: var(--gap-5xs);
   display: flex;
-  flex-direction: row;
   align-items: center;
+  gap: var(--gap-5xs);
 }
 
 .radioOptionUnchecked {
   cursor: pointer;
   position: relative;
-  width: 24px;
-  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
   border-radius: var(--br-9xs);
-  border: 2px solid var(--line-strong);
+  border: 2px solid var(--line-strong) !important;
   box-sizing: border-box;
 }
 
@@ -204,24 +201,17 @@ input[type=checkbox]{
   transition: none !important; 
 }
 
-.optionItemContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 89%; /* Adjust width as needed */
-}
-
-.optionItemName {
+.optionItemLabel {
   position: relative;
   letter-spacing: 0.01em;
   line-height: 24px;
-  max-width: 75%;
 }
 
 .optionItemPrice {
   position: relative;
   letter-spacing: 0.01em;
   line-height: 24px;
+  white-space: nowrap; 
 }
 
 .divQuantity {
@@ -301,6 +291,7 @@ input[type=checkbox]{
   left: 0;
   right: 0;
   align-self: stretch;
+  border-top: 1px solid var(--line-alternative);
   background-color: var(--background-normal);
   box-shadow: 0-4px 20px rgba(0, 0, 0, 0.08);
   flex-direction: row;

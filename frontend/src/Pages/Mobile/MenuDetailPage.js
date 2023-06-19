@@ -70,6 +70,7 @@ const MenuDetailPage = () => {
 
       setPartialTotal(newTotal);
       setTotal(newTotal * quantity);
+      //console.log(newData);
       return newData;
     });
   };
@@ -103,33 +104,32 @@ const MenuDetailPage = () => {
 
       const newCart = [];
 
-      for (let i = 0; i < currentQuantity; i++) {
-        const checkedOptions = currentMenuData.option_categories.flatMap(
-          (category, categoryIndex) =>
-            category.option_menus
-              .map((option, optionIndex) => ({
-                option,
-                optionIndex,
-                categoryIndex,
-              }))
-              .filter(({ option }) => option.checked)
-              .map(({ option, optionIndex, categoryIndex }) => ({
-                option_id: option.id,
-                option_name: option.name,
-                option_price: option.price,
-                option_category_idx: categoryIndex,
-                option_idx: optionIndex,
-              }))
-        );
-        newCart.push({
-          temp_id: temp_id,
-          menu_id: currentMenuData.id,
-          menu_name: currentMenuData.name,
-          menu_price: currentMenuData.price,
-          image_url: currentMenuData.image_url,
-          option_menus: checkedOptions,
-        });
-      }
+      const checkedOptions = currentMenuData.option_categories.flatMap(
+        (category, categoryIndex) =>
+          category.option_menus
+            .map((option, optionIndex) => ({
+              option,
+              optionIndex,
+              categoryIndex,
+            }))
+            .filter(({ option }) => option.checked)
+            .map(({ option, optionIndex, categoryIndex }) => ({
+              option_id: option.id,
+              option_name: option.name,
+              option_price: option.price,
+              option_category_idx: categoryIndex,
+              option_idx: optionIndex,
+            }))
+      );
+      newCart.push({
+        temp_id: temp_id,
+        menu_id: currentMenuData.id,
+        menu_name: currentMenuData.name,
+        menu_price: currentMenuData.price,
+        image_url: currentMenuData.image_url,
+        menu_quantity: currentQuantity,
+        option_menus: checkedOptions,
+      });
       console.log(newCart);
 
       // Parse the existing data to convert it back to an object
@@ -198,26 +198,33 @@ const MenuDetailPage = () => {
               }
             });
           }
+          setQuantity(cartItem.menu_quantity);
         }
 
-        let newTotal = modifiedData.price;
-        modifiedData.option_categories.forEach((category) => {
-          category.option_menus.forEach((option) => {
-            if (option.checked) {
-              newTotal += option.price;
-            }
-          });
-        });
-
         setMenuDetailData(modifiedData);
-        setPartialTotal(newTotal);
-        setTotal(newTotal * quantity);
       } catch (error) {
         console.log("Error fetching menu data:", error);
       }
     };
     fetchMenuDetailData();
-  }, [restaurantId, branchId, tableNumber, menuId, quantity, currentTempId]);
+  }, [restaurantId, branchId, tableNumber, menuId, currentTempId]);
+
+  // Effect to calculate the total price when quantity or menu detail data changes
+  useEffect(() => {
+    if (menuDetailData) {
+      let newTotal = menuDetailData.price;
+      menuDetailData.option_categories.forEach((category) => {
+        category.option_menus.forEach((option) => {
+          if (option.checked) {
+            newTotal += option.price;
+          }
+        });
+      });
+
+      setPartialTotal(newTotal);
+      setTotal(newTotal * quantity);
+    }
+  }, [quantity, menuDetailData]);
 
   // Return null while data is loading
   if (!menuDetailData) {
@@ -239,11 +246,13 @@ const MenuDetailPage = () => {
         </div>
         <div className={styles.layout}>
           <div className={styles.menuWrapper}>
-            <img
-              className={styles.menuImage}
-              alt={menuDetailData.name}
-              src={menuDetailData.image_url}
-            />
+            {menuDetailData.image_url && (
+              <img
+                className={styles.menuImage}
+                alt={menuDetailData.name}
+                src={menuDetailData.image_url}
+              />
+            )}
             <div className={styles.menuContentWrapper}>
               <b className={styles.menuNameLabel}>{menuDetailData.name}</b>
               {menuDetailData.description && (

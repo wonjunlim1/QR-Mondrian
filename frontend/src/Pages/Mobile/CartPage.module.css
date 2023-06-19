@@ -28,7 +28,7 @@
     align-self: stretch;
     background-color: var(--background-normal);
     justify-content: flex-end;
-    height: 56px;
+    height: var(--hs-normal);
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -265,6 +265,54 @@
     letter-spacing: 0.01em;
     line-height: 28px;
   }
+
+  .quantityChangeWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: center;
+  }
+
+  .quantityChangeButton {
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+
+  .quantityChangeButtonChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-9xs) 0 0 var(--br-9xs);
+    background-color: var(--background-normal);
+    width: 40px;
+    height: 40px;
+  }
+
+  .quantityChangeIcon {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 10px);
+    width: 20px;
+    height: 20px;
+  }
+
+  .quantityChangeLabelWrapper {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--padding-base);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quantityChangeLabel {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 28px;
+  }
   
   .optionChangeButton {
     border-radius: var(--br-5xs);
@@ -328,12 +376,13 @@
     line-height: 24px;
     letter-spacing: 0.01em;
     opacity: 0.6;
+    margin-right: var(--gap-5xs);
   }
 
   .labelPending {
     display: flex;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
     border-radius: var(--br-9xs);
     background-color: var(--line-alternative);
     overflow: hidden;
@@ -342,23 +391,30 @@
     gap: var(--gap-9xs);
     font-size: var(--caption-1);
     color: var(--text-alternative-1);
+    min-width: 81px;
+    max-width: 81px;
   }
 
   .labelAccepted {
     display: flex;
-    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
     border-radius: var(--br-9xs);
     background-color: var(--status-positive-2);
     overflow: hidden;
+    flex-direction: row;
     padding: var(--padding-9xs) var(--padding-5xs);
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: var(--gap-9xs);
     font-size: var(--caption-1);
-    color: var(--status-postive-1);
+    color: var(--status-positive-1);
+    min-width: 67px;
+    max-width: 67px;
   }
 
   .labelRejected {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
     border-radius: var(--br-9xs);
     background-color: var(--status-alert-2);
     overflow: hidden;
@@ -367,6 +423,8 @@
     gap: var(--gap-9xs);
     font-size: var(--caption-1);
     color: var(--status-alert-1);
+    min-width: 67px;
+    max-width: 67px;
   }
 
   .statusIcon {

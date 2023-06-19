@@ -6,6 +6,8 @@ import deleteIcon from "../../Assets/Images/delete.svg";
 import pendingIcon from "../../Assets/Images/pending.svg";
 import acceptedIcon from "../../Assets/Images/accepted.svg";
 import rejectedIcon from "../../Assets/Images/rejected.svg";
+import minusIcon from "../../Assets/Images/minus.svg";
+import plusIcon from "../../Assets/Images/plus.svg";
 
 const CartPage = () => {
   // Navigation and location utility from React Router
@@ -56,8 +58,9 @@ const CartPage = () => {
 
       const totalPrice = updatedData.reduce((total, item) => {
         const itemTotal =
-          item.menu_price +
-          item.option_menus.reduce((a, b) => a + b.option_price, 0);
+          (item.menu_price +
+            item.option_menus.reduce((a, b) => a + b.option_price, 0)) *
+          item.menu_quantity;
         return total + itemTotal;
       }, 0);
       setCurrentCartPrice(totalPrice);
@@ -77,6 +80,43 @@ const CartPage = () => {
     [navigate, restaurantId, branchId, tableNumber]
   );
 
+  // Callback function to change quantity in local cart
+  const changeQuantity = useCallback(
+    (num, temp_id) => {
+      // Find the item with the given temp_id
+      let item = currentCartData.find((item) => item.temp_id === temp_id);
+      if (item) {
+        item.menu_quantity += num;
+        if (item.menu_quantity < 1) {
+          item.menu_quantity = 1; // Ensure the quantity never drops below 1
+        }
+        // Create a new array for the updated cart data
+        let updatedData = currentCartData.map((cartItem) => {
+          if (cartItem.temp_id === temp_id) {
+            return item;
+          } else {
+            return cartItem;
+          }
+        });
+        // Update the cart data in the state and the local storage
+        setCurrentCartData(updatedData);
+        localStorage.setItem("cart", JSON.stringify(updatedData));
+        // Update the total price
+        const totalPrice = updatedData.reduce((total, cartItem) => {
+          const itemTotal =
+            (cartItem.menu_price +
+              cartItem.option_menus.reduce((a, b) => a + b.option_price, 0)) *
+            cartItem.menu_quantity;
+          return total + itemTotal;
+        }, 0);
+        setCurrentCartPrice(totalPrice);
+      }
+    },
+    [currentCartData]
+  );
+
+  console.log(JSON.parse(localStorage.getItem("cart")) || []);
+
   // Callback function to submit the order
   const onSubmitButtonClick = useCallback(async () => {
     // Check and get current order data from local storage
@@ -87,14 +127,20 @@ const CartPage = () => {
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (cartData.length > 0) {
-      const main_menus = cartData.map((item) => ({
-        id: item.menu_id,
-        price: item.menu_price,
-        option_menus: item.option_menus.map((option) => ({
-          id: option.option_id,
-          price: option.option_price,
-        })),
-      }));
+      let main_menus = [];
+
+      cartData.forEach((item) => {
+        for (let i = 0; i < item.menu_quantity; i++) {
+          main_menus.push({
+            id: item.menu_id,
+            price: item.menu_price,
+            option_menus: item.option_menus.map((option) => ({
+              id: option.option_id,
+              price: option.option_price,
+            })),
+          });
+        }
+      });
 
       const transformedCartData = {
         current_order: [
@@ -184,12 +230,14 @@ const CartPage = () => {
     // Parse and set the current order data and total price
     const check_cart = localStorage.getItem("cart");
     if (check_cart) {
-      const parsedCart = JSON.parse(check_cart);
+      let parsedCart = JSON.parse(check_cart);
+      parsedCart.sort((a, b) => a.temp_id - b.temp_id);
       setCurrentCartData(parsedCart);
       const totalPrice = parsedCart.reduce((total, item) => {
         const itemTotal =
-          item.menu_price +
-          item.option_menus.reduce((a, b) => a + b.option_price, 0);
+          (item.menu_price +
+            item.option_menus.reduce((a, b) => a + b.option_price, 0)) *
+          item.menu_quantity;
         return total + itemTotal;
       }, 0);
       setCurrentCartPrice(totalPrice);
@@ -273,11 +321,12 @@ const CartPage = () => {
                       </div>
                       <b className={styles.itemTotalPriceBlack}>
                         {`${(
-                          item.menu_price +
-                          item.option_menus.reduce(
-                            (a, b) => a + b.option_price,
-                            0
-                          )
+                          item.menu_quantity *
+                          (item.menu_price +
+                            item.option_menus.reduce(
+                              (a, b) => a + b.option_price,
+                              0
+                            ))
                         ).toLocaleString()}원`}
                       </b>
                     </div>
@@ -290,6 +339,35 @@ const CartPage = () => {
                       }
                     >
                       <b className={styles.buttonLabel}>옵션변경</b>
+                    </div>
+                    <div className={styles.quantityChangeWrapper}>
+                      <div
+                        className={styles.quantityChangeButton}
+                        onClick={() => changeQuantity(-1, item.temp_id)}
+                      >
+                        <div className={styles.quantityChangeButtonChild} />
+                        <img
+                          className={styles.quantityChangeIcon}
+                          alt=""
+                          src={minusIcon}
+                        />
+                      </div>
+                      <div className={styles.quantityChangeLabelWrapper}>
+                        <div className={styles.quantityChangeLabel}>
+                          {item.menu_quantity}
+                        </div>
+                      </div>
+                      <div
+                        className={styles.quantityChangeButton}
+                        onClick={() => changeQuantity(1, item.temp_id)}
+                      >
+                        <div className={styles.quantityChangeButtonChild} />
+                        <img
+                          className={styles.quantityChangeIcon}
+                          alt=""
+                          src={plusIcon}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -353,11 +431,11 @@ const CartPage = () => {
                             )}
                             <b className={styles.status}>
                               {order.order_status === "Pending"
-                                ? "확인 중"
+                                ? "주문 확인 중"
                                 : order.order_status === "Accepted"
-                                ? "확인 완료"
+                                ? "주문 확인"
                                 : order.order_status === "Rejected"
-                                ? "거절 됨"
+                                ? "주문 거절"
                                 : ""}
                             </b>
                           </div>

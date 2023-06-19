@@ -27,7 +27,7 @@
     align-self: stretch;
     background-color: var(--background-normal);
     justify-content: flex-end;
-    height: 56px;
+    height: var(--hs-normal);
     display: flex;
     flex-direction: row;
     align-items: flex-start;

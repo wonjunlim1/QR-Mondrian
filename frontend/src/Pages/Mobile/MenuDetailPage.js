@@ -192,7 +192,9 @@ const MenuDetailPage = () => {
       //localStorage.removeItem("cart");
       console.log(currentTempId);
       if (currentTempId !== 0) {
-        navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
+        navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`, {
+          state: { editMenu: true },
+        });
       } else {
         navigate(-1);
       }
@@ -205,7 +207,7 @@ const MenuDetailPage = () => {
   }, [navigate]);
 
   const onCartIconClick = useCallback(() => {
-    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}/`);
+    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
   }, [navigate, restaurantId, branchId, tableNumber]);
 
   if (!menuDetailData) {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styles from "./CartPage.module.css";
 import arrowBackIcon from "../../Assets/Images/arrow-back.svg";
 import deleteIcon from "../../Assets/Images/delete.svg";
@@ -8,8 +8,12 @@ import acceptedIcon from "../../Assets/Images/accepted.svg";
 import rejectedIcon from "../../Assets/Images/rejected.svg";
 
 const CartPage = () => {
-  // Navigation utility from React Router
+  // Navigation and location utility from React Router
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check if last page was editting a menu
+  const fromEditMenu = location.state ? location.state.editMenu : false;
 
   // Initializing states
   const [pastOrdersData, setPastOrdersData] = useState(null);
@@ -29,8 +33,12 @@ const CartPage = () => {
 
   // Callback function to navigate back
   const onBackIconClick = useCallback(() => {
-    navigate(-1); // Use -1 to go back to the previous page
-  }, [navigate]);
+    if (fromEditMenu) {
+      navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}`);
+    } else {
+      navigate(-1);
+    }
+  }, [navigate, restaurantId, branchId, tableNumber, fromEditMenu]);
 
   // Callback function to delete specific item from the current order data
   const onItemDeleteIconClick = useCallback(

@@ -13,34 +13,44 @@ import MobileMenuDetailPage from "./Pages/Mobile/MenuDetailPage";
 import MobileCartPage from "./Pages/Mobile/CartPage";
 
 function PageHandler() {
+  // Navigation and location utility from React Router
   const location = useLocation();
+
+  // Location variable assignments
   const { pathname, key } = location;
 
+  /** Effect Hooks */
+
+  // Effect to scroll to the top when the user first lands on the page
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [key]);
 
+  // Effect to change page titles and meta descriptions according to the routes
   useEffect(() => {
     let title = "";
     let metaDescription = "";
+    let mainPath = pathname.split("/")[1];
+    let pathLength = pathname.split("/").length;
 
-    switch (pathname) {
-      case "/menu_m/:restaurant_id/:branch_id/:table_number":
-        title = "Menu";
-        metaDescription = "This is the Mobile Menu Page";
-        break;
-      case "/login_w":
-        title = "Login";
-        metaDescription = "This is the Web Login Page";
-        break;
-      case "/order_w/:restaurant_id":
-        title = "";
-        metaDescription = "";
-        break;
-      default:
-        title = "SPQR";
-        metaDescription = "";
-        break;
+    if (mainPath === "menu_m" && pathLength === 5) {
+      title = "Menu";
+      metaDescription = "This is the Mobile Menu Page";
+    } else if (mainPath === "menu_m" && pathLength > 5) {
+      title = "Menu Details";
+      metaDescription = "This is the Mobile Menu Details Page";
+    } else if (mainPath === "cart_m") {
+      title = "Cart";
+      metaDescription = "This is the Mobile Cart Page";
+    } else if (mainPath === "login_w") {
+      title = "Login";
+      metaDescription = "This is the Web Login Page";
+    } else if (mainPath === "order_w") {
+      title = "Order";
+      metaDescription = "This is the Web Order Page";
+    } else {
+      title = "SPQR";
+      metaDescription = "";
     }
 
     if (title) {
@@ -58,13 +68,12 @@ function PageHandler() {
   }, [pathname]);
 }
 
+// Routes for the App
 function App() {
   return (
     <Router>
       <PageHandler />
       <Routes>
-        <Route path="/login_w" element={<WebLoginPage />} />
-        <Route path="/order_w" element={<WebOrderPage />} />
         <Route
           path="/menu_m/:restaurant_id/:branch_id/:table_number"
           element={<MobileMenuPage />}
@@ -76,6 +85,11 @@ function App() {
         <Route
           path="/cart_m/:restaurant_id/:branch_id/:table_number"
           element={<MobileCartPage />}
+        />
+        <Route path="/login_w" element={<WebLoginPage />} />
+        <Route
+          path="/order_w/:restaurant_id/:branch_id/"
+          element={<WebOrderPage />}
         />
       </Routes>
     </Router>

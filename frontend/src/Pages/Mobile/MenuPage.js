@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import styles from "./MenuPage.module.css";
 import cartIcon from "../../Assets/Images/cart-white.svg";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/decoder";
 
 const MenuPage = () => {
   // Navigation utility from React Router
@@ -17,10 +18,15 @@ const MenuPage = () => {
 
   // Extracting params from URL
   const {
-    restaurant_id: restaurantId,
-    branch_id: branchId,
-    table_number: tableNumber,
+    restaurant_id: encodedRestaurantId,
+    branch_id: encodedBranchId,
+    table_number: encodedTableNumber,
   } = useParams();
+
+  // Decoding params
+  const restaurantId = decryptUrlParams(encodedRestaurantId);
+  const branchId = decryptUrlParams(encodedBranchId);
+  const tableNumber = decryptUrlParams(encodedTableNumber);
 
   // Path for restaruant logo image
   const restaurantLogoImage = `https://spqr-menu.s3.ap-northeast-2.amazonaws.com/${restaurantId}/logo.jpg`;
@@ -30,14 +36,22 @@ const MenuPage = () => {
   // Function to handle click on menu item
   const onMenuClick = useCallback(
     (id) => {
-      navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}/${id}`);
+      navigate(
+        `/menu_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}/${encryptUrlParams(tableNumber)}/${encryptUrlParams(id)}`
+      );
     },
     [navigate, restaurantId, branchId, tableNumber]
   );
 
   // Function to handle click on cart icon
   const onCartIconClick = useCallback(() => {
-    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
+    navigate(
+      `/cart_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+        branchId
+      )}/${encryptUrlParams(tableNumber)}`
+    );
   }, [navigate, restaurantId, branchId, tableNumber]);
 
   // Function to create a Promise that resolves when automatic scrolling ends

@@ -8,6 +8,7 @@ import acceptedIcon from "../../Assets/Images/accepted.svg";
 import rejectedIcon from "../../Assets/Images/rejected.svg";
 import minusIcon from "../../Assets/Images/minus.svg";
 import plusIcon from "../../Assets/Images/plus.svg";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/decoder";
 
 const CartPage = () => {
   // Navigation and location utility from React Router
@@ -26,17 +27,26 @@ const CartPage = () => {
 
   // Extracting params from URL
   const {
-    restaurant_id: restaurantId,
-    branch_id: branchId,
-    table_number: tableNumber,
+    restaurant_id: encodedRestaurantId,
+    branch_id: encodedBranchId,
+    table_number: encodedTableNumber,
   } = useParams();
+
+  // Decoding params
+  const restaurantId = decryptUrlParams(encodedRestaurantId);
+  const branchId = decryptUrlParams(encodedBranchId);
+  const tableNumber = decryptUrlParams(encodedTableNumber);
 
   /** Event Handlers */
 
   // Callback function to navigate back
   const onBackIconClick = useCallback(() => {
     if (fromEditMenu) {
-      navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}`);
+      navigate(
+        `/menu_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}/${encryptUrlParams(tableNumber)}`
+      );
     } else {
       navigate(-1);
     }
@@ -73,7 +83,9 @@ const CartPage = () => {
     // Redirect to menu details page with temporary id state
     (temp_id, menu_id) => {
       navigate(
-        `/menu_m/${restaurantId}/${branchId}/${tableNumber}/${menu_id}`,
+        `/menu_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}/${encryptUrlParams(tableNumber)}/${encryptUrlParams(menu_id)}`,
         { state: { temp_id } }
       );
     },
@@ -165,7 +177,11 @@ const CartPage = () => {
           }
         );
         localStorage.removeItem("cart");
-        navigate(`/menu_m/${restaurantId}/${branchId}/${tableNumber}`);
+        navigate(
+          `/menu_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+            branchId
+          )}/${encryptUrlParams(tableNumber)}`
+        );
         console.log(response);
       } catch (error) {}
     }

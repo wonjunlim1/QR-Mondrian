@@ -5,6 +5,7 @@ import cartIcon from "../../Assets/Images/cart-black.svg";
 import minusIcon from "../../Assets/Images/minus.svg";
 import plusIcon from "../../Assets/Images/plus.svg";
 import backIcon from "../../Assets/Images/arrow-back.svg";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/decoder";
 
 const MenuDetailPage = () => {
   // Navigation and location utility from React Router
@@ -22,11 +23,19 @@ const MenuDetailPage = () => {
 
   // Extracting params from URL
   const {
-    restaurant_id: restaurantId,
-    branch_id: branchId,
-    table_number: tableNumber,
-    menu_id: menuId,
+    restaurant_id: encodedRestaurantId,
+    branch_id: encodedBranchId,
+    table_number: encodedTableNumber,
+    menu_id: encodedMenuId,
   } = useParams();
+
+  // Decoding params
+  const restaurantId = decryptUrlParams(encodedRestaurantId);
+  const branchId = decryptUrlParams(encodedBranchId);
+  const tableNumber = decryptUrlParams(encodedTableNumber);
+  const menuId = decryptUrlParams(encodedMenuId);
+
+  console.log(restaurantId);
 
   /** Event Handlers */
 
@@ -37,7 +46,11 @@ const MenuDetailPage = () => {
 
   // Function to handle click on cart icon
   const onCartIconClick = useCallback(() => {
-    navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`);
+    navigate(
+      `/cart_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+        branchId
+      )}/${encryptUrlParams(tableNumber)}`
+    );
   }, [navigate, restaurantId, branchId, tableNumber]);
 
   // Function to change quantity of the menu item
@@ -151,9 +164,14 @@ const MenuDetailPage = () => {
       //localStorage.removeItem("cart");
       console.log(currentTempId);
       if (currentTempId !== 0) {
-        navigate(`/cart_m/${restaurantId}/${branchId}/${tableNumber}`, {
-          state: { editMenu: true },
-        });
+        navigate(
+          `/cart_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+            branchId
+          )}/${encryptUrlParams(tableNumber)}`,
+          {
+            state: { editMenu: true },
+          }
+        );
       } else {
         navigate(-1);
       }

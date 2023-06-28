@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import styles from "./MenuPage.module.css";
 import cartIcon from "../../Assets/Images/cart-white.svg";
-import { encryptUrlParams, decryptUrlParams } from "../../utils/decoder";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
 
 const MenuPage = () => {
   // Navigation utility from React Router

@@ -5,7 +5,7 @@ import cartIcon from "../../Assets/Images/cart-black.svg";
 import minusIcon from "../../Assets/Images/minus.svg";
 import plusIcon from "../../Assets/Images/plus.svg";
 import backIcon from "../../Assets/Images/arrow-back.svg";
-import { encryptUrlParams, decryptUrlParams } from "../../utils/decoder";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
 
 const MenuDetailPage = () => {
   // Navigation and location utility from React Router

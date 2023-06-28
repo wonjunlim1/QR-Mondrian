@@ -8,7 +8,7 @@ import acceptedIcon from "../../Assets/Images/accepted.svg";
 import rejectedIcon from "../../Assets/Images/rejected.svg";
 import minusIcon from "../../Assets/Images/minus.svg";
 import plusIcon from "../../Assets/Images/plus.svg";
-import { encryptUrlParams, decryptUrlParams } from "../../utils/decoder";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
 
 const CartPage = () => {
   // Navigation and location utility from React Router

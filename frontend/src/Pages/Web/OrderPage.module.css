@@ -16,8 +16,8 @@
 }
 .b {
   position: relative;
-  font-size: var(--caption-regular-size);
-  font-family: var(--body-2-regular);
+  font-size: var(--caption-1);
+  font-family: var(--body-2);
   color: var(--background-normal);
   text-align: left;
 }
@@ -32,10 +32,10 @@
 }
 .label {
   position: relative;
-  font-size: var(--label-1-regular-size);
+  font-size: var(--label-1);
   letter-spacing: 0.01em;
   line-height: 28px;
-  font-family: var(--body-2-regular);
+  font-family: var(--body-2);
   color: var(--text-alternative-1);
   text-align: left;
 }
@@ -73,7 +73,7 @@
   font-weight: 700;
 }
 .option {
-  font-size: var(--caption-regular-size);
+  font-size: var(--caption-1);
   letter-spacing: 0.03em;
   line-height: 16px;
   color: var(--text-alternative-2);
@@ -87,7 +87,7 @@
 }
 .value1 {
   position: relative;
-  font-size: var(--caption-regular-size);
+  font-size: var(--caption-1);
   letter-spacing: 0.03em;
   line-height: 16px;
   font-weight: 700;
@@ -102,7 +102,7 @@
 }
 .label5 {
   position: relative;
-  font-size: var(--caption-regular-size);
+  font-size: var(--caption-1);
   letter-spacing: 0.03em;
   line-height: 16px;
   font-weight: 700;
@@ -119,7 +119,7 @@
 .orderinfo {
   align-self: stretch;
   gap: var(--gap-5xs);
-  font-size: var(--label-3-regular-size);
+  font-size: var(--label-3);
   color: var(--text-alternative-1);
 }
 .div {
@@ -128,7 +128,7 @@
 }
 .value5 {
   position: relative;
-  font-size: var(--body-1-bold-size);
+  font-size: var(--body-1);
   letter-spacing: 0.01em;
   line-height: 24px;
   font-weight: 700;
@@ -155,7 +155,7 @@
 .value10,
 .value6 {
   position: relative;
-  font-size: var(--caption-regular-size);
+  font-size: var(--caption-1);
   letter-spacing: 0.03em;
   line-height: 16px;
 }
@@ -165,7 +165,7 @@
   width: 320px;
 }
 .value10 {
-  font-size: var(--body-1-bold-size);
+  font-size: var(--body-1);
   letter-spacing: 0.01em;
   line-height: 24px;
 }
@@ -183,7 +183,7 @@
   justify-content: flex-start;
   flex-direction: column;
   gap: var(--gap-5xl);
-  font-size: var(--title-2-bold-size);
+  font-size: var(--title-2);
 }
 .bodylayout,
 .fixedarea,
@@ -210,7 +210,7 @@
   background-color: var(--background-alternative);
   width: 100%;
   text-align: left;
-  font-size: var(--headline-bold-size);
+  font-size: var(--headline-1);
   color: var(--text-strong);
-  font-family: var(--body-2-regular);
+  font-family: var(--body-2);
 }

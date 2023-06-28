@@ -35,8 +35,6 @@ const MenuDetailPage = () => {
   const tableNumber = decryptUrlParams(encodedTableNumber);
   const menuId = decryptUrlParams(encodedMenuId);
 
-  console.log(restaurantId);
-
   /** Event Handlers */
 
   // Function to handle click on back icon

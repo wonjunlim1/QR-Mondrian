@@ -1,6 +1,18 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { CognitoUserPool } from "amazon-cognito-identity-js";
 import styles from "./WebHeader.module.css";
-const WebHeader = () => {
+import { encryptUrlParams } from "../utils/encryption";
+
+const WebHeader = ({ isHQUser, isBranchUser, restaurantId, branchId }) => {
+  // Navigation and location utility from React Router
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Cognito variable assignments
+  const userPoolId = process.env.REACT_APP_USER_POOL_ID;
+  const clientId = process.env.REACT_APP_CLIENT_ID;
+
   // Determine the current tab based on the path
   const currentTab = useMemo(() => {
     if (location.pathname.includes("menu_w")) {
@@ -11,8 +23,6 @@ const WebHeader = () => {
       return "Data";
     }
   }, [location.pathname]);
-
-  /** Event Handlers */
 
   // Get info of current user from Cognito User Pool
   const userPool = new CognitoUserPool({
@@ -29,6 +39,8 @@ const WebHeader = () => {
       console.log("session validity: " + session.isValid());
     });
   }
+
+  /** Event Handlers */
 
   // Function to handle click on tab menu item
   const onTabMenuItemClick = useCallback(

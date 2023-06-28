@@ -1,7 +1,6 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-
-import { useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Modal from "../../Components/Modal";
 import PortalPopup from "../../Components/PortalPopup";
 import ModalTable from "../../Components/ModalTable";
@@ -9,11 +8,14 @@ import WebHeader from "../../Components/WebHeader";
 import styles from "./OrderPage.module.css";
 
 const OrderPage = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
-  //const isBranchUser = location.state ? location.state.isBranchUser : false;
+  const isBranchUser = location.state ? location.state.isBranchUser : false;
+
+  const { restaurant_id: restaurantId, branch_id: branchId } = useParams();
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isModalTablePopupOpen, setModalTablePopupOpen] = useState(false);
@@ -34,10 +36,23 @@ const OrderPage = () => {
     setModalTablePopupOpen(false);
   }, []);
 
+  useEffect(() => {
+    if (isHQUser) {
+      navigate(`/menu_w/${restaurantId}/${branchId}`, {
+        state: { isHQUser, isBranchUser },
+      });
+    }
+  }, [navigate, isHQUser, isBranchUser, restaurantId, branchId]);
+
   return (
     <>
       <div className={styles.web}>
-        <WebHeader />
+        <WebHeader
+          isHQUser={isHQUser}
+          isBranchUser={isBranchUser}
+          restaurantId={restaurantId}
+          branchId={branchId}
+        />
         <div className={styles.bodylayout}>
           <div className={styles.fixedarea}>
             <div className={styles.titlearea}>

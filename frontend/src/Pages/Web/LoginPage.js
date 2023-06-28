@@ -11,7 +11,7 @@ import styles from "./LoginPage.module.css";
 import logoImage from "../../Assets/Images/qr_logo.png";
 
 function LoginPage() {
-  // Navigation and location utility from React Router
+  // Navigation utility from React Router
   const navigate = useNavigate();
 
   // Initializing states
@@ -60,11 +60,11 @@ function LoginPage() {
             const [restaurantId, branchId] = identifier.split("/");
             if (isHQUser) {
               navigate(`/menu_w/${restaurantId}/${branchId}`, {
-                state: { isHQUser },
+                state: { isHQUser, isBranchUser },
               });
             } else if (isBranchUser) {
               navigate(`/order_w/${restaurantId}/${branchId}`, {
-                state: { isBranchUser },
+                state: { isHQUser, isBranchUser },
               });
             }
           }

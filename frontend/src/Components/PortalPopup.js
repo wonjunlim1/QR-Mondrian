@@ -53,11 +53,12 @@ const PortalPopup = ({
           style.alignItems = "flex-end";
           style.justifyContent = "flex-end";
           break;
+        default:
       }
     }
     style.opacity = 1;
     return style;
-  }, [placement, overlayColor, zIndex, relativeLayerRef?.current]);
+  }, [placement, overlayColor, zIndex, relativeLayerRef]);
 
   const setPosition = useCallback(() => {
     const relativeItem = relativeLayerRef?.current?.getBoundingClientRect();
@@ -89,6 +90,7 @@ const PortalPopup = ({
           style.top = relativeY + relativeH + bottom;
           style.left = relativeX + relativeW - containerW - right;
           break;
+        default:
       }
 
       setRelativeStyle(style);
@@ -97,15 +99,7 @@ const PortalPopup = ({
       style.maxHeight = "90%";
       setRelativeStyle(style);
     }
-  }, [
-    left,
-    right,
-    top,
-    bottom,
-    placement,
-    relativeLayerRef?.current,
-    relContainerRef?.current,
-  ]);
+  }, [left, right, top, bottom, placement, relativeLayerRef, relContainerRef]);
 
   useEffect(() => {
     setPosition();

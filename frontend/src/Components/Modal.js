@@ -1,13 +1,5 @@
-import { useCallback } from "react";
 import styles from "./Modal.module.css";
 const Modal = ({ onClose }) => {
-  const onDivContainerClick = useCallback(() => {
-    const anchor = document.querySelector("[data-scroll-to='divContainer']");
-    if (anchor) {
-      anchor.scrollIntoView({ block: "start", behavior: "smooth" });
-    }
-  }, []);
-
   return (
     <div className={styles.modal}>
       <div className={styles.header}>

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
 import logoImage from "../../Assets/Images/qr_logo.png";
 
-function LoginPage(props) {
+function LoginPage() {
   // Navigation and location utility from React Router
   const navigate = useNavigate();
 

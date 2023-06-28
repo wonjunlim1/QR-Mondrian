@@ -1,0 +1,216 @@
+.title1,
+.value {
+  position: relative;
+  letter-spacing: -0.02em;
+  line-height: 32px;
+}
+.value {
+  font-weight: 700;
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+}
+.b {
+  position: relative;
+  font-size: var(--caption-regular-size);
+  font-family: var(--body-2-regular);
+  color: var(--background-normal);
+  text-align: left;
+}
+.badge {
+  border-radius: var(--br-81xl);
+  background-color: var(--text-strong);
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-7xs) var(--padding-5xs);
+  align-items: center;
+  justify-content: center;
+}
+.label {
+  position: relative;
+  font-size: var(--label-1-regular-size);
+  letter-spacing: 0.01em;
+  line-height: 28px;
+  font-family: var(--body-2-regular);
+  color: var(--text-alternative-1);
+  text-align: left;
+}
+.button,
+.titlearea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.button {
+  cursor: pointer;
+  border: 1px solid var(--line-strong);
+  padding: var(--padding-xs) var(--padding-base);
+  background-color: var(--fill-normal);
+  border-radius: var(--br-5xs);
+  justify-content: center;
+  gap: var(--gap-5xs);
+}
+.titlearea {
+  align-self: stretch;
+  justify-content: space-between;
+}
+.title2 {
+  align-self: stretch;
+  line-height: 24px;
+}
+.label1,
+.option,
+.title2 {
+  position: relative;
+}
+.label1 {
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  font-weight: 700;
+}
+.option {
+  font-size: var(--caption-regular-size);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  color: var(--text-alternative-2);
+}
+.div1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+}
+.value1 {
+  position: relative;
+  font-size: var(--caption-regular-size);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  font-weight: 700;
+}
+.orderlist {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-9xs);
+}
+.label5 {
+  position: relative;
+  font-size: var(--caption-regular-size);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  font-weight: 700;
+  display: inline-block;
+  width: 320px;
+}
+.div,
+.orderinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.orderinfo {
+  align-self: stretch;
+  gap: var(--gap-5xs);
+  font-size: var(--label-3-regular-size);
+  color: var(--text-alternative-1);
+}
+.div {
+  width: 320px;
+  gap: var(--gap-base);
+}
+.value5 {
+  position: relative;
+  font-size: var(--body-1-bold-size);
+  letter-spacing: 0.01em;
+  line-height: 24px;
+  font-weight: 700;
+  display: inline-block;
+  width: 320px;
+}
+.tabelCard {
+  border-radius: var(--br-base);
+  background-color: var(--background-normal);
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-5xl);
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xl);
+  cursor: pointer;
+}
+.label6 {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+}
+.label10,
+.value10,
+.value6 {
+  position: relative;
+  font-size: var(--caption-regular-size);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+}
+.label10,
+.value10 {
+  display: inline-block;
+  width: 320px;
+}
+.value10 {
+  font-size: var(--body-1-bold-size);
+  letter-spacing: 0.01em;
+  line-height: 24px;
+}
+.row {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+}
+.cardlist {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-5xl);
+  font-size: var(--title-2-bold-size);
+}
+.bodylayout,
+.fixedarea,
+.web {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.fixedarea {
+  width: 1136px;
+  justify-content: center;
+  gap: var(--gap-base);
+}
+.bodylayout,
+.web {
+  justify-content: flex-start;
+}
+.bodylayout {
+  align-self: stretch;
+  padding: var(--padding-13xl);
+}
+.web {
+  position: relative;
+  background-color: var(--background-alternative);
+  width: 100%;
+  text-align: left;
+  font-size: var(--headline-bold-size);
+  color: var(--text-strong);
+  font-family: var(--body-2-regular);
+}

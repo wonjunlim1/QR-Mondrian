@@ -1,6 +1,17 @@
 import { useCallback } from "react";
 import styles from "./WebHeader.module.css";
 const WebHeader = () => {
+  // Determine the current tab based on the path
+  const currentTab = useMemo(() => {
+    if (location.pathname.includes("menu_w")) {
+      return "Menu";
+    } else if (location.pathname.includes("order_w")) {
+      return "Order";
+    } else if (location.pathname.includes("data_w")) {
+      return "Data";
+    }
+  }, [location.pathname]);
+
   /** Event Handlers */
 
   // Get info of current user from Cognito User Pool
@@ -18,7 +29,7 @@ const WebHeader = () => {
       console.log("session validity: " + session.isValid());
     });
   }
-  
+
   // Function to handle click on tab menu item
   const onTabMenuItemClick = useCallback(
     (desination) => {

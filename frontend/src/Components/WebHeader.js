@@ -1,13 +1,66 @@
 import { useCallback } from "react";
 import styles from "./WebHeader.module.css";
 const WebHeader = () => {
-  const onHeaderContainerClick = useCallback(() => {
-    // Please sync "Button" to the project
-  }, []);
+  /** Event Handlers */
 
-  const onTabMenuItemClick = useCallback(() => {
-    // Please sync "Button" to the project
-  }, []);
+  // Get info of current user from Cognito User Pool
+  const userPool = new CognitoUserPool({
+    UserPoolId: userPoolId,
+    ClientId: clientId,
+  });
+  const currentUser = userPool.getCurrentUser();
+  if (currentUser != null) {
+    currentUser.getSession(function (err, session) {
+      if (err) {
+        alert(err);
+        return;
+      }
+      console.log("session validity: " + session.isValid());
+    });
+  }
+  
+  // Function to handle click on tab menu item
+  const onTabMenuItemClick = useCallback(
+    (desination) => {
+      if (desination === "Menu") {
+        navigate(
+          `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+            branchId
+          )}`,
+          {
+            state: { isHQUser, isBranchUser },
+          }
+        );
+      } else if (desination === "Order") {
+        navigate(
+          `/order_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+            branchId
+          )}`,
+          {
+            state: { isHQUser, isBranchUser },
+          }
+        );
+      } else {
+        navigate(
+          `/data_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+            branchId
+          )}`,
+          {
+            state: { isHQUser, isBranchUser },
+          }
+        );
+      }
+    },
+    [navigate, restaurantId, branchId, isHQUser, isBranchUser]
+  );
+
+  // Function to handle logout
+  const onLogoutButtonClick = useCallback(() => {
+    if (currentUser != null) {
+      currentUser.signOut();
+      navigate("/login_w"); // navigate to login (or another appropriate route) after signing out
+    }
+  }, [currentUser, navigate]);
 
   // Render the component
   return (

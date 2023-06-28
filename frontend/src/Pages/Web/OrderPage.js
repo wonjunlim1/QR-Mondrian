@@ -6,6 +6,7 @@ import PortalPopup from "../../Components/PortalPopup";
 import ModalTable from "../../Components/ModalTable";
 import WebHeader from "../../Components/WebHeader";
 import styles from "./OrderPage.module.css";
+import { decryptUrlParams } from "../../utils/encryption";
 
 const OrderPage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,13 @@ const OrderPage = () => {
   const isHQUser = location.state ? location.state.isHQUser : false;
   const isBranchUser = location.state ? location.state.isBranchUser : false;
 
-  const { restaurant_id: restaurantId, branch_id: branchId } = useParams();
+  // Extracting params from URL
+  const { restaurant_id: encodedRestaurantId, branch_id: encodedBranchId } =
+    useParams();
+
+  // Decoding params
+  const restaurantId = decryptUrlParams(encodedRestaurantId);
+  const branchId = decryptUrlParams(encodedBranchId);
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isModalTablePopupOpen, setModalTablePopupOpen] = useState(false);

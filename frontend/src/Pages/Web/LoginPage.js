@@ -6,9 +6,9 @@ import {
   CognitoUserPool,
 } from "amazon-cognito-identity-js";
 import { useNavigate } from "react-router-dom";
-
 import styles from "./LoginPage.module.css";
 import logoImage from "../../Assets/Images/qr_logo.png";
+import { encryptUrlParams } from "../../utils/encryption";
 
 function LoginPage() {
   // Navigation utility from React Router
@@ -59,13 +59,23 @@ function LoginPage() {
             const identifier = nameAttribute ? nameAttribute.getValue() : null;
             const [restaurantId, branchId] = identifier.split("/");
             if (isHQUser) {
-              navigate(`/menu_w/${restaurantId}/${branchId}`, {
-                state: { isHQUser, isBranchUser },
-              });
+              navigate(
+                `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+                  branchId
+                )}`,
+                {
+                  state: { isHQUser, isBranchUser },
+                }
+              );
             } else if (isBranchUser) {
-              navigate(`/order_w/${restaurantId}/${branchId}`, {
-                state: { isHQUser, isBranchUser },
-              });
+              navigate(
+                `/order_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+                  branchId
+                )}`,
+                {
+                  state: { isHQUser, isBranchUser },
+                }
+              );
             }
           }
         });

@@ -11,29 +11,44 @@ const WebHeader = () => {
 
   // Render the component
   return (
-    <div className={styles.gnb} onClick={onHeaderContainerClick}>
-      <div className={styles.fixedarea}>
-        <div className={styles.tabmenugroup}>
-          <a
-            className={styles.tabmenuitem}
-            href="http://www.naver.com"
-            onClick={onTabMenuItemClick}
+    <div className={styles.headerWrapper}>
+      <div className={styles.contentArea}>
+        <div className={styles.tabMenuGroup}>
+          <div
+            className={
+              currentTab === "Menu"
+                ? styles.tabMenuItemActive
+                : styles.tabMenuItem
+            }
+            onClick={() => onTabMenuItemClick("Menu")}
           >
-            <b className={styles.b}>메뉴</b>
-          </a>
-          <a
-            className={styles.tabmenuitem1}
-            href="http://www.naver.com"
-            target="_blank"
+            <b className={styles.boldLabel}>메뉴</b>
+          </div>
+          {!isHQUser && (
+            <div
+              className={
+                currentTab === "Order"
+                  ? styles.tabMenuItemActive
+                  : styles.tabMenuItem
+              }
+              onClick={() => onTabMenuItemClick("Order")}
+            >
+              <b className={styles.boldLabel}>주문</b>
+            </div>
+          )}
+          <div
+            className={
+              currentTab === "Data"
+                ? styles.tabMenuItemActive
+                : styles.tabMenuItem
+            }
+            onClick={() => onTabMenuItemClick("Data")}
           >
-            <b className={styles.b}>주문</b>
-          </a>
-          <a className={styles.tabmenuitem2} href="http://www.naver.com">
-            <b className={styles.b}>데이터</b>
-          </a>
+            <b className={styles.boldLabel}>데이터</b>
+          </div>
         </div>
-        <div className={styles.textbutton}>
-          <b className={styles.b3}>로그아웃</b>
+        <div className={styles.button} onClick={onLogoutButtonClick}>
+          <b className={styles.buttonLabel}>로그아웃</b>
         </div>
       </div>
     </div>

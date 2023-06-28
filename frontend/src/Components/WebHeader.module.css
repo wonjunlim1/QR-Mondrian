@@ -1,76 +1,81 @@
-.b {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 28px;
-  }
-  .tabmenuitem,
-  .tabmenuitem1 {
-    text-decoration: none;
-    box-sizing: border-box;
-    width: 120px;
-    padding: var(--padding-base) var(--padding-21xl);
-    align-items: center;
-    justify-content: center;
-    color: inherit;
-  }
-  .tabmenuitem {
-    display: flex;
-    flex-direction: row;
-    opacity: 0.4;
-    cursor: pointer;
-  }
-  .tabmenuitem1 {
-    border-bottom: 3px solid var(--background-normal);
-  }
-  .tabmenugroup,
-  .tabmenuitem1,
-  .tabmenuitem2 {
-    display: flex;
-    flex-direction: row;
-  }
-  .tabmenuitem2 {
-    text-decoration: none;
-    width: 120px;
-    padding: var(--padding-base) var(--padding-21xl);
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.4;
-    color: inherit;
-  }
-  .tabmenugroup {
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .b3 {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 24px;
-  }
-  .textbutton {
-    padding: var(--padding-base);
-    justify-content: center;
-    font-size: var(--body-1-bold-size);
-  }
-  .fixedarea,
-  .gnb,
-  .textbutton {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  .fixedarea {
-    width: 1136px;
-    justify-content: space-between;
-  }
-  .gnb {
-    align-self: stretch;
-    background-color: var(--primary-normal);
-    padding: 0 var(--padding-13xl);
-    justify-content: center;
-    cursor: pointer;
-    text-align: left;
-    font-size: var(--label-1-regular-size);
-    color: var(--background-normal);
-    font-family: var(--body-2-regular);
-  }
+.headerWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  background-color: var(--primary-normal);
+  padding: 0 var(--padding-13xl);
+  justify-content: center;
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--label-1);
+  color: var(--background-normal);
+  font-family: var(--body-2);
+}
+
+.contentArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.tabMenuGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.tabMenuItem{
+  text-decoration: none;
+  box-sizing: border-box;
+  width: 120px;
+  padding: var(--padding-base) var(--padding-21xl);
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  opacity: 0.4;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.boldLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 28px;
+}
+
+.tabMenuItemActive {
+  text-decoration: none;
+  box-sizing: border-box;
+  width: 120px;
+  padding: var(--padding-base) var(--padding-21xl);
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: inset 0 -3px 0 0 var(--background-normal);
+}
+
+.buttonLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 24px;
+}
+
+.button {
+  padding: var(--padding-base);
+  justify-content: center;
+  font-size: var(--body-1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+}

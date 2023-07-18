@@ -1,5 +1,4 @@
 .modal {
-  margin-top: 7.5%;
   position: relative;
   border-radius: var(--br-base);
   background-color: var(--background-normal);
@@ -10,8 +9,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--gap-base);
-  max-width: 1000px;
-  max-height: 80%;
+  width: 950px;
+  height: 590px;
   overflow-y: scroll;
   text-align: left;
   font-size: var(--headline-1);

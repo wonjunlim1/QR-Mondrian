@@ -84,12 +84,18 @@ const OrderQueueModal = ({ onClose }) => {
         </button>
       </div>
       <div className={styles.contentWrapper}>
-        {pendingOrdersData.map((order) =>
-          order.sub_orders.map((subOrder) => (
+        {pendingOrdersData
+          .flatMap((order) =>
+            order.sub_orders.map((subOrder) => ({
+              table_number: order.table_number,
+              subOrder,
+            }))
+          )
+          .map(({ table_number, subOrder }, index, array) => (
             <div className={styles.orderWrapper}>
               <div className={styles.orderTitleArea}>
                 <div className={styles.orderTitleLabel}>
-                  테이블 {order.table_number}
+                  테이블 {table_number}
                 </div>
                 <div className={styles.divider} />
               </div>
@@ -100,7 +106,7 @@ const OrderQueueModal = ({ onClose }) => {
                       <div className={styles.mainMenuWrapper}>
                         <div className={styles.mainMenuLabel}>{menu.name}</div>
                         <div className={styles.mainMenuPrice}>
-                          {menu.price}원
+                          {menu.price.toLocaleString()}원
                         </div>
                       </div>
                       <div className={styles.optionMenuWrapper}>
@@ -110,7 +116,7 @@ const OrderQueueModal = ({ onClose }) => {
                               {option.name}
                             </div>
                             <div className={styles.optionMenuPrice}>
-                              {option.price}원
+                              {option.price.toLocaleString()}원
                             </div>
                           </div>
                         ))}
@@ -155,7 +161,14 @@ const OrderQueueModal = ({ onClose }) => {
                 </button>
               </div>
             </div>
-          ))
+          ))}
+
+        {pendingOrdersData.flatMap((order) => order.sub_orders).length % 2 !==
+          0 && (
+          <div
+            className={styles.orderWrapper}
+            style={{ visibility: "hidden" }}
+          ></div>
         )}
       </div>
     </div>

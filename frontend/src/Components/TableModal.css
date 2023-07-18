@@ -1,31 +1,49 @@
-.title,
-.xLChild {
+.modal {
   position: relative;
-}
-.title {
-  letter-spacing: -0.02em;
-  line-height: 32px;
-
-}
-.xLChild {
-  width: 18.5px;
-  height: 18.5px;
-}
-.xL {
-  width: 24px;
-  height: 24px;
-  padding: var(--padding-11xs);
+  border-radius: var(--br-base);
+  background-color: var(--background-normal);
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 var(--padding-13xl);
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
+  gap: var(--gap-base);
+  width: 950px;
+  height: 590px;
+  overflow-y: scroll;
+  text-align: left;
+  font-size: var(--headline-1);
+  color: var(--text-strong);
+  font-family: var(--body-2);
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; 
 }
-.header,
-.icon,
-.xL {
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+
+.modalHeader {
+  align-self: stretch;
+  padding: var(--padding-5xl) var(--padding-base) var(--padding-base)
+    var(--padding-13xl);
+  align-items: center;
+  justify-content: space-between;
   display: flex;
   flex-direction: row;
 }
-.icon {
+
+.modalHeaderTitle {
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  position: relative;
+}
+
+.iconWrapper {
+  display: flex;
+  flex-direction: row;
   cursor: pointer;
   border: 0;
   padding: var(--padding-5xs);
@@ -33,29 +51,53 @@
   align-items: flex-start;
   justify-content: flex-start;
 }
-.header {
-  align-self: stretch;
-  padding: var(--padding-5xl) var(--padding-base) var(--padding-base)
-    var(--padding-13xl);
-  align-items: center;
-  justify-content: space-between;
-}
-.divider,
-.label {
-  position: relative;
-}
-.label {
-  line-height: 24px;
-  font-weight: 700;
-}
-.divider {
-  align-self: stretch;
-  border-top: 1px solid var(--text-assitive);
+
+.icon {
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-11xs);
   box-sizing: border-box;
-  height: 1px;
-  border: 1px solid var(--line-strong);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
 }
-.titlearea {
+
+.iconChild {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.contentWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  padding: 0 0 0 0;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--gap-5xl);
+  cursor: pointer;
+  font-size: var(--title-2);
+  color: var(--text-normal);
+  overflow-y: auto;
+}
+
+.orderWrapper {
+  border-radius: var(--br-5xs);
+  background-color: var(--background-normal);
+  border: 1px solid var(--text-assistive);
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-5xl);
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xl);
+  flex-basis: calc(42% - var(--gap-5xl));
+}
+
+.orderTitleArea {
   align-self: stretch;
   display: flex;
   flex-direction: column;
@@ -64,136 +106,149 @@
   gap: var(--gap-5xs);
   color: var(--text-strong);
 }
-.label1,
-.price {
+
+.orderTitleLabel {
   position: relative;
-  letter-spacing: 0.01em;
-  line-height: 20px;
+  line-height: 24px;
   font-weight: 700;
 }
-.label1 {
-  display: flex;
-  align-items: center;
-  width: 110px;
-  height: 24px;
-  flex-shrink: 0;
-}
-.price {
-  flex: 1;
-  text-align: right;
-}
-.info {
+
+.divider {
   align-self: stretch;
+  border-top: 1px solid var(--text-assistive);
+  box-sizing: border-box;
+  height: 1px;
+}
+
+.orderContentWrapper {
   display: flex;
-  width: 320px;
   flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-.label2,
-.price1 {
-  position: relative;
-  letter-spacing: 0.01em;
-  line-height: 20px;
-}
-.label2 {
-  display: flex;
-  align-items: center;
-  width: 110px;
-  height: 20px;
-  flex-shrink: 0;
-}
-.price1 {
-  flex: 1;
-  text-align: right;
-}
-.optionGroup,
-.optionInfo {
-  display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-}
-.optionInfo {
-  width: 320px;
-  flex-direction: row;
-}
-.optionGroup {
   align-self: stretch;
-  flex-direction: column;
-  color: var(--text-alternative-1);
+  gap: var(--gap-29xl);
+  font-size: var(--label-3);
+  height: 200px;
+  overflow-y: scroll;
+  /*-ms-overflow-style: none; 
+  scrollbar-width: none; */
 }
-.order {
-  width: 176px;
+
+.orderContentColumn {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  display: flex;
+  gap: var(--gap-6xl);
+  width: 100%;
+}
+
+.orderContent {
+  width: 100%;
   display: flex;
   gap: var(--gap-5xs);
-}
-.optionGroup1,
-.order,
-.ordercolumn {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 }
-.optionGroup1 {
+
+.mainMenuWrapper {
   align-self: stretch;
-  display: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mainMenuLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.mainMenuPrice {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  font-weight: 700;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.optionMenuWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  align-self: stretch;
+  flex-direction: column;
   color: var(--text-alternative-1);
 }
-.ordercolumn {
+
+.optionMenuWrapperChild {
   display: flex;
-  max-height: 200px;
-  overflow-y:auto;
-  gap: var(--gap-21xl);
-  width:360px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  flex-direction: row;
 }
-.label7 {
+
+.optionMenuLabel {
   position: relative;
   letter-spacing: 0.01em;
   line-height: 20px;
   display: flex;
   align-items: center;
-  width: 110px;
-  height: 24px;
-  flex-shrink: 0;
 }
-.div1 {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-29xl);
-  font-size: var(--label-3-regular-size);
-  
-}
-.label13,
-.price12 {
+
+.optionMenuPrice {
   position: relative;
   letter-spacing: 0.01em;
-  line-height: 24px;
+  line-height: 20px;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+
 }
-.price12 {
-  font-size: var(--label-1-regular-size);
-  line-height: 28px;
-  font-weight: 700;
-}
-.info4 {
+
+.orderPriceArea {
   align-self: stretch;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  font-size: var(--body-1-bold-size);
+  font-size: var(--body-1);
 }
-.label14 {
+
+.orderPriceLabel{
   position: relative;
-  font-size: var(--label-1-regular-size);
   letter-spacing: 0.01em;
-  line-height: 28px;
-  font-family: var(--body-2-regular);
-  color: var(--background-normal);
-  text-align: left;
+  line-height: 24px;
 }
-.button {
+
+.orderPrice {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 24px;
+  font-size: var(--label-1);
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.buttonArea {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-5xs);
+}
+
+.buttonCompleted {
   cursor: pointer;
   border: 0;
   padding: var(--padding-xs) var(--padding-base);
@@ -205,111 +260,13 @@
   align-items: center;
   justify-content: center;
 }
-.plusIcon {
+
+.buttonCompletedLabel {
   position: relative;
-  width: 20px;
-  height: 20px;
-  display: none;
-}
-.label15 {
-  position: relative;
-  font-size: var(--label-1-regular-size);
+  font-size: var(--label-1);
   letter-spacing: 0.01em;
   line-height: 28px;
-  font-family: var(--body-2-regular);
-  color: var(--text-alternative-1);
+  font-family: var(--body-2);
+  color: var(--background-normal);
   text-align: left;
-}
-.button1,
-.buttongroup {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-5xs);
-}
-.button1 {
-  cursor: pointer;
-  border: 1px solid var(--line-strong);
-  padding: var(--padding-xs) var(--padding-base);
-  background-color: var(--fill-normal);
-  flex: 1;
-  border-radius: var(--br-5xs);
-}
-.buttongroup {
-  align-self: stretch;
-}
-.orderinfo {
-  border-radius: var(--br-5xs);
-  background-color: var(--background-normal);
-  border: 1px solid var(--text-assitive);
-  display: flex;
-  flex-direction: column;
-  padding: var(--padding-5xl);
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-5xl);
-  border: 1px solid var(--line-strong);
-  
-}
-.label16,
-.price25 {
-  position: relative;
-  line-height: 24px;
-}
-.price25 {
-  font-size: var(--label-1-regular-size);
-  letter-spacing: 0.01em;
-  line-height: 28px;
-}
-.scrollthumb {
-  position: relative;
-  border-radius: 40px;
-  background-color: var(--text-assitive);
-  width: 8px;
-  height: 143px;
-}
-.div {
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  padding: 0 var(--padding-5xs) 0 var(--padding-13xl);
-  /*align-items: flex-start;*/
-  /*justify-content: flex-start;*/
-  gap: var(--gap-5xl);
-  cursor: pointer;
-  font-size: var(--title-2-bold-size);
-  color: var(--text-normal);
-  
-  justify-content: center;
-  align-items: center;
-  
-}
-.modaltable {
-  
-  border-radius: var(--br-base);
-  background-color: var(--background-normal);
-  display: flex;
-  flex-direction: column;
-  padding: 0 0 var(--padding-13xl);
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-base);
-  min-width: 50%;
-  min-height: 50%;
-  max-width: 100%;
-  max-height: 100%;
-  text-align: left;
-  font-size: var(--headline-bold-size);
-  color: var(--text-strong);
-  font-family: var(--body-2-regular);
-  position: relative; 
-  width: 450px;
-
-}
-
-.outer-div {
-  height: 300px; /* Set a fixed height for the outer div */
-  overflow: auto; /* Enable scrolling for the outer div */
 }

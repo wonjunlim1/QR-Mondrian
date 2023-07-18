@@ -34,6 +34,7 @@ const OrderPage = () => {
   const [acceptedOrderCount, setAcceptedOrderCount] = useState(null);
   const [eventCounter, setEventCounter] = useState(0);
   const [selectedTableOrders, setSelectedTableOrders] = useState(null);
+  const [selectedTableId, setSelectedTableId] = useState(null);
 
   //Server address variable assignment
   const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
@@ -47,8 +48,9 @@ const OrderPage = () => {
     setOrderQueueModalPopupOpen(false);
   }, [eventCounter]);
 
-  const openTableModalPopup = useCallback((orders) => {
+  const openTableModalPopup = useCallback((orders, id) => {
     setSelectedTableOrders(orders);
+    setSelectedTableId(id);
     setTableModalPopupOpen(true);
   }, []);
 
@@ -80,9 +82,9 @@ const OrderPage = () => {
         const jsonData = await response.json();
         const combinedOrderData = jsonData.data.Accepted.reduce(
           (acc, order) => {
-            const { table_number, sub_orders } = order;
-            const tableMenus = sub_orders.flatMap(
-              (subOrder) => subOrder.main_menus
+            const { table_number, sub_orders, order_id } = order;
+            const tableMenus = sub_orders.flatMap((subOrder) =>
+              subOrder.main_menus.map((menu) => ({ ...menu, order_id }))
             );
             acc[table_number] = acc[table_number]
               ? acc[table_number].concat(tableMenus)
@@ -98,6 +100,7 @@ const OrderPage = () => {
             }
           )
         );
+        console.log(finalOrderData);
         setAcceptedOrdersData(finalOrderData);
         setAcceptedOrderCount(jsonData.data.Accepted.length);
         setPendingOrderCount(
@@ -151,11 +154,12 @@ const OrderPage = () => {
             </div>
             <div className={styles.tableList}>
               <div className={styles.tableRow}>
-                {Object.keys(acceptedOrdersData).map((tableId) => (
+                {Object.keys(acceptedOrdersData).map((tableId, index) => (
                   <div
+                    key={index}
                     className={styles.tableCard}
                     onClick={() =>
-                      openTableModalPopup(acceptedOrdersData[tableId])
+                      openTableModalPopup(acceptedOrdersData[tableId], tableId)
                     }
                   >
                     <div className={styles.tableContentWrapper}>
@@ -165,8 +169,11 @@ const OrderPage = () => {
                       <div className={styles.orderContentWrapper}>
                         {acceptedOrdersData[tableId]
                           .slice(0, 4)
-                          .map((order) => (
-                            <div className={styles.orderContent}>
+                          .map((order, orderIndex) => (
+                            <div
+                              className={styles.orderContent}
+                              key={orderIndex}
+                            >
                               <div className={styles.menuAreaWrapper}>
                                 <div className={styles.menuArea}>
                                   <div className={styles.menuLabel}>
@@ -240,6 +247,7 @@ const OrderPage = () => {
           <TableModal
             onClose={closeTableModalPopup}
             orders={selectedTableOrders}
+            id={selectedTableId}
             setEventCounter={setEventCounter}
           />
         </PortalPopup>

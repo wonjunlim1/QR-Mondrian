@@ -103,8 +103,8 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
               </div>
               <div className={styles.orderContentWrapper}>
                 <div className={styles.orderContentColumn}>
-                  {subOrder.main_menus.map((menu) => (
-                    <div className={styles.orderContent}>
+                  {subOrder.main_menus.map((menu, index) => (
+                    <div className={styles.orderContent} key={index}>
                       <div className={styles.mainMenuWrapper}>
                         <div className={styles.mainMenuLabel}>{menu.name}</div>
                         <div className={styles.mainMenuPrice}>
@@ -112,8 +112,11 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
                         </div>
                       </div>
                       <div className={styles.optionMenuWrapper}>
-                        {menu.option_menus.map((option) => (
-                          <div className={styles.optionMenuWrapperChild}>
+                        {menu.option_menus.map((option, index) => (
+                          <div
+                            className={styles.optionMenuWrapperChild}
+                            key={index}
+                          >
                             <div className={styles.optionMenuLabel}>
                               {option.name}
                             </div>

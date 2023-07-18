@@ -38,7 +38,7 @@ const MenuPage = () => {
 
   /** Event Handlers */
 
-  // Function to handle click on button
+  // Function to handle click on status button
   const onStatusButtonClick = async (id, state) => {
     const stateNum = state ? 0 : 1;
     const data = {
@@ -65,6 +65,7 @@ const MenuPage = () => {
     }
   };
 
+  // Function to handle click on delete button
   const onDeleteButtonClick = async (id, type) => {
     try {
       const response = await fetch(
@@ -80,6 +81,7 @@ const MenuPage = () => {
     }
   };
 
+  // Function to handle click on edit button
   const onMenuEditButtonClick = useCallback(
     (id) => {
       navigate(
@@ -94,6 +96,7 @@ const MenuPage = () => {
     [navigate, isHQUser, isBranchUser, restaurantId, branchId]
   );
 
+  // Function to handle navigate on edit button click
   const onDisplayOrderButtonClick = useCallback(() => {
     navigate(
       `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(

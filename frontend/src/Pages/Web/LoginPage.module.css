@@ -19,10 +19,12 @@
 }
 
 .logoImage {
-  width: 352px;
+  width: 387.2px;
   height: 352px;
   margin-bottom: var(--gap-5xl);
   object-fit: cover;
+  border: 0px solid transparent;
+  border-radius: var(--br-5xs) ; 
 }
 
 .inputLabel {

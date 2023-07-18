@@ -7,7 +7,7 @@ import {
 } from "amazon-cognito-identity-js";
 import { useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
-import logoImage from "../../Assets/Images/logo.jpeg";
+import logoImage from "../../Assets/Images/logo.jpg";
 import { encryptUrlParams } from "../../utils/encryption";
 
 function LoginPage() {

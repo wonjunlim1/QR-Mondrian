@@ -1,11 +1,19 @@
-const express = require("express");
-const router = express.Router();
-const webOrderController = require("../../controller/webOrderController");
+var express = require('express');
+var router = express.Router();
 
-/** Get all menu for restaurant_id > :branch_id */
-router.get("/:restaurant_id/:branch_id/", webOrderController.getAllOrders);
 
-/** Put order status for restaurant_id > :branch_id */
-router.put("/:restaurant_id/:branch_id/", webOrderController.putOrderStatus);
+/* GET home page. */
+router.get('/', function (req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+/** Menu view for mobile & web */
+router.use('/menu', require('./menu'))
+
+/** Cart view for mobile */
+router.use('/cart_m', require('./cart_m'))
+
+/** Order view for web */
+router.use('/order_w', require('./order_w'))
 
 module.exports = router;

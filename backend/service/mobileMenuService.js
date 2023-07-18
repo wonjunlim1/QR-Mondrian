@@ -1,5 +1,13 @@
-const { Restaurant, Branch, BranchMenuStatus, MainCategory, MainMenu, OptionCategory, OptionMenu } = require('../models');
-const sequelize = require('sequelize');
+const {
+  Restaurant,
+  Branch,
+  BranchMenuStatus,
+  MainCategory,
+  MainMenu,
+  OptionCategory,
+  OptionMenu,
+} = require("../models");
+const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
 module.exports = {
@@ -21,11 +29,10 @@ module.exports = {
         ],
       });
 
-
-
       const formattedMenu = mainCategories.map((mainCategory) => {
         return {
           category_name: mainCategory.name,
+          id: mainCategory.id,
           display_order: mainCategory.display_order,
           main_menus: mainCategory.MainMenus.map((mainMenu) => {
             return {
@@ -35,7 +42,7 @@ module.exports = {
               description: mainMenu.description,
               image_url: mainMenu.image_url,
               display_order: mainMenu.display_order,
-              menu_status: mainMenu.BranchMenuStatuses[0].active
+              menu_status: mainMenu.BranchMenuStatuses[0].active,
             };
           }),
         };
@@ -55,11 +62,15 @@ module.exports = {
     } catch (error) {
       throw error;
     }
-
   },
 
   /* Get Detail Mobile Menu */
-  getMobileMenuDetail: async (restaurant_id, branch_id, table_number, menu_id) => {
+  getMobileMenuDetail: async (
+    restaurant_id,
+    branch_id,
+    table_number,
+    menu_id
+  ) => {
     try {
       const menu = await MainMenu.findOne({
         where: { id: menu_id },
@@ -91,6 +102,7 @@ module.exports = {
         option_categories: menu.OptionCategories.map((optionCategory) => {
           return {
             option_category_name: optionCategory.name,
+            id: optionCategory.id,
             display_order: optionCategory.display_order,
             option_menus: optionCategory.OptionMenus.map((optionMenu) => {
               return {
@@ -114,12 +126,12 @@ module.exports = {
           optionMenus.sort((a, b) => a.display_order - b.display_order);
         }
       }
-      formattedMenu.option_categories.sort((a, b) => a.display_order - b.display_order);
-      return { 'menu_details': formattedMenu }
-
+      formattedMenu.option_categories.sort(
+        (a, b) => a.display_order - b.display_order
+      );
+      return { menu_details: formattedMenu };
     } catch (error) {
       throw error;
     }
-
   },
-}
+};

@@ -1,5 +1,6 @@
 import CryptoJS from "crypto-js";
 
+//Secret key variable assignments
 const secretKey = process.env.REACT_APP_CRYPTO_JS_KEY;
 
 // Function to encode parameters from url

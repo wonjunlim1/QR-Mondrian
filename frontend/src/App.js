@@ -8,6 +8,7 @@ import {
 
 import WebLoginPage from "./Pages/Web/LoginPage";
 import WebOrderPage from "./Pages/Web/OrderPage";
+import WebMenuPage from "./Pages/Web/MenuPage";
 import MobileMenuPage from "./Pages/Mobile/MenuPage";
 import MobileMenuDetailPage from "./Pages/Mobile/MenuDetailPage";
 import MobileCartPage from "./Pages/Mobile/CartPage";
@@ -48,6 +49,9 @@ function PageHandler() {
     } else if (mainPath === "order_w") {
       title = "Order";
       metaDescription = "This is the Web Order Page";
+    } else if (mainPath === "menu_w") {
+      title = "Menu";
+      metaDescription = "This is the Web Menu Page";
     } else {
       title = "SPQR";
       metaDescription = "";
@@ -90,6 +94,10 @@ function App() {
         <Route
           path="/order_w/:restaurant_id/:branch_id/"
           element={<WebOrderPage />}
+        />
+        <Route
+          path="/menu_w/:restaurant_id/:branch_id/"
+          element={<WebMenuPage />}
         />
       </Routes>
     </Router>

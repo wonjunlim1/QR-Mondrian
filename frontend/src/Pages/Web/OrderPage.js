@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import OrderQueueModal from "../../Components/OrderQueueModal";
 import PortalPopup from "../../Components/PortalPopup";
-import ModalTable from "../../Components/ModalTable";
+import TableModal from "../../Components/TableModal";
 import WebHeader from "../../Components/WebHeader";
 import styles from "./OrderPage.module.css";
 import { decryptUrlParams } from "../../utils/encryption";
@@ -28,11 +28,12 @@ const OrderPage = () => {
   // Initializing states
   const [isOrderQueueModalPopupOpen, setOrderQueueModalPopupOpen] =
     useState(false);
-  const [isModalTablePopupOpen, setModalTablePopupOpen] = useState(false);
+  const [isTableModalPopupOpen, setTableModalPopupOpen] = useState(false);
   const [acceptedOrdersData, setAcceptedOrdersData] = useState(null);
   const [pendingOrderCount, setPendingOrderCount] = useState(null);
   const [acceptedOrderCount, setAcceptedOrderCount] = useState(null);
   const [eventCounter, setEventCounter] = useState(0);
+  const [selectedTableOrders, setSelectedTableOrders] = useState(null);
 
   //Server address variable assignment
   const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
@@ -46,13 +47,14 @@ const OrderPage = () => {
     setOrderQueueModalPopupOpen(false);
   }, [eventCounter]);
 
-  const openModalTablePopup = useCallback(() => {
-    setModalTablePopupOpen(true);
+  const openTableModalPopup = useCallback((orders) => {
+    setSelectedTableOrders(orders);
+    setTableModalPopupOpen(true);
   }, []);
 
-  const closeModalTablePopup = useCallback(() => {
+  const closeTableModalPopup = useCallback(() => {
     setEventCounter(eventCounter + 1);
-    setModalTablePopupOpen(false);
+    setTableModalPopupOpen(false);
   }, [eventCounter]);
 
   /** Effect Hooks */
@@ -147,166 +149,71 @@ const OrderPage = () => {
                 <div className={styles.buttonLabel}>신규주문</div>
               </div>
             </div>
-            <div className={styles.cardlist}>
-              <div className={styles.row}>
-                <div className={styles.tabelCard} onClick={openModalTablePopup}>
-                  <div className={styles.div}>
-                    <b className={styles.title2}>테이블 1</b>
-                    <div className={styles.orderinfo}>
-                      <div className={styles.orderlist}>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <div className={styles.label1}>메뉴 이름</div>
-                            <div className={styles.option}>옵션 N개</div>
+            <div className={styles.tableList}>
+              <div className={styles.tableRow}>
+                {Object.keys(acceptedOrdersData).map((tableId) => (
+                  <div
+                    className={styles.tableCard}
+                    onClick={() =>
+                      openTableModalPopup(acceptedOrdersData[tableId])
+                    }
+                  >
+                    <div className={styles.tableContentWrapper}>
+                      <b className={styles.tableContentTitle}>
+                        테이블 {tableId}
+                      </b>
+                      <div className={styles.orderContentWrapper}>
+                        {acceptedOrdersData[tableId]
+                          .slice(0, 4)
+                          .map((order) => (
+                            <div className={styles.orderContent}>
+                              <div className={styles.menuAreaWrapper}>
+                                <div className={styles.menuArea}>
+                                  <div className={styles.menuLabel}>
+                                    {order.name}
+                                  </div>
+                                  <div className={styles.optionLabel}>
+                                    옵션 {order.option_menus.length}개
+                                  </div>
+                                </div>
+                                <div className={styles.orderPrice}>
+                                  {(
+                                    order.price +
+                                    order.option_menus.reduce(
+                                      (acc, curr) => acc + curr.price,
+                                      0
+                                    )
+                                  ).toLocaleString()}
+                                  원
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        {acceptedOrdersData[tableId].length > 4 && (
+                          <div className={styles.extraLabel}>
+                            그 외 {acceptedOrdersData[tableId].length - 4}개
                           </div>
-                          <div className={styles.value1}>10,000원</div>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <div className={styles.label1}>메뉴 이름</div>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <div className={styles.value1}>10,000원</div>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <div className={styles.label1}>메뉴 이름</div>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <div className={styles.value1}>10,000원</div>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <div className={styles.label1}>메뉴 이름</div>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <div className={styles.value1}>10,000원</div>
-                        </div>
+                        )}
                       </div>
-                      <div className={styles.label5}>그 외 N개</div>
+                    </div>
+                    <div className={styles.orderTotalPrice}>
+                      총 주문금액{" "}
+                      {acceptedOrdersData[tableId]
+                        .reduce(
+                          (total, order) =>
+                            total +
+                            order.price +
+                            order.option_menus.reduce(
+                              (acc, curr) => acc + curr.price,
+                              0
+                            ),
+                          0
+                        )
+                        .toLocaleString()}
+                      원
                     </div>
                   </div>
-                  <div className={styles.value5}>총 주문금액 20,000원</div>
-                </div>
-                <div className={styles.tabelCard} onClick={openModalTablePopup}>
-                  <div className={styles.div}>
-                    <b className={styles.title2}>테이블 2</b>
-                    <div className={styles.orderinfo}>
-                      <div className={styles.orderlist}>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                      </div>
-                      <b className={styles.label10}>그 외 N개</b>
-                    </div>
-                  </div>
-                  <b className={styles.value10}>총 주문금액 20,000원</b>
-                </div>
-                <div className={styles.tabelCard} onClick={openModalTablePopup}>
-                  <div className={styles.div}>
-                    <b className={styles.title2}>테이블 3</b>
-                    <div className={styles.orderinfo}>
-                      <div className={styles.orderlist}>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                      </div>
-                      <b className={styles.label10}>그 외 N개</b>
-                    </div>
-                  </div>
-                  <b className={styles.value10}>총 주문금액 20,000원</b>
-                </div>
-              </div>
-              <div className={styles.row}>
-                <div className={styles.tabelCard} onClick={openModalTablePopup}>
-                  <div className={styles.div}>
-                    <b className={styles.title2}>테이블 4</b>
-                    <div className={styles.orderinfo}>
-                      <div className={styles.orderlist}>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                        <div className={styles.titlearea}>
-                          <div className={styles.div1}>
-                            <b className={styles.label6}>메뉴 이름</b>
-                            <div className={styles.option}>옵션 N개</div>
-                          </div>
-                          <b className={styles.value6}>10,000원</b>
-                        </div>
-                      </div>
-                      <b className={styles.label10}>그 외 N개</b>
-                    </div>
-                  </div>
-                  <b className={styles.value10}>총 주문금액 20,000원</b>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -324,13 +231,17 @@ const OrderPage = () => {
           />
         </PortalPopup>
       )}
-      {isModalTablePopupOpen && (
+      {isTableModalPopupOpen && (
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"
           placement="Centered"
-          onOutsideClick={closeModalTablePopup}
+          onOutsideClick={closeTableModalPopup}
         >
-          <ModalTable onClose={closeModalTablePopup} />
+          <TableModal
+            onClose={closeTableModalPopup}
+            orders={selectedTableOrders}
+            setEventCounter={setEventCounter}
+          />
         </PortalPopup>
       )}
     </>

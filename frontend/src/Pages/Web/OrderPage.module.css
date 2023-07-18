@@ -1,3 +1,14 @@
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: var(--background-alternative); /* Set the desired background color */
+}
+
 .web {
   position: relative;
   justify-content: flex-start;
@@ -99,91 +110,26 @@
   text-align: left;
 }
 
-.titlearea {
+.tableList {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-self: stretch;
-  justify-content: space-between;
-}
-.title2 {
-  align-self: stretch;
-  line-height: 24px;
-}
-.label1,
-.option,
-.title2 {
-  position: relative;
-}
-.label1 {
-  letter-spacing: 0.01em;
-  line-height: 20px;
-  font-weight: 700;
-}
-.option {
-  font-size: var(--caption-1);
-  letter-spacing: 0.03em;
-  line-height: 16px;
-  color: var(--text-alternative-2);
-}
-.div1 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: var(--gap-5xs);
-}
-.value1 {
-  position: relative;
-  font-size: var(--caption-1);
-  letter-spacing: 0.03em;
-  line-height: 16px;
-  font-weight: 700;
-}
-.orderlist {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-9xs);
-}
-.label5 {
-  position: relative;
-  font-size: var(--caption-1);
-  letter-spacing: 0.03em;
-  line-height: 16px;
-  font-weight: 700;
-  display: inline-block;
-  width: 320px;
-}
-.div,
-.orderinfo {
-  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.orderinfo {
   align-self: stretch;
-  gap: var(--gap-5xs);
-  font-size: var(--label-3);
-  color: var(--text-alternative-1);
+  gap: var(--gap-5xl);
+  font-size: var(--title-2);
+  width: 100%;
+  
 }
-.div {
-  width: 320px;
+
+.tableRow {
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
   gap: var(--gap-base);
 }
-.value5 {
-  position: relative;
-  font-size: var(--body-1);
-  letter-spacing: 0.01em;
-  line-height: 24px;
-  font-weight: 700;
-  display: inline-block;
-  width: 320px;
-}
-.tabelCard {
+
+.tableCard {
   border-radius: var(--br-base);
   background-color: var(--background-normal);
   display: flex;
@@ -193,51 +139,111 @@
   justify-content: flex-start;
   gap: var(--gap-5xl);
   cursor: pointer;
+  overflow-x: hidden;
 }
-.label6 {
+
+.tableContentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 180px;
+  align-self: stretch;
+  gap: var(--gap-base);
+  overflow-x: hidden;
+}
+
+.tableContentTitle {
+  align-self: stretch;
+  line-height: 24px;
+  position: relative;
+}
+
+.orderContentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  gap: var(--gap-5xs);
+  font-size: var(--label-3);
+  color: var(--text-alternative-1);
+}
+
+.orderContent {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-9xs);
+}
+
+.menuAreaWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+}
+
+.menuArea {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+}
+
+.menuLabel {
+  align-self: stretch;
   position: relative;
   letter-spacing: 0.01em;
   line-height: 20px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.label10,
-.value10,
-.value6 {
+
+.optionLabel {
+  align-self: stretch;
+  position: relative;
+  font-size: var(--caption-1);
+  letter-spacing: 0.03em;
+  line-height: 20px;
+  color: var(--text-alternative-2);
+  white-space: nowrap;
+}
+
+.orderPrice {
+  margin-left: var(--gap-9xs);
+  align-self: stretch;
+  position: relative;
+  font-size: var(--caption-1);
+  letter-spacing: 0.03em;
+  line-height: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.extraLabel {
   position: relative;
   font-size: var(--caption-1);
   letter-spacing: 0.03em;
   line-height: 16px;
-}
-.label10,
-.value10 {
+  font-weight: 700;
   display: inline-block;
   width: 320px;
 }
-.value10 {
+
+.orderTotalPrice {
+  position: relative;
   font-size: var(--body-1);
   letter-spacing: 0.01em;
   line-height: 24px;
-}
-.row {
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-base);
-}
-.cardlist {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: var(--gap-5xl);
-  font-size: var(--title-2);
-}
-.contentArea{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 1136px;
-  justify-content: center;
-  gap: var(--gap-base);
+  font-weight: 700;
+  display: inline-block;
+  width: 320px;
 }

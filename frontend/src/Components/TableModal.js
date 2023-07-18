@@ -1,77 +1,19 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { decryptUrlParams } from "../utils/encryption";
-import styles from "./OrderQueueModal.module.css";
+import styles from "./TableModal.module.css";
 import deleteIcon from "../Assets/Images/delete.svg";
 
-const OrderQueueModal = ({ onClose, setEventCounter }) => {
+const TableModal = ({ onClose, orders, setEventCounter }) => {
   // Initializing states
-  const [pendingOrdersData, setPendingOrdersData] = useState(null);
-  const [buttonClickCounter, setButtonClickCounter] = useState(0);
-
-  //Server address variable assignment
-  const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
-
-  // Extracting params from URL
-  const { restaurant_id: encodedRestaurantId, branch_id: encodedBranchId } =
-    useParams();
-
-  // Decoding params
-  const restaurantId = decryptUrlParams(encodedRestaurantId);
-  const branchId = decryptUrlParams(encodedBranchId);
+  const acceptedOrdersData = orders;
 
   /** Event Handlers */
 
   // Function to handle click on button
   const onButtonClick = async (id, action) => {
-    setButtonClickCounter(buttonClickCounter + 1);
     setEventCounter((prevCounter) => prevCounter + 1);
-    const data = {
-      update_sub_order: [
-        {
-          sub_order_id: id,
-          order_status: action,
-        },
-      ],
-    };
-    try {
-      const response = await fetch(
-        `${serverAddress}/order_w/${restaurantId}/${branchId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
-  /** Use Effect */
-
-  // Effect to fetch order data
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const response = await fetch(
-          `${serverAddress}/order_w/${restaurantId}/${branchId}`
-        );
-        const jsonData = await response.json();
-        setPendingOrdersData(jsonData.data.Pending);
-      } catch (error) {
-        console.log("Error fetching menu data:", error);
-      }
-    };
-
-    fetchOrderData();
-  }, [serverAddress, restaurantId, branchId, buttonClickCounter]);
-
   // Return null while data is loading
-  if (!pendingOrdersData) {
+  if (!acceptedOrdersData) {
     return <div></div>;
   }
 
@@ -86,7 +28,7 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
         </button>
       </div>
       <div className={styles.contentWrapper}>
-        {pendingOrdersData
+        {acceptedOrdersData
           .flatMap((order) =>
             order.sub_orders.map((subOrder) => ({
               table_number: order.table_number,
@@ -165,7 +107,7 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
             </div>
           ))}
 
-        {pendingOrdersData.flatMap((order) => order.sub_orders).length % 2 !==
+        {acceptedOrdersData.flatMap((order) => order.sub_orders).length % 2 !==
           0 && (
           <div
             className={styles.orderWrapper}
@@ -177,4 +119,4 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
   );
 };
 
-export default OrderQueueModal;
+export default TableModal;

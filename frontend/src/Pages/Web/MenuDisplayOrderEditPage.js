@@ -1,15 +1,11 @@
 import React from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+//import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import WebHeader from "../../Components/WebHeader";
 import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
 import styles from "./MenuDisplayOrderEditPage.module.css";
-import deleteIcon from "../../Assets/Images/delete.svg";
-import editIcon from "../../Assets/Images/edit.svg";
-import pauseIcon from "../../Assets/Images/pause.svg";
-import playIcon from "../../Assets/Images/play.svg";
-import plusIcon from "../../Assets/Images/plus-white.svg";
-//import dragIcon from "../../Assets/Images/drag.svg";
+import dragIcon from "../../Assets/Images/drag.svg";
 
 const MenuDisplayOrderEditPage = () => {
   // Navigation and location utility from React Router
@@ -22,6 +18,7 @@ const MenuDisplayOrderEditPage = () => {
   // Initializing states
   const [menuData, setMenuData] = useState(null);
   const [eventCounter, setEventCounter] = useState(0);
+  const [categoryInputValue, setCategoryInputValue] = useState("");
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
@@ -38,20 +35,22 @@ const MenuDisplayOrderEditPage = () => {
 
   /** Event Handlers */
 
-  // Function to handle click on button
-  const onStatusButtonClick = async (id, state) => {
-    const stateNum = state ? 0 : 1;
+  // Function to handle click on category add button
+  const onAddNewCategoryButtonClick = async () => {
+    const maxDisplayOrder = Math.max(
+      ...menuData.map((item) => item.display_order)
+    );
     const data = {
-      menu_status_change: {
-        menu_id: id,
-        status: stateNum,
+      create_menu_category: {
+        category_name: categoryInputValue,
+        display_order: maxDisplayOrder + 1,
       },
     };
     try {
       const response = await fetch(
-        `${serverAddress}/menu_w/${restaurantId}/${branchId}`,
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/edit`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -65,51 +64,46 @@ const MenuDisplayOrderEditPage = () => {
     }
   };
 
-  const onDeleteButtonClick = async (id, type) => {
+  // Function to handle click on edit submit button
+  const onEditSubmitButtonClick = async () => {
+    const data = {};
+    navigate(
+      `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(branchId)}`,
+      {
+        state: { isHQUser, isBranchUser },
+      }
+    );
     try {
       const response = await fetch(
-        `${serverAddress}/menu_w/${restaurantId}/${branchId}/${type}/${id}`,
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/edit`,
         {
-          method: "DELETE",
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         }
       );
       console.log(response);
-      setEventCounter(eventCounter + 1);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onMenuEditButtonClick = useCallback(
-    (id) => {
+  /** Effect Hooks */
+
+  // Effect to redirect user according to their authorization
+  useEffect(() => {
+    if (isBranchUser && !isHQUser) {
       navigate(
         `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
           branchId
-        )}/${encryptUrlParams(id)}/edit`,
+        )}`,
         {
           state: { isHQUser, isBranchUser },
         }
       );
-    },
-    [navigate, isHQUser, isBranchUser, restaurantId, branchId]
-  );
-
-  const onDisplayOrderButtonClick = useCallback(() => {
-    navigate(
-      `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
-        branchId
-      )}/edit`,
-      {
-        state: { isHQUser, isBranchUser },
-      }
-    );
-  }, [navigate, isHQUser, isBranchUser, restaurantId, branchId]);
-
-  /** Effect Hooks */
-
-  // Effect to redirect user if not logged in
-  useEffect(() => {
-    if (!isHQUser && !isBranchUser) {
+    } else if (!isHQUser && !isBranchUser) {
       navigate(`/login_w`);
     }
   }, [navigate, isHQUser, isBranchUser, restaurantId, branchId]);
@@ -149,16 +143,22 @@ const MenuDisplayOrderEditPage = () => {
         <div className={styles.contentWrapper} id="current_menu_body">
           <div className={styles.titleArea} id="title_div">
             <div className={styles.titleWrapper}>
-              <h1 className={styles.titleLabel}>현재 메뉴</h1>
+              <h1 className={styles.titleLabel}>메뉴 카테고리 추가</h1>
             </div>
-            {isHQUser && (
-              <button
-                className={styles.buttonWrapper}
-                onClick={onDisplayOrderButtonClick}
-              >
-                <div className={styles.buttonLabel}>메뉴 순서 변경</div>
-              </button>
-            )}
+            <input
+              className={styles.inputWrapper}
+              type="text"
+              maxLength="10"
+              minLength="5"
+              value={categoryInputValue}
+              onChange={(e) => setCategoryInputValue(e.target.value)}
+            />
+            <button
+              className={styles.buttonWrapper}
+              onClick={onAddNewCategoryButtonClick}
+            >
+              <div className={styles.buttonLabel}>추가하기</div>
+            </button>
           </div>
           {menuData.map((menuCategory, index) => (
             <div key={index} className={styles.layout} id="category_card">
@@ -169,31 +169,16 @@ const MenuDisplayOrderEditPage = () => {
                 <h2 className={styles.categoryTitleLabel}>
                   {menuCategory.category_name}
                 </h2>
-                {isHQUser && (
-                  <button className={styles.iconWrapper}>
-                    <div
-                      className={styles.icon}
-                      onClick={() => {
-                        const confirmMessage =
-                          "메뉴 구분을 정말 삭제하시겠습니까?";
-                        if (window.confirm(confirmMessage)) {
-                          onDeleteButtonClick(menuCategory.id, 1);
-                        }
-                      }}
-                    >
-                      <img alt="" src={deleteIcon} />
-                    </div>
-                  </button>
-                )}
+                <div className={styles.iconWrapper}>
+                  <div className={styles.icon}>
+                    <img alt="" src={dragIcon} />
+                  </div>
+                </div>
               </div>
               <div className={styles.menuRow} id="menu_card_row">
                 {menuCategory.main_menus.map((menuItem, index) => (
                   <div
-                    className={
-                      menuItem.menu_status
-                        ? styles.menuCard
-                        : styles.menuCardInactive
-                    }
+                    className={styles.menuCard}
                     key={index}
                     id="menu_card_body"
                   >
@@ -201,98 +186,16 @@ const MenuDisplayOrderEditPage = () => {
                       className={styles.menuCardLayout}
                       id="menu_card_buttons"
                     >
-                      {isBranchUser && (
-                        <div
-                          className={
-                            menuItem.menu_status
-                              ? styles.activeStatusBadge
-                              : styles.inactiveStatusBadge
-                          }
-                          id="menu_stop"
-                        >
-                          <b
-                            className={
-                              menuItem.menu_status
-                                ? styles.activeStatusLabel
-                                : styles.inactiveStatusLabel
-                            }
-                          >
-                            {menuItem.menu_status ? "메뉴 On" : "메뉴 Off"}
-                          </b>
+                      <div className={styles.iconGroupWrapper}>
+                        <div className={styles.iconWrapper}>
+                          <div className={styles.icon}>
+                            <img alt="" src={dragIcon} />
+                          </div>
                         </div>
-                      )}
-                      <div
-                        className={
-                          menuItem.menu_status
-                            ? styles.iconGroupWrapper
-                            : styles.iconGroupWrapperInactive
-                        }
-                      >
-                        {isHQUser && (
-                          <button
-                            className={styles.iconWrapper}
-                            onClick={() => {
-                              onMenuEditButtonClick(menuItem.id);
-                            }}
-                          >
-                            <div className={styles.icon}>
-                              <img alt="" src={editIcon} />
-                            </div>
-                          </button>
-                        )}
-                        {isBranchUser && (
-                          <button
-                            className={styles.iconWrapper}
-                            onClick={() => {
-                              const confirmMessage = menuItem.menu_status
-                                ? "메뉴를 중지하시겠습니까?"
-                                : "메뉴를 재개하시겠습니까?";
-
-                              if (window.confirm(confirmMessage)) {
-                                onStatusButtonClick(
-                                  menuItem.id,
-                                  menuItem.menu_status
-                                );
-                              }
-                            }}
-                          >
-                            <div className={styles.icon}>
-                              <img
-                                alt=""
-                                src={
-                                  menuItem.menu_status ? pauseIcon : playIcon
-                                }
-                              />
-                            </div>
-                          </button>
-                        )}
-                        {isHQUser && (
-                          <button
-                            className={styles.iconWrapper}
-                            onClick={() => {
-                              const confirmMessage =
-                                "메뉴를 정말 삭제하시겠습니까?";
-                              if (window.confirm(confirmMessage)) {
-                                onDeleteButtonClick(menuItem.id, 0);
-                              }
-                            }}
-                          >
-                            <div className={styles.icon}>
-                              <img alt="" src={deleteIcon} />
-                            </div>
-                          </button>
-                        )}
                       </div>
                     </div>
 
-                    <div
-                      className={
-                        menuItem.menu_status
-                          ? styles.menuInfoLayout
-                          : styles.menuInfoLayoutInactive
-                      }
-                      id="menu_card"
-                    >
+                    <div className={styles.menuInfoLayout} id="menu_card">
                       {menuItem.image_url && (
                         <img
                           className={
@@ -306,14 +209,7 @@ const MenuDisplayOrderEditPage = () => {
                         />
                       )}
 
-                      <div
-                        className={
-                          menuItem.menu_status
-                            ? styles.menuContent
-                            : styles.menuContentInactive
-                        }
-                        id="menu_card_text"
-                      >
+                      <div className={styles.menuContent} id="menu_card_text">
                         <div className={styles.menuInfo}>
                           <h1 className={styles.menuName} id="menu_name">
                             {menuItem.name}
@@ -340,14 +236,15 @@ const MenuDisplayOrderEditPage = () => {
             </div>
           ))}
         </div>
-        {isHQUser && (
-          <div className={styles.floatingButtonWrapper} id="current_menu_down">
-            <button className={styles.floatingButton}>
-              <div className={styles.floatingButtonChild} />
-              <img className={styles.plusIcon} alt="" src={plusIcon} />
-            </button>
-          </div>
-        )}
+        <div
+          className={styles.submitButtonWrapper}
+          id="current_menu_down"
+          onClick={onEditSubmitButtonClick}
+        >
+          <button className={styles.submitButton}>
+            <b className={styles.submitButtonLabel}>수정 완료</b>
+          </button>
+        </div>
       </div>
     </>
   );

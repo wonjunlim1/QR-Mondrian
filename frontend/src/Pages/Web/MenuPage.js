@@ -126,7 +126,6 @@ const MenuPage = () => {
         );
         const jsonData = await response.json();
         setMenuData(jsonData.data.menu);
-        console.log(jsonData.data.menu);
       } catch (error) {
         console.log("Error fetching menu data:", error);
       }

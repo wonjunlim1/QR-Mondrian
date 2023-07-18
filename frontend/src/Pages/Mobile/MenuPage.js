@@ -9,6 +9,9 @@ const MenuPage = () => {
   // Navigation utility from React Router
   const navigate = useNavigate();
 
+  //Server address variable assignment
+  const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
+
   // Initializing states
   const [menuData, setMenuData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -92,7 +95,7 @@ const MenuPage = () => {
     const fetchMenuData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/menu_m/${restaurantId}/${branchId}/${tableNumber}`
+          `${serverAddress}/menu_m/${restaurantId}/${branchId}/${tableNumber}`
         );
         const jsonData = await response.json();
         /**
@@ -113,7 +116,7 @@ const MenuPage = () => {
     };
 
     fetchMenuData();
-  }, [restaurantId, branchId, tableNumber]);
+  }, [serverAddress, restaurantId, branchId, tableNumber]);
 
   // Effect to enable highlight change while user scrolls
   useEffect(() => {

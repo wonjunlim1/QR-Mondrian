@@ -12,6 +12,9 @@ const MenuDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  //Server address variable assignment
+  const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
+
   // Initializing states
   const [menuDetailData, setMenuDetailData] = useState(null);
   const [partialTotal, setPartialTotal] = useState(0);
@@ -184,7 +187,7 @@ const MenuDetailPage = () => {
     const fetchMenuDetailData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/menu_m/${restaurantId}/${branchId}/${tableNumber}/${menuId}`
+          `${serverAddress}/menu_m/${restaurantId}/${branchId}/${tableNumber}/${menuId}`
         );
         const jsonData = await response.json();
         const modifiedData = jsonData.data["menu details"];
@@ -223,7 +226,14 @@ const MenuDetailPage = () => {
       }
     };
     fetchMenuDetailData();
-  }, [restaurantId, branchId, tableNumber, menuId, currentTempId]);
+  }, [
+    serverAddress,
+    restaurantId,
+    branchId,
+    tableNumber,
+    menuId,
+    currentTempId,
+  ]);
 
   // Effect to calculate the total price when quantity or menu detail data changes
   useEffect(() => {

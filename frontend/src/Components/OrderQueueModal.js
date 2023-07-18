@@ -11,7 +11,6 @@ const OrderQueueModal = ({ onClose }) => {
 
   //Server address variable assignment
   const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
-  console.log(serverAddress);
 
   // Extracting params from URL
   const { restaurant_id: encodedRestaurantId, branch_id: encodedBranchId } =

@@ -15,6 +15,9 @@ const CartPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  //Server address variable assignment
+  const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
+
   // Initializing states
   const [pastOrdersData, setPastOrdersData] = useState(null);
   const [pastOrdersPrice, setPastOrdersPrice] = useState(0);
@@ -167,7 +170,7 @@ const CartPage = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/cart_m/${restaurantId}/${branchId}/${tableNumber}/`,
+          `${serverAddress}/cart_m/${restaurantId}/${branchId}/${tableNumber}/`,
           {
             method: "POST",
             headers: {
@@ -185,7 +188,7 @@ const CartPage = () => {
         console.log(response);
       } catch (error) {}
     }
-  }, [navigate, restaurantId, branchId, tableNumber]);
+  }, [navigate, serverAddress, restaurantId, branchId, tableNumber]);
 
   /** Effect Hooks */
 
@@ -195,7 +198,7 @@ const CartPage = () => {
     const fetchPastOrdersData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/cart_m/${restaurantId}/${branchId}/${tableNumber}`
+          `${serverAddress}/cart_m/${restaurantId}/${branchId}/${tableNumber}`
         );
         const jsonData = await response.json();
         const flattenedPastOrders = jsonData.data["past_orders"]
@@ -238,7 +241,7 @@ const CartPage = () => {
     };
 
     fetchPastOrdersData();
-  }, [restaurantId, branchId, tableNumber]);
+  }, [serverAddress, restaurantId, branchId, tableNumber]);
 
   // Effect to check and update current order data when the component mounts
   useEffect(() => {

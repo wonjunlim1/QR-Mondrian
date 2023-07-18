@@ -10,7 +10,7 @@
   text-align: left;
   font-size: var(--label-1);
   color: var(--background-normal);
-  font-family: var(--body-2);
+  font-family: var(--font-regular);
 }
 
 .contentArea {
@@ -46,7 +46,7 @@
 .boldLabel {
   position: relative;
   letter-spacing: 0.01em;
-  line-height: 40px;
+  line-height: 34px;
 }
 
 .tabMenuItemActive {
@@ -67,13 +67,13 @@
 .buttonLabel {
   position: relative;
   letter-spacing: 0.01em;
-  line-height: 36px;
+  line-height: 30px;
 }
 
 .button {
   padding: var(--padding-base);
   justify-content: center;
-  font-size: var(--label-1);
+  font-size: var(--body-1);
   display: flex;
   flex-direction: row;
   align-items: center;

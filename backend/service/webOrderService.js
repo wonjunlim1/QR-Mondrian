@@ -145,7 +145,10 @@ module.exports = {
       orderType = "order";
       orderId = close_order[0].order_id;
       try {
-        await Order.update({ order_status: 0 }, { where: { id: orderId } });
+        await Order.update(
+          { order_status: 0, updated_at: new Date() },
+          { where: { id: orderId } }
+        );
       } catch (error) {
         console.error(error);
       }
@@ -155,7 +158,7 @@ module.exports = {
       orderStatus = update_sub_order[0].order_status;
       try {
         await SubOrder.update(
-          { order_status: orderStatus },
+          { order_status: orderStatus, updated_at: new Date() },
           { where: { id: orderId } }
         );
       } catch (error) {
@@ -166,6 +169,4 @@ module.exports = {
     }
     return [orderType, orderId];
   },
-
-
 };

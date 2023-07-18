@@ -1,4 +1,5 @@
 const sequelize = require("sequelize");
+const webMenuService = require("../service/webMenuService");
 const webOrderService = require("../service/webOrderService");
 const ut = require("../modules/util");
 const rm = require("../modules/responseMessage");
@@ -33,7 +34,7 @@ module.exports = {
     }
   },
 
-  /* PUT: [ /:restaurant_id/:branch_id/] */
+  /* PUT: [ order_w/:restaurant_id/:branch_id/] */
   putOrderStatus: async (req, res) => {
     try {
       const currentRequest = req.body;
@@ -56,4 +57,53 @@ module.exports = {
         .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
     }
   },
+
+  /* PUT: [ menu_w/:restaurant_id/:branch_id] */
+  putMenuStatus: async (req, res) => {
+    const restaurant_id = req.params.restaurant_id;
+    const branch_id = req.params.branch_id;
+    const curr_request = req.body;
+
+    try {
+      const menu = await webMenuService.putMenuStatus(
+        restaurant_id,
+        branch_id,
+        curr_request
+      );
+      const menu_id = curr_request.menu_status_change.menu_id
+      return res
+        .status(sc.OK)
+        .send(ut.success(sc.OK, `Menu active status successfully updated for res_id: ${restaurant_id}, branch_id: ${branch_id}, and menu_id: ${menu_id}`));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(sc.INTERNAL_SERVER_ERROR)
+        .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    }
+  },
+
+  deleteMenuCategory: async (req, res) => {
+    const restaurant_id = req.params.restaurant_id;
+    const branch_id = req.params.branch_id;
+    const request_type = req.params.request_type;
+    const request_id = req.params.request_id;
+    console.log(request_type, request_id)
+    try {
+      const params = await webMenuService.deleteMenuCategory(
+        restaurant_id,
+        branch_id,
+        request_type,
+        request_id
+      );
+      return res
+        .status(sc.OK)
+        .send(ut.success(sc.OK));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(sc.INTERNAL_SERVER_ERROR)
+        .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    }
+  }
 };
+

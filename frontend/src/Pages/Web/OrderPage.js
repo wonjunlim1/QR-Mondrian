@@ -9,11 +9,9 @@ import styles from "./OrderPage.module.css";
 import { decryptUrlParams } from "../../utils/encryption";
 
 const OrderPage = () => {
+  // Navigation and location utility from React Router
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Initializing states
-  const [pendingOrdersData, setPendingOrdersData] = useState(null);
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
@@ -27,15 +25,16 @@ const OrderPage = () => {
   const restaurantId = decryptUrlParams(encodedRestaurantId);
   const branchId = decryptUrlParams(encodedBranchId);
 
-  const [isModalPopupOpen, setModalPopupOpen] = useState(false);
+  const [isOrderQueueModalPopupOpen, setOrderQueueModalPopupOpen] =
+    useState(false);
   const [isModalTablePopupOpen, setModalTablePopupOpen] = useState(false);
 
   const openOrderQueueModalPopup = useCallback(() => {
-    setModalPopupOpen(true);
+    setOrderQueueModalPopupOpen(true);
   }, []);
 
   const closeOrderQueueModalPopup = useCallback(() => {
-    setModalPopupOpen(false);
+    setOrderQueueModalPopupOpen(false);
   }, []);
 
   const openModalTablePopup = useCallback(() => {
@@ -47,23 +46,6 @@ const OrderPage = () => {
   }, []);
 
   /** Effect Hooks */
-
-  // Effect to fetch menu data once the component mounts
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/order_W/${restaurantId}/${branchId}`
-        );
-        const jsonData = await response.json();
-        setPendingOrdersData(jsonData.data.Pending);
-      } catch (error) {
-        console.log("Error fetching menu data:", error);
-      }
-    };
-
-    fetchOrderData();
-  }, [restaurantId, branchId]);
 
   // Effect to redirect user based on user type
   useEffect(() => {
@@ -267,16 +249,13 @@ const OrderPage = () => {
           </div>
         </div>
       </div>
-      {isModalPopupOpen && (
+      {isOrderQueueModalPopupOpen && (
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"
           placement="Centered"
           onOutsideClick={closeOrderQueueModalPopup}
         >
-          <OrderQueueModal
-            onClose={closeOrderQueueModalPopup}
-            pendingOrdersData={pendingOrdersData}
-          />
+          <OrderQueueModal onClose={closeOrderQueueModalPopup} />
         </PortalPopup>
       )}
       {isModalTablePopupOpen && (

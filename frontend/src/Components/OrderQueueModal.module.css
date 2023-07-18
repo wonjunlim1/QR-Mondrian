@@ -1,305 +1,297 @@
 .modal {
-    position: relative;
-    border-radius: var(--br-base);
-    background-color: var(--background-normal);
-    display: flex;
-    flex-direction: column;
-    padding: 0 0 var(--padding-13xl);
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    gap: var(--gap-base);
-    max-width: 100%;
-    max-height: 100%;
-    overflow: auto;
-    text-align: left;
-    font-size: var(--headline-1);
-    color: var(--text-strong);
-    font-family: var(--body-2);
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none; 
-  }
-  
-  .modal::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .modalHeader {
-    align-self: stretch;
-    padding: var(--padding-5xl) var(--padding-base) var(--padding-base)
-      var(--padding-13xl);
-    align-items: center;
-    justify-content: space-between;
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .modalHeaderTitle {
-    letter-spacing: -0.02em;
-    line-height: 32px;
-    position: relative;
-  }
-  
-  .iconWrapper {
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
-    border: 0;
-    padding: var(--padding-5xs);
-    background-color: transparent;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  
-  .icon {
-    width: 24px;
-    height: 24px;
-    padding: var(--padding-11xs);
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .iconChild {
-    position: relative;
-    width: 24px;
-    height: 24px;
-  }
-  
-  .contentWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; 
-    padding: 0 0 0 0;
-    align-items: flex-start;
-    justify-content: center;
-    gap: var(--gap-5xl);
-    cursor: pointer;
-    font-size: var(--title-2);
-    color: var(--text-normal);
-    overflow-y: auto;
-  }
-  
-  .orderWrapper {
-    border-radius: var(--br-5xs);
-    background-color: var(--background-normal);
-    border: 1px solid var(--text-assistive);
-    display: flex;
-    flex-direction: column;
-    padding: var(--padding-5xl);
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-5xl);
-    flex-basis: calc(42% - var(--gap-5xl));
-  }
-  
-  .orderTitleArea {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-5xs);
-    color: var(--text-strong);
-  }
-  
-  .orderTitleLabel {
-    position: relative;
-    line-height: 24px;
-    font-weight: 700;
-  }
-  
-  .divider {
-    align-self: stretch;
-    border-top: 1px solid var(--text-assistive);
-    box-sizing: border-box;
-    height: 1px;
-  }
-  
-  .orderContentWrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    gap: var(--gap-29xl);
-    font-size: var(--label-3);
-  }
-  
-  .orderContentColumn {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    display: flex;
-    gap: var(--gap-21xl);
-    width: 100%;
-  }
-  
-  .orderContent {
-    width: 100%;
-    display: flex;
-    gap: var(--gap-5xs);
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  
-  .mainMenuWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .mainMenuLabel {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 20px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-  }
-  
-  .mainMenuPrice {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 20px;
-    font-weight: 700;
-    flex: 1;
-    text-align: right;
-    white-space: nowrap;
-  }
-  
-  .optionMenuWrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    align-self: stretch;
-    flex-direction: column;
-    color: var(--text-alternative-1);
-  }
-  
-  .optionMenuWrapperChild {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    flex-direction: row;
-  }
-  
-  .optionMenuLabel {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 20px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .optionMenuPrice {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 20px;
-    flex: 1;
-    text-align: right;
-    white-space: nowrap;
-  
-  }
-  
-  .orderPriceArea {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    font-size: var(--body-1);
-  }
-  
-  .orderPriceLabel{
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 24px;
-  }
-  
-  .orderPrice {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 24px;
-    font-size: var(--label-1);
-    line-height: 28px;
-    font-weight: 700;
-  }
-  
-  .buttonArea {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: var(--gap-5xs);
-  }
-  
-  .buttonAccepted {
-    cursor: pointer;
-    border: 0;
-    padding: var(--padding-xs) var(--padding-base);
-    background-color: var(--primary-normal);
-    flex: 1;
-    border-radius: var(--br-5xs);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .buttonAcceptedLabel {
-    position: relative;
-    font-size: var(--label-1);
-    letter-spacing: 0.01em;
-    line-height: 28px;
-    font-family: var(--body-2);
-    color: var(--background-normal);
-    text-align: left;
-  }
-  
-  .buttonRejected {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: var(--gap-5xs);
-    cursor: pointer;
-    border: 1px solid var(--line-strong);
-    padding: var(--padding-xs) var(--padding-base);
-    background-color: var(--secondary-normal);
-    flex: 1;
-    border-radius: var(--br-5xs);
-  }
-  
-  .buttonRejectedLabel {
-    position: relative;
-    font-size: var(--label-1);
-    letter-spacing: 0.01em;
-    line-height: 28px;
-    font-family: var(--body-2);
-    color: var(--text-alternative-1);
-    text-align: left;
-  }
-  
-  
-  .label16,
-  .price25 {
-    position: relative;
-    line-height: 24px;
-  }
-  .price25 {
-    font-size: var(--label-1);
-    letter-spacing: 0.01em;
-    line-height: 28px;
-  }
-  
-  
+  margin-top: 7.5%;
+  position: relative;
+  border-radius: var(--br-base);
+  background-color: var(--background-normal);
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 var(--padding-13xl);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-base);
+  max-width: 1000px;
+  max-height: 80%;
+  overflow-y: scroll;
+  text-align: left;
+  font-size: var(--headline-1);
+  color: var(--text-strong);
+  font-family: var(--body-2);
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; 
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+
+.modalHeader {
+  align-self: stretch;
+  padding: var(--padding-5xl) var(--padding-base) var(--padding-base)
+    var(--padding-13xl);
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+}
+
+.modalHeaderTitle {
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  position: relative;
+}
+
+.iconWrapper {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-5xs);
+  background-color: transparent;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-11xs);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.iconChild {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.contentWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  padding: 0 0 0 0;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--gap-5xl);
+  cursor: pointer;
+  font-size: var(--title-2);
+  color: var(--text-normal);
+  overflow-y: auto;
+}
+
+.orderWrapper {
+  border-radius: var(--br-5xs);
+  background-color: var(--background-normal);
+  border: 1px solid var(--text-assistive);
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-5xl);
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xl);
+  flex-basis: calc(42% - var(--gap-5xl));
+}
+
+.orderTitleArea {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+  color: var(--text-strong);
+}
+
+.orderTitleLabel {
+  position: relative;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.divider {
+  align-self: stretch;
+  border-top: 1px solid var(--text-assistive);
+  box-sizing: border-box;
+  height: 1px;
+}
+
+.orderContentWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  gap: var(--gap-29xl);
+  font-size: var(--label-3);
+  height: 200px;
+  overflow-y: scroll;
+  /*-ms-overflow-style: none; 
+  scrollbar-width: none; */
+}
+
+.orderContentColumn {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  display: flex;
+  gap: var(--gap-13xl);
+  width: 100%;
+}
+
+.orderContent {
+  width: 100%;
+  display: flex;
+  gap: var(--gap-5xs);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.mainMenuWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mainMenuLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.mainMenuPrice {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  font-weight: 700;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.optionMenuWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  align-self: stretch;
+  flex-direction: column;
+  color: var(--text-alternative-1);
+}
+
+.optionMenuWrapperChild {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  flex-direction: row;
+}
+
+.optionMenuLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.optionMenuPrice {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+
+}
+
+.orderPriceArea {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--body-1);
+}
+
+.orderPriceLabel{
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 24px;
+}
+
+.orderPrice {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 24px;
+  font-size: var(--label-1);
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.buttonArea {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-5xs);
+}
+
+.buttonAccepted {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-xs) var(--padding-base);
+  background-color: var(--primary-normal);
+  flex: 1;
+  border-radius: var(--br-5xs);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonAcceptedLabel {
+  position: relative;
+  font-size: var(--label-1);
+  letter-spacing: 0.01em;
+  line-height: 28px;
+  font-family: var(--body-2);
+  color: var(--background-normal);
+  text-align: left;
+}
+
+.buttonRejected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-5xs);
+  cursor: pointer;
+  border: 1px solid var(--line-strong);
+  padding: var(--padding-xs) var(--padding-base);
+  background-color: var(--secondary-normal);
+  flex: 1;
+  border-radius: var(--br-5xs);
+}
+
+.buttonRejectedLabel {
+  position: relative;
+  font-size: var(--label-1);
+  letter-spacing: 0.01em;
+  line-height: 28px;
+  font-family: var(--body-2);
+  color: var(--text-alternative-1);
+  text-align: left;
+}

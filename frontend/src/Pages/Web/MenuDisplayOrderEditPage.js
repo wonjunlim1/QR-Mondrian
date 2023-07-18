@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
-//import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
+//import { Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import WebHeader from "../../Components/WebHeader";
 import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
@@ -160,81 +161,83 @@ const MenuDisplayOrderEditPage = () => {
               <div className={styles.buttonLabel}>추가하기</div>
             </button>
           </div>
-          {menuData.map((menuCategory, index) => (
-            <div key={index} className={styles.layout} id="category_card">
-              <div
-                className={styles.categoryTitleWrapper}
-                id="category_card_title"
-              >
-                <h2 className={styles.categoryTitleLabel}>
-                  {menuCategory.category_name}
-                </h2>
-                <div className={styles.iconWrapper}>
-                  <div className={styles.icon}>
-                    <img alt="" src={dragIcon} />
+          <DragDropContext>
+            {menuData.map((menuCategory, index) => (
+              <div key={index} className={styles.layout} id="category_card">
+                <div
+                  className={styles.categoryTitleWrapper}
+                  id="category_card_title"
+                >
+                  <h2 className={styles.categoryTitleLabel}>
+                    {menuCategory.category_name}
+                  </h2>
+                  <div className={styles.iconWrapper}>
+                    <div className={styles.icon}>
+                      <img alt="" src={dragIcon} />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.menuRow} id="menu_card_row">
-                {menuCategory.main_menus.map((menuItem, index) => (
-                  <div
-                    className={styles.menuCard}
-                    key={index}
-                    id="menu_card_body"
-                  >
+                <div className={styles.menuRow} id="menu_card_row">
+                  {menuCategory.main_menus.map((menuItem, index) => (
                     <div
-                      className={styles.menuCardLayout}
-                      id="menu_card_buttons"
+                      className={styles.menuCard}
+                      key={index}
+                      id="menu_card_body"
                     >
-                      <div className={styles.iconGroupWrapper}>
-                        <div className={styles.iconWrapper}>
-                          <div className={styles.icon}>
-                            <img alt="" src={dragIcon} />
+                      <div
+                        className={styles.menuCardLayout}
+                        id="menu_card_buttons"
+                      >
+                        <div className={styles.iconGroupWrapper}>
+                          <div className={styles.iconWrapper}>
+                            <div className={styles.icon}>
+                              <img alt="" src={dragIcon} />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className={styles.menuInfoLayout} id="menu_card">
-                      {menuItem.image_url && (
-                        <img
-                          className={
-                            menuItem.menu_status
-                              ? styles.menuImage
-                              : styles.menuImageInactive
-                          }
-                          alt=""
-                          src={menuItem.image_url}
-                          loading="lazy"
-                        />
-                      )}
+                      <div className={styles.menuInfoLayout} id="menu_card">
+                        {menuItem.image_url && (
+                          <img
+                            className={
+                              menuItem.menu_status
+                                ? styles.menuImage
+                                : styles.menuImageInactive
+                            }
+                            alt=""
+                            src={menuItem.image_url}
+                            loading="lazy"
+                          />
+                        )}
 
-                      <div className={styles.menuContent} id="menu_card_text">
-                        <div className={styles.menuInfo}>
-                          <h1 className={styles.menuName} id="menu_name">
-                            {menuItem.name}
-                          </h1>
+                        <div className={styles.menuContent} id="menu_card_text">
+                          <div className={styles.menuInfo}>
+                            <h1 className={styles.menuName} id="menu_name">
+                              {menuItem.name}
+                            </h1>
 
-                          {menuItem.description && (
-                            <h2
-                              className={styles.menuDescription}
-                              id="menu_explain"
-                            >
-                              {menuItem.description}
-                            </h2>
-                          )}
+                            {menuItem.description && (
+                              <h2
+                                className={styles.menuDescription}
+                                id="menu_explain"
+                              >
+                                {menuItem.description}
+                              </h2>
+                            )}
+                          </div>
+
+                          <h2 className={styles.menuPrice} id="menu_cost">
+                            {menuItem.price.toLocaleString()}원
+                          </h2>
                         </div>
-
-                        <h2 className={styles.menuPrice} id="menu_cost">
-                          {menuItem.price.toLocaleString()}원
-                        </h2>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </DragDropContext>
         </div>
         <div
           className={styles.submitButtonWrapper}

@@ -19,12 +19,14 @@ const {
     putMenuStatus: async (restaurant_id, branch_id, curr_request) => {
       const { menu_status_change } = curr_request;
       const { menu_id, status } = menu_status_change;
+      const branchId = branch_id;
       try {
         const affectedRows = await BranchMenuStatus.update(
           { active: status, updated_at: new Date() },
           {
             where: {
               main_menu_id: menu_id,
+              branch_id: branchId,
             },
             include: {
               model: Branch,

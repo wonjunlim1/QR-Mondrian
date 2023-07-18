@@ -22,6 +22,7 @@
   width: 352px;
   height: 352px;
   margin-bottom: var(--gap-5xl);
+  object-fit: cover;
 }
 
 .inputLabel {

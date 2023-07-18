@@ -3,6 +3,7 @@ import { useMemo, useCallback, useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "./PortalPopup.module.css";
 
+// PortalPopup Component
 const PortalPopup = ({
   children,
   overlayColor,
@@ -15,10 +16,12 @@ const PortalPopup = ({
   bottom = 0,
   relativeLayerRef,
 }) => {
+  // Initializing states
   const relContainerRef = useRef(null);
   const [relativeStyle, setRelativeStyle] = useState({
     opacity: 0,
   });
+  // Initializing memo
   const popupStyle = useMemo(() => {
     const style = {};
     style.zIndex = zIndex;
@@ -60,6 +63,7 @@ const PortalPopup = ({
     return style;
   }, [placement, overlayColor, zIndex, relativeLayerRef]);
 
+  // useCallback to set position
   const setPosition = useCallback(() => {
     const relativeItem = relativeLayerRef?.current?.getBoundingClientRect();
     const containerItem = relContainerRef?.current?.getBoundingClientRect();
@@ -101,6 +105,7 @@ const PortalPopup = ({
     }
   }, [left, right, top, bottom, placement, relativeLayerRef, relContainerRef]);
 
+  // useEffect to set default settings
   useEffect(() => {
     setPosition();
 
@@ -113,6 +118,7 @@ const PortalPopup = ({
     };
   }, [setPosition]);
 
+  // Handle modal outside click
   const onOverlayClick = useCallback(
     (e) => {
       if (
@@ -126,6 +132,7 @@ const PortalPopup = ({
     [onOutsideClick]
   );
 
+  // Render the component
   return (
     <Portal>
       <div
@@ -141,6 +148,7 @@ const PortalPopup = ({
   );
 };
 
+// Export portal
 export const Portal = ({ children, containerId = "portals" }) => {
   let portalsDiv = document.getElementById(containerId);
   if (!portalsDiv) {

@@ -190,7 +190,7 @@ const MenuDetailPage = () => {
           `${serverAddress}/menu/${restaurantId}/${branchId}/${tableNumber}/${menuId}`
         );
         const jsonData = await response.json();
-        const modifiedData = jsonData.data["menu details"];
+        const modifiedData = jsonData.data["menu_details"];
         modifiedData.option_categories = modifiedData.option_categories.map(
           (category) => ({
             ...category,

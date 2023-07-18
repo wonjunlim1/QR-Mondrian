@@ -98,18 +98,17 @@ const MenuPage = () => {
           `${serverAddress}/menu/${restaurantId}/${branchId}/${tableNumber}`
         );
         const jsonData = await response.json();
-        /**
-
-        const filteredJsonData = jsonData.data.menu.map(category => {
-          return {
-            ...category,
-            main_menus: category.main_menus.filter(menu => menu.menu_status !== 0),
-          };
-        });
-        filteredJsonData = filteredJsonData.filter(category => category.main_menus.length > 0);
-        setMenuData(filteredJsonData);
-         */
-        setMenuData(jsonData.data.menu);
+        let updatedData = jsonData.data.menu.map((category) => ({
+          ...category,
+          main_menus: category.main_menus.filter(
+            (menu) => menu.menu_status === true
+          ),
+        }));
+        console.log(updatedData);
+        const finalData = updatedData.filter(
+          (category) => category.main_menus.length > 0
+        );
+        setMenuData(finalData);
       } catch (error) {
         console.log("Error fetching menu data:", error);
       }

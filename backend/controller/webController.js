@@ -87,7 +87,6 @@ module.exports = {
     const branch_id = req.params.branch_id;
     const request_type = req.params.request_type;
     const request_id = req.params.request_id;
-    console.log(request_type, request_id)
     try {
       const params = await webMenuService.deleteMenuCategory(
         restaurant_id,
@@ -98,6 +97,27 @@ module.exports = {
       return res
         .status(sc.OK)
         .send(ut.success(sc.OK));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(sc.INTERNAL_SERVER_ERROR)
+        .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    }
+  },
+
+  createMenuCategory: async (req, res) => {
+    const restaurant_id = req.params.restaurant_id;
+    const branch_id = req.params.branch_id;
+    const newCategory = req.body
+    try {
+      const params = await webMenuService.createMenuCategory(
+        restaurant_id,
+        branch_id,
+        newCategory
+      );
+      return res
+        .status(sc.OK)
+        .send(ut.success(sc.OK, `Menu category successfully created: menu category id ${params}`));
     } catch (error) {
       console.error(error);
       return res

@@ -132,8 +132,6 @@
   font-size: var(--label-3);
   height: 200px;
   overflow-y: scroll;
-  /*-ms-overflow-style: none; 
-  scrollbar-width: none; */
 }
 
 .orderContentColumn {

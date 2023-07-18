@@ -124,6 +124,27 @@ module.exports = {
         .status(sc.INTERNAL_SERVER_ERROR)
         .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
     }
+  },
+
+  putDisplayOrder: async (req, res) => {
+    const restaurant_id = req.params.restaurant_id;
+    const branch_id = req.params.branch_id;
+    const newOrder = req.body
+    try {
+      const params = await webMenuService.putDisplayOrder(
+        restaurant_id,
+        branch_id,
+        newOrder
+      );
+      return res
+        .status(sc.OK)
+        .send(ut.success(sc.OK, `Display order successfully updated for category id: ${params[0]} and menu id: ${params[1]}`));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(sc.INTERNAL_SERVER_ERROR)
+        .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    }
   }
 };
 

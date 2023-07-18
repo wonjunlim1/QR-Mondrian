@@ -87,5 +87,39 @@ module.exports = {
       });
       return category.id
     } catch (error) { }
-  }
+  },
+  putDisplayOrder: async (restaurant_id, branch_id, curr_request) => {
+    const category_update = curr_request.category_edit
+    const menu_update = curr_request.menu_edit
+    const updated_menu_category_id = []
+    const updated_menu_id = []
+
+    if (category_update) {
+      for (let i = 0; i < category_update.length; i++) {
+        const affectedRows = await MainCategory.update(
+          { display_order: category_update[i].display_order, updated_at: new Date() },
+          {
+            where: {
+              id: category_update[i].id,
+            }
+          },
+          updated_menu_category_id.push(category_update[i].id)
+        );
+      }
+    }
+    if (menu_update) {
+      for (let i = 0; i < menu_update.length; i++) {
+        const affectedRows = await MainMenu.update(
+          { display_order: menu_update[i].display_order, updated_at: new Date() },
+          {
+            where: {
+              id: menu_update[i].id,
+            }
+          },
+          updated_menu_id.push(menu_update[i].id)
+        );
+      }
+    }
+    return [updated_menu_category_id, updated_menu_id]
+  },
 };

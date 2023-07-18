@@ -11,5 +11,7 @@ router.delete("/:restaurant_id/:branch_id/:request_type/:request_id", webControl
 /** Post new menu category for restaurant_id > branch_id */
 router.post("/:restaurant_id/:branch_id/edit", webController.createMenuCategory);
 
+/** Put menu & menu category display orders for restaurant_id > branch_id */
+router.put("/:restaurant_id/:branch_id/edit", webController.putDisplayOrder);
 
 module.exports = router;

@@ -95,7 +95,7 @@ const MenuPage = () => {
     const fetchMenuData = async () => {
       try {
         const response = await fetch(
-          `${serverAddress}/menu_m/${restaurantId}/${branchId}/${tableNumber}`
+          `${serverAddress}/menu/${restaurantId}/${branchId}/${tableNumber}`
         );
         const jsonData = await response.json();
         /**

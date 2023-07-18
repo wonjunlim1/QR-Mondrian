@@ -8,9 +8,6 @@ const TableModal = ({ onClose, orders, id, setEventCounter }) => {
   const acceptedOrdersData = orders;
   const tableId = id;
   const orderId = orders[0].order_id;
-  console.log(orders);
-  console.log(tableId);
-  console.log(orderId);
 
   //Server address variable assignment
   const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
@@ -62,7 +59,7 @@ const TableModal = ({ onClose, orders, id, setEventCounter }) => {
   return (
     <div className={styles.modal}>
       <div className={styles.modalHeader}>
-        <b className={styles.modalHeaderTitle}>신규 주문 내역</b>
+        <b className={styles.modalHeaderTitle}>현재 주문 내역</b>
         <button className={styles.iconWrapper} onClick={onClose}>
           <div className={styles.icon}>
             <img className={styles.iconChild} alt="" src={deleteIcon} />
@@ -72,7 +69,7 @@ const TableModal = ({ onClose, orders, id, setEventCounter }) => {
       <div className={styles.contentWrapper}>
         <div className={styles.orderWrapper}>
           <div className={styles.orderTitleArea}>
-            <div className={styles.orderTitleLabel}>테이블 1</div>
+            <div className={styles.orderTitleLabel}>테이블 {tableId}</div>
             <div className={styles.divider} />
           </div>
           <div className={styles.orderContentWrapper}>

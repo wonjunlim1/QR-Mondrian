@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--gap-base);
-  width: 950px;
+  min-width: 475px;
   height: 590px;
   overflow-y: scroll;
   text-align: left;
@@ -95,6 +95,8 @@
   justify-content: flex-start;
   gap: var(--gap-5xl);
   flex-basis: calc(42% - var(--gap-5xl));
+  min-width: 375px;
+  max-width: 375px;
 }
 
 .orderTitleArea {

@@ -113,7 +113,7 @@ html::before {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--gap-base);
+  gap: var(--gap-9xs);
   font-size: var(--headline-1);
   color: var(--text-strong);
 }
@@ -135,8 +135,8 @@ html::before {
   padding: var(--padding-5xs);
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   opacity: 0.3;
 }
 
@@ -222,7 +222,7 @@ html::before {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: var(--gap-9xs);
 }
 
@@ -230,7 +230,7 @@ html::before {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: var(--gap-9xs);
   opacity: 0.5;
 }

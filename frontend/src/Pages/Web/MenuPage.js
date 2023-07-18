@@ -49,7 +49,7 @@ const MenuPage = () => {
     };
     try {
       const response = await fetch(
-        `${serverAddress}/menu_w/${restaurantId}/${branchId}`,
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/status`,
         {
           method: "PUT",
           headers: {

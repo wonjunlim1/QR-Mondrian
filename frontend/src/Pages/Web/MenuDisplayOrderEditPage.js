@@ -49,7 +49,7 @@ const MenuDisplayOrderEditPage = () => {
     };
     try {
       const response = await fetch(
-        `${serverAddress}/menu_w/${restaurantId}/${branchId}/edit`,
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/category`,
         {
           method: "POST",
           headers: {
@@ -76,7 +76,7 @@ const MenuDisplayOrderEditPage = () => {
     );
     try {
       const response = await fetch(
-        `${serverAddress}/menu_w/${restaurantId}/${branchId}/edit`,
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/display_order`,
         {
           method: "PUT",
           headers: {

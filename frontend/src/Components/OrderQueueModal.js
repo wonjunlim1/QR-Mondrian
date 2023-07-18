@@ -4,7 +4,7 @@ import { decryptUrlParams } from "../utils/encryption";
 import styles from "./OrderQueueModal.module.css";
 import deleteIcon from "../Assets/Images/delete.svg";
 
-const OrderQueueModal = ({ onClose }) => {
+const OrderQueueModal = ({ onClose, setEventCounter }) => {
   // Initializing states
   const [pendingOrdersData, setPendingOrdersData] = useState(null);
   const [buttonClickCounter, setButtonClickCounter] = useState(0);
@@ -24,8 +24,8 @@ const OrderQueueModal = ({ onClose }) => {
 
   // Function to handle click on button
   const onButtonClick = async (id, action) => {
-    console.log(id);
     setButtonClickCounter(buttonClickCounter + 1);
+    setEventCounter((prevCounter) => prevCounter + 1);
     const data = {
       update_sub_order: [
         {
@@ -51,7 +51,7 @@ const OrderQueueModal = ({ onClose }) => {
     }
   };
 
-  // Effect to fetch menu data once the component mounts
+  // Effect to fetch order data
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
@@ -91,8 +91,8 @@ const OrderQueueModal = ({ onClose }) => {
               subOrder,
             }))
           )
-          .map(({ table_number, subOrder }, index, array) => (
-            <div className={styles.orderWrapper}>
+          .map(({ table_number, subOrder }, index) => (
+            <div className={styles.orderWrapper} key={index}>
               <div className={styles.orderTitleArea}>
                 <div className={styles.orderTitleLabel}>
                   테이블 {table_number}

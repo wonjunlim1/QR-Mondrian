@@ -25,25 +25,35 @@ const OrderPage = () => {
   const restaurantId = decryptUrlParams(encodedRestaurantId);
   const branchId = decryptUrlParams(encodedBranchId);
 
+  // Initializing states
   const [isOrderQueueModalPopupOpen, setOrderQueueModalPopupOpen] =
     useState(false);
   const [isModalTablePopupOpen, setModalTablePopupOpen] = useState(false);
+  const [acceptedOrdersData, setAcceptedOrdersData] = useState(null);
+  const [pendingOrderCount, setPendingOrderCount] = useState(null);
+  const [acceptedOrderCount, setAcceptedOrderCount] = useState(null);
+  const [eventCounter, setEventCounter] = useState(0);
+
+  //Server address variable assignment
+  const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
 
   const openOrderQueueModalPopup = useCallback(() => {
     setOrderQueueModalPopupOpen(true);
   }, []);
 
   const closeOrderQueueModalPopup = useCallback(() => {
+    setEventCounter(eventCounter + 1);
     setOrderQueueModalPopupOpen(false);
-  }, []);
+  }, [eventCounter]);
 
   const openModalTablePopup = useCallback(() => {
     setModalTablePopupOpen(true);
   }, []);
 
   const closeModalTablePopup = useCallback(() => {
+    setEventCounter(eventCounter + 1);
     setModalTablePopupOpen(false);
-  }, []);
+  }, [eventCounter]);
 
   /** Effect Hooks */
 
@@ -58,6 +68,55 @@ const OrderPage = () => {
     }
   }, [navigate, isHQUser, isBranchUser, restaurantId, branchId]);
 
+  // Effect to fetch order data
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      try {
+        const response = await fetch(
+          `${serverAddress}/order_w/${restaurantId}/${branchId}`
+        );
+        const jsonData = await response.json();
+        const combinedOrderData = jsonData.data.Accepted.reduce(
+          (acc, order) => {
+            const { table_number, sub_orders } = order;
+            const tableMenus = sub_orders.flatMap(
+              (subOrder) => subOrder.main_menus
+            );
+            acc[table_number] = acc[table_number]
+              ? acc[table_number].concat(tableMenus)
+              : tableMenus;
+            return acc;
+          },
+          {}
+        );
+        const finalOrderData = Object.fromEntries(
+          Object.entries(combinedOrderData).sort(
+            ([tableNumberA], [tableNumberB]) => {
+              return tableNumberA - tableNumberB;
+            }
+          )
+        );
+        setAcceptedOrdersData(finalOrderData);
+        setAcceptedOrderCount(jsonData.data.Accepted.length);
+        setPendingOrderCount(
+          jsonData.data.Pending.reduce(
+            (acc, order) => acc + order.sub_orders.length,
+            0
+          )
+        );
+      } catch (error) {
+        console.log("Error fetching menu data:", error);
+      }
+    };
+
+    fetchOrderData();
+  }, [serverAddress, restaurantId, branchId, eventCounter]);
+
+  // Return null while data is loading
+  if (!acceptedOrdersData) {
+    return <div></div>;
+  }
+
   return (
     <>
       <div className={styles.web}>
@@ -67,22 +126,26 @@ const OrderPage = () => {
           restaurantId={restaurantId}
           branchId={branchId}
         />
-        <div className={styles.bodylayout}>
-          <div className={styles.fixedarea}>
-            <div className={styles.titlearea}>
-              <div className={styles.title}>
-                <b className={styles.title1}>총 테이블 수</b>
-                <div className={styles.value}>4</div>
+        <div className={styles.contentWrapper}>
+          <div className={styles.content}>
+            <div className={styles.headerWrapper}>
+              <div className={styles.headerTitleWrapper}>
+                <b className={styles.headerTitleLabel}>총 테이블 수</b>
+                <b className={styles.headerTitleValue}>
+                  {acceptedOrderCount ? acceptedOrderCount : 0}
+                </b>
               </div>
-              <button
-                className={styles.button}
+              <div
+                className={styles.buttonWrapper}
                 onClick={openOrderQueueModalPopup}
               >
                 <div className={styles.badge}>
-                  <b className={styles.b}>2</b>
+                  <div className={styles.buttonValue}>
+                    {pendingOrderCount ? pendingOrderCount : 0}
+                  </div>
                 </div>
-                <div className={styles.label}>신규주문</div>
-              </button>
+                <div className={styles.buttonLabel}>신규주문</div>
+              </div>
             </div>
             <div className={styles.cardlist}>
               <div className={styles.row}>
@@ -255,7 +318,10 @@ const OrderPage = () => {
           placement="Centered"
           onOutsideClick={closeOrderQueueModalPopup}
         >
-          <OrderQueueModal onClose={closeOrderQueueModalPopup} />
+          <OrderQueueModal
+            onClose={closeOrderQueueModalPopup}
+            setEventCounter={setEventCounter}
+          />
         </PortalPopup>
       )}
       {isModalTablePopupOpen && (

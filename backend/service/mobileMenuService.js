@@ -21,6 +21,8 @@ module.exports = {
         ],
       });
 
+
+
       const formattedMenu = mainCategories.map((mainCategory) => {
         return {
           category_name: mainCategory.name,
@@ -32,12 +34,21 @@ module.exports = {
               price: mainMenu.price,
               description: mainMenu.description,
               image_url: mainMenu.image_url,
-
+              display_order: mainMenu.display_order,
+              menu_status: mainMenu.BranchMenuStatuses[0].active
             };
           }),
         };
       });
       // Sort by display_order
+      for (let i = 0; i < formattedMenu.length; i++) {
+        const category = formattedMenu[i];
+        const mainMenus = category.main_menus;
+        // Sort main_menus array by display_order
+        for (let j = 0; j < mainMenus.length; j++) {
+          mainMenus.sort((a, b) => a.display_order - b.display_order);
+        }
+      }
       formattedMenu.sort((a, b) => a.display_order - b.display_order);
 
       return { menu: formattedMenu };
@@ -87,6 +98,7 @@ module.exports = {
                 name: optionMenu.name,
                 price: optionMenu.price,
                 description: optionMenu.description,
+                display_order: optionMenu.display_order,
               };
             }),
           };
@@ -94,8 +106,16 @@ module.exports = {
       };
 
       // Sort by display_order
+      for (let i = 0; i < formattedMenu.option_categories.length; i++) {
+        const data = formattedMenu.option_categories[i];
+        const optionMenus = data.option_menus;
+        // Sort main_menus array by display_order
+        for (let j = 0; j < optionMenus.length; j++) {
+          optionMenus.sort((a, b) => a.display_order - b.display_order);
+        }
+      }
       formattedMenu.option_categories.sort((a, b) => a.display_order - b.display_order);
-      return { 'menu details': formattedMenu }
+      return { 'menu_details': formattedMenu }
 
     } catch (error) {
       throw error;

@@ -51,12 +51,18 @@ module.exports = {
 
       pastOrders.forEach((order) => {
         const tableNumber = order.table_number;
+        const orderId = order.id;
+        const key = `${tableNumber}-${orderId}`;
 
-        if (!orderMap.has(tableNumber)) {
-          orderMap.set(tableNumber, []);
+        if (!orderMap.has(key)) {
+          orderMap.set(key, {
+            order_id: orderId,
+            table_number: tableNumber,
+            sub_orders: [],
+          });
         }
 
-        const subOrders = orderMap.get(tableNumber);
+        const orderData = orderMap.get(key);
 
         order.SubOrders.forEach((subOrder) => {
           const mainMenus = subOrder.OrderItems.map((item) => {
@@ -75,61 +81,55 @@ module.exports = {
             };
           });
 
-          subOrders.push({
+          orderData.sub_orders.push({
             sub_order_id: subOrder.id,
             order_status: subOrder.order_status,
             main_menus: mainMenus,
           });
         });
-
-        orderMap.set(tableNumber, subOrders);
       });
 
       const acceptedOrders = [];
       const pendingOrders = [];
 
-      orderMap.forEach((subOrders, tableNumber) => {
-        subOrders.forEach((subOrder) => {
+      orderMap.forEach((orderData, key) => {
+        orderData.sub_orders.forEach((subOrder) => {
           const orderStatus = subOrder.order_status;
-          const categorizedSubOrder = {
-            table_number: tableNumber,
-            sub_order: {
-              sub_order_id: subOrder.sub_order_id,
-              main_menus: subOrder.main_menus,
-            },
-          };
 
           if (orderStatus === "Accepted") {
             const existingAcceptedOrder = acceptedOrders.find(
-              (order) => order.table_number === tableNumber
+              (order) =>
+                order.table_number === orderData.table_number &&
+                order.order_id === orderData.order_id
             );
             if (existingAcceptedOrder) {
-              existingAcceptedOrder.sub_orders.push(
-                categorizedSubOrder.sub_order
-              );
+              existingAcceptedOrder.sub_orders.push(subOrder);
             } else {
               acceptedOrders.push({
-                table_number: tableNumber,
-                sub_orders: [categorizedSubOrder.sub_order],
+                table_number: orderData.table_number,
+                order_id: orderData.order_id,
+                sub_orders: [subOrder],
               });
             }
           } else if (orderStatus === "Pending") {
             const existingPendingOrder = pendingOrders.find(
-              (order) => order.table_number === tableNumber
+              (order) =>
+                order.table_number === orderData.table_number &&
+                order.order_id === orderData.order_id
             );
             if (existingPendingOrder) {
-              existingPendingOrder.sub_orders.push(
-                categorizedSubOrder.sub_order
-              );
+              existingPendingOrder.sub_orders.push(subOrder);
             } else {
               pendingOrders.push({
-                table_number: tableNumber,
-                sub_orders: [categorizedSubOrder.sub_order],
+                table_number: orderData.table_number,
+                order_id: orderData.order_id,
+                sub_orders: [subOrder],
               });
             }
           }
         });
       });
+
       return { Accepted: acceptedOrders, Pending: pendingOrders };
     } catch (error) {
       throw error;

@@ -6,7 +6,7 @@ import PortalPopup from "../../Components/PortalPopup";
 import TableModal from "../../Components/TableModal";
 import WebHeader from "../../Components/WebHeader";
 import styles from "./OrderPage.module.css";
-import { decryptUrlParams } from "../../utils/encryption";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
 
 const OrderPage = () => {
   // Navigation and location utility from React Router
@@ -64,9 +64,16 @@ const OrderPage = () => {
   // Effect to redirect user based on user type
   useEffect(() => {
     if (isHQUser) {
-      navigate(`/menu_w/${restaurantId}/${branchId}`, {
-        state: { isHQUser, isBranchUser },
-      });
+      console.log(restaurantId);
+      console.log(branchId);
+      navigate(
+        `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}`,
+        {
+          state: { isHQUser, isBranchUser },
+        }
+      );
     } else if (!isHQUser && !isBranchUser) {
       navigate(`/login_w`);
     }

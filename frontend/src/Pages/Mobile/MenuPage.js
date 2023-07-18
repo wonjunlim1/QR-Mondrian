@@ -95,6 +95,17 @@ const MenuPage = () => {
           `http://localhost:8080/menu_m/${restaurantId}/${branchId}/${tableNumber}`
         );
         const jsonData = await response.json();
+        /**
+
+        const filteredJsonData = jsonData.data.menu.map(category => {
+          return {
+            ...category,
+            main_menus: category.main_menus.filter(menu => menu.menu_status !== 0),
+          };
+        });
+        filteredJsonData = filteredJsonData.filter(category => category.main_menus.length > 0);
+        setMenuData(filteredJsonData);
+         */
         setMenuData(jsonData.data.menu);
       } catch (error) {
         console.log("Error fetching menu data:", error);

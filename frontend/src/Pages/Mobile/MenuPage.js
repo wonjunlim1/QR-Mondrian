@@ -109,9 +109,11 @@ const MenuPage = () => {
             <div className={styles.titleWrapper}>
               <h1 className={styles.titleLabel}>현재 메뉴</h1>
             </div>
-            <button className={styles.buttonWrapper}>
-              <div className={styles.buttonLabel}>메뉴 순서 변경</div>
-            </button>
+            {isHQUser && (
+              <button className={styles.buttonWrapper}>
+                <div className={styles.buttonLabel}>메뉴 순서 변경</div>
+              </button>
+            )}
           </div>
           {menuData.map((menuCategory, index) => (
             <div key={index} className={styles.layout} id="category_card">
@@ -122,11 +124,13 @@ const MenuPage = () => {
                 <h2 className={styles.categoryTitleLabel}>
                   {menuCategory.category_name}
                 </h2>
-                <button className={styles.iconWrapper}>
-                  <div className={styles.icon}>
-                    <img alt="" src={deleteIcon} />
-                  </div>
-                </button>
+                {isHQUser && (
+                  <button className={styles.iconWrapper}>
+                    <div className={styles.icon}>
+                      <img alt="" src={deleteIcon} />
+                    </div>
+                  </button>
+                )}
               </div>
               <div className={styles.menuRow} id="menu_card_row">
                 {menuCategory.main_menus.map((menuItem, index) => (
@@ -143,13 +147,23 @@ const MenuPage = () => {
                       className={styles.menuCardLayout}
                       id="menu_card_buttons"
                     >
-                      {!menuItem.menu_status && (
+                      {isBranchUser && (
                         <div
-                          className={styles.InactiveStatusBadge}
+                          className={
+                            menuItem.menu_status
+                              ? styles.activeStatusBadge
+                              : styles.inactiveStatusBadge
+                          }
                           id="menu_stop"
                         >
-                          <b className={styles.InactiveStatusLabel}>
-                            메뉴 중지
+                          <b
+                            className={
+                              menuItem.menu_status
+                                ? styles.activeStatusLabel
+                                : styles.inactiveStatusLabel
+                            }
+                          >
+                            {menuItem.menu_status ? "메뉴 On" : "메뉴 Off"}
                           </b>
                         </div>
                       )}
@@ -160,38 +174,46 @@ const MenuPage = () => {
                             : styles.iconGroupWrapperInactive
                         }
                       >
-                        <button className={styles.iconWrapper}>
-                          <div className={styles.icon}>
-                            <img alt="" src={editIcon} />
-                          </div>
-                        </button>
-                        <button className={styles.iconWrapper}>
-                          <div
-                            className={styles.icon}
-                            onClick={() => {
-                              const confirmMessage = menuItem.menu_status
-                                ? "메뉴를 중지하시겠습니까?"
-                                : "메뉴를 재개하시겠습니까?";
+                        {isHQUser && (
+                          <button className={styles.iconWrapper}>
+                            <div className={styles.icon}>
+                              <img alt="" src={editIcon} />
+                            </div>
+                          </button>
+                        )}
+                        {isBranchUser && (
+                          <button className={styles.iconWrapper}>
+                            <div
+                              className={styles.icon}
+                              onClick={() => {
+                                const confirmMessage = menuItem.menu_status
+                                  ? "메뉴를 중지하시겠습니까?"
+                                  : "메뉴를 재개하시겠습니까?";
 
-                              if (window.confirm(confirmMessage)) {
-                                onStatusButtonClick(
-                                  menuItem.id,
-                                  menuItem.menu_status
-                                );
-                              }
-                            }}
-                          >
-                            <img
-                              alt=""
-                              src={menuItem.menu_status ? pauseIcon : playIcon}
-                            />
-                          </div>
-                        </button>
-                        <button className={styles.iconWrapper}>
-                          <div className={styles.icon}>
-                            <img alt="" src={deleteIcon} />
-                          </div>
-                        </button>
+                                if (window.confirm(confirmMessage)) {
+                                  onStatusButtonClick(
+                                    menuItem.id,
+                                    menuItem.menu_status
+                                  );
+                                }
+                              }}
+                            >
+                              <img
+                                alt=""
+                                src={
+                                  menuItem.menu_status ? pauseIcon : playIcon
+                                }
+                              />
+                            </div>
+                          </button>
+                        )}
+                        {isHQUser && (
+                          <button className={styles.iconWrapper}>
+                            <div className={styles.icon}>
+                              <img alt="" src={deleteIcon} />
+                            </div>
+                          </button>
+                        )}
                       </div>
                     </div>
 
@@ -250,12 +272,14 @@ const MenuPage = () => {
             </div>
           ))}
         </div>
-        <div className={styles.floatingButtonWrapper} id="current_menu_down">
-          <button className={styles.floatingButton}>
-            <div className={styles.floatingButtonChild} />
-            <img className={styles.plusIcon} alt="" src={plusIcon} />
-          </button>
-        </div>
+        {isHQUser && (
+          <div className={styles.floatingButtonWrapper} id="current_menu_down">
+            <button className={styles.floatingButton}>
+              <div className={styles.floatingButtonChild} />
+              <img className={styles.plusIcon} alt="" src={plusIcon} />
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

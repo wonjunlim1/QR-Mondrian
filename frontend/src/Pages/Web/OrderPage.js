@@ -1,7 +1,7 @@
 import React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import Modal from "../../Components/Modal";
+import OrderQueueModal from "../../Components/OrderQueueModal";
 import PortalPopup from "../../Components/PortalPopup";
 import ModalTable from "../../Components/ModalTable";
 import WebHeader from "../../Components/WebHeader";
@@ -11,6 +11,9 @@ import { decryptUrlParams } from "../../utils/encryption";
 const OrderPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Initializing states
+  const [pendingOrdersData, setPendingOrdersData] = useState(null);
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
@@ -27,11 +30,11 @@ const OrderPage = () => {
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isModalTablePopupOpen, setModalTablePopupOpen] = useState(false);
 
-  const openModalPopup = useCallback(() => {
+  const openOrderQueueModalPopup = useCallback(() => {
     setModalPopupOpen(true);
   }, []);
 
-  const closeModalPopup = useCallback(() => {
+  const closeOrderQueueModalPopup = useCallback(() => {
     setModalPopupOpen(false);
   }, []);
 
@@ -43,6 +46,26 @@ const OrderPage = () => {
     setModalTablePopupOpen(false);
   }, []);
 
+  /** Effect Hooks */
+
+  // Effect to fetch menu data once the component mounts
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/order_W/${restaurantId}/${branchId}`
+        );
+        const jsonData = await response.json();
+        setPendingOrdersData(jsonData.data.Pending);
+      } catch (error) {
+        console.log("Error fetching menu data:", error);
+      }
+    };
+
+    fetchOrderData();
+  }, [restaurantId, branchId]);
+
+  // Effect to redirect user based on user type
   useEffect(() => {
     if (isHQUser) {
       navigate(`/menu_w/${restaurantId}/${branchId}`, {
@@ -69,7 +92,10 @@ const OrderPage = () => {
                 <b className={styles.title1}>총 테이블 수</b>
                 <div className={styles.value}>4</div>
               </div>
-              <button className={styles.button} onClick={openModalPopup}>
+              <button
+                className={styles.button}
+                onClick={openOrderQueueModalPopup}
+              >
                 <div className={styles.badge}>
                   <b className={styles.b}>2</b>
                 </div>
@@ -245,9 +271,12 @@ const OrderPage = () => {
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"
           placement="Centered"
-          onOutsideClick={closeModalPopup}
+          onOutsideClick={closeOrderQueueModalPopup}
         >
-          <Modal onClose={closeModalPopup} />
+          <OrderQueueModal
+            onClose={closeOrderQueueModalPopup}
+            pendingOrdersData={pendingOrdersData}
+          />
         </PortalPopup>
       )}
       {isModalTablePopupOpen && (

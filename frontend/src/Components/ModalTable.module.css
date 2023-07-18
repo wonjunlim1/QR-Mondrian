@@ -1,3 +1,45 @@
+.title,
+.xLChild {
+  position: relative;
+}
+.title {
+  letter-spacing: -0.02em;
+  line-height: 32px;
+
+}
+.xLChild {
+  width: 18.5px;
+  height: 18.5px;
+}
+.xL {
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-11xs);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+}
+.header,
+.icon,
+.xL {
+  display: flex;
+  flex-direction: row;
+}
+.icon {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-5xs);
+  background-color: transparent;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.header {
+  align-self: stretch;
+  padding: var(--padding-5xl) var(--padding-base) var(--padding-base)
+    var(--padding-13xl);
+  align-items: center;
+  justify-content: space-between;
+}
 .divider,
 .label {
   position: relative;
@@ -11,6 +53,7 @@
   border-top: 1px solid var(--text-assitive);
   box-sizing: border-box;
   height: 1px;
+  border: 1px solid var(--line-strong);
 }
 .titlearea {
   align-self: stretch;
@@ -42,6 +85,7 @@
 .info {
   align-self: stretch;
   display: flex;
+  width: 320px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -70,7 +114,7 @@
   justify-content: flex-start;
 }
 .optionInfo {
-  width: 176px;
+  width: 320px;
   flex-direction: row;
 }
 .optionGroup {
@@ -97,7 +141,10 @@
 }
 .ordercolumn {
   display: flex;
+  max-height: 200px;
+  overflow-y:auto;
   gap: var(--gap-21xl);
+  width:360px;
 }
 .label7 {
   position: relative;
@@ -109,13 +156,14 @@
   height: 24px;
   flex-shrink: 0;
 }
-.div {
+.div1 {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
   gap: var(--gap-29xl);
   font-size: var(--label-3-regular-size);
+  
 }
 .label13,
 .price12 {
@@ -172,6 +220,14 @@
   color: var(--text-alternative-1);
   text-align: left;
 }
+.button1,
+.buttongroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-5xs);
+}
 .button1 {
   cursor: pointer;
   border: 1px solid var(--line-strong);
@@ -179,42 +235,81 @@
   background-color: var(--fill-normal);
   flex: 1;
   border-radius: var(--br-5xs);
-  flex-direction: row;
-  gap: var(--gap-5xs);
-}
-.button1,
-.buttongroup,
-.modalTable,
-.orderinfo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .buttongroup {
   align-self: stretch;
-  flex-direction: row;
-  gap: var(--gap-5xs);
-}
-.modalTable,
-.orderinfo {
-  flex-direction: column;
 }
 .orderinfo {
   border-radius: var(--br-5xs);
   background-color: var(--background-normal);
   border: 1px solid var(--text-assitive);
+  display: flex;
+  flex-direction: column;
   padding: var(--padding-5xl);
+  align-items: center;
+  justify-content: center;
   gap: var(--gap-5xl);
+  border: 1px solid var(--line-strong);
+  
 }
-.modalTable {
+.label16,
+.price25 {
   position: relative;
-  padding: var(--padding-3xs);
-  box-sizing: border-box;
-  max-width: 100%;
-  max-height: 100%;
-  overflow: auto;
-  text-align: left;
+  line-height: 24px;
+}
+.price25 {
+  font-size: var(--label-1-regular-size);
+  letter-spacing: 0.01em;
+  line-height: 28px;
+}
+.scrollthumb {
+  position: relative;
+  border-radius: 40px;
+  background-color: var(--text-assitive);
+  width: 8px;
+  height: 143px;
+}
+.div {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  padding: 0 var(--padding-5xs) 0 var(--padding-13xl);
+  /*align-items: flex-start;*/
+  /*justify-content: flex-start;*/
+  gap: var(--gap-5xl);
+  cursor: pointer;
   font-size: var(--title-2-bold-size);
   color: var(--text-normal);
+  
+  justify-content: center;
+  align-items: center;
+  
+}
+.modaltable {
+  
+  border-radius: var(--br-base);
+  background-color: var(--background-normal);
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 var(--padding-13xl);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-base);
+  min-width: 50%;
+  min-height: 50%;
+  max-width: 100%;
+  max-height: 100%;
+  text-align: left;
+  font-size: var(--headline-bold-size);
+  color: var(--text-strong);
   font-family: var(--body-2-regular);
+  position: relative; 
+  width: 450px;
+
+}
+
+.outer-div {
+  height: 300px; /* Set a fixed height for the outer div */
+  overflow: auto; /* Enable scrolling for the outer div */
 }

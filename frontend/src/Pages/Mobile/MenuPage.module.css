@@ -59,7 +59,7 @@ html::before {
   font-family: inherit;
   position: relative;
   letter-spacing: -0.02em;
-  line-height: 32px;
+  line-height: 54px;
   font-weight: 700;
 }
 
@@ -197,7 +197,28 @@ html::before {
   justify-content: flex-end;
 }
 
-.InactiveStatusBadge {
+.activeStatusBadge {
+  border-radius: var(--br-81xl);
+  background-color: var(--status-positive-2);
+  border: 1px solid var(--status-positive-1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-9xs) var(--padding-5xs);
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+}
+
+.activeStatusLabel {
+  font-size: var(--caption-1);
+  color: var(--status-positive-1);
+  position: relative;
+  letter-spacing: 0.03em;
+  line-height: 16px;
+}
+
+.inactiveStatusBadge {
   border-radius: var(--br-81xl);
   background-color: var(--status-alert-2);
   border: 1px solid var(--status-alert-1);
@@ -208,9 +229,10 @@ html::before {
   align-items: center;
   justify-content: center;
   margin-right: auto;
+  opacity: 0.5;
 }
 
-.InactiveStatusLabel {
+.inactiveStatusLabel {
   font-size: var(--caption-1);
   color: var(--status-alert-1);
   position: relative;

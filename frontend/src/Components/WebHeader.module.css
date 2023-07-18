@@ -24,8 +24,8 @@
 .tabMenuGroup {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
 .tabMenuItem{
@@ -46,7 +46,7 @@
 .boldLabel {
   position: relative;
   letter-spacing: 0.01em;
-  line-height: 28px;
+  line-height: 40px;
 }
 
 .tabMenuItemActive {
@@ -67,13 +67,13 @@
 .buttonLabel {
   position: relative;
   letter-spacing: 0.01em;
-  line-height: 24px;
+  line-height: 36px;
 }
 
 .button {
   padding: var(--padding-base);
   justify-content: center;
-  font-size: var(--body-1);
+  font-size: var(--label-1);
   display: flex;
   flex-direction: row;
   align-items: center;

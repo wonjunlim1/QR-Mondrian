@@ -48,6 +48,8 @@ const OrderPage = () => {
       navigate(`/menu_w/${restaurantId}/${branchId}`, {
         state: { isHQUser, isBranchUser },
       });
+    } else if (!isHQUser && !isBranchUser) {
+      navigate(`/login_w`);
     }
   }, [navigate, isHQUser, isBranchUser, restaurantId, branchId]);
 

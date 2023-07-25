@@ -9,7 +9,6 @@ import editIcon from "../../Assets/Images/edit.svg";
 import pauseIcon from "../../Assets/Images/pause.svg";
 import playIcon from "../../Assets/Images/play.svg";
 import plusIcon from "../../Assets/Images/plus-white.svg";
-//import dragIcon from "../../Assets/Images/drag.svg";
 
 const MenuPage = () => {
   // Navigation and location utility from React Router

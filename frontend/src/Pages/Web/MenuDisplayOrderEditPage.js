@@ -90,6 +90,75 @@ const MenuDisplayOrderEditPage = () => {
     }
   };
 
+  // Function to handle drag
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId, type } = result;
+    console.log(draggableId);
+    if (type === "category") {
+      const newMenuData = Array.from(menuData);
+      const [removed] = newMenuData.splice(source.index, 1);
+      newMenuData.splice(destination.index, 0, removed);
+      setMenuData(newMenuData);
+      return;
+    }
+    if (!destination) {
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+    const startCategory = menuData.find(
+      (category) => category.category_name === source.droppableId
+    );
+    const endCategory = menuData.find(
+      (category) => category.category_name === destination.droppableId
+    );
+    if (startCategory === endCategory) {
+      const newMenus = Array.from(startCategory.main_menus);
+      newMenus.splice(source.index, 1);
+      newMenus.splice(
+        destination.index,
+        0,
+        startCategory.main_menus[source.index]
+      );
+      const newCategory = {
+        ...startCategory,
+        main_menus: newMenus,
+      };
+      const newMenuData = menuData.map((category) =>
+        category.category_name === newCategory.category_name
+          ? newCategory
+          : category
+      );
+      setMenuData(newMenuData);
+    } else {
+      const startMenus = Array.from(startCategory.main_menus);
+      const [removed] = startMenus.splice(source.index, 1);
+      const newStart = {
+        ...startCategory,
+        main_menus: startMenus,
+      };
+      const endMenus = Array.from(endCategory.main_menus);
+      endMenus.splice(destination.index, 0, removed);
+      const newEnd = {
+        ...endCategory,
+        main_menus: endMenus,
+      };
+      setMenuData(
+        menuData.map((category) =>
+          category.category_name === newStart.category_name
+            ? newStart
+            : category.category_name === newEnd.category_name
+            ? newEnd
+            : category
+        )
+      );
+    }
+  };
+
   /** Effect Hooks */
 
   // Effect to redirect user according to their authorization
@@ -133,105 +202,6 @@ const MenuDisplayOrderEditPage = () => {
   if (!menuData) {
     return <div></div>;
   }
-  const onDragEnd = (result) => {
-    const { destination, source, draggableId, type } = result;
-    console.log(draggableId);
-
-    // Handle dragging categories
-    if (type === "category") {
-      const newMenuData = Array.from(menuData);
-      const [removed] = newMenuData.splice(source.index, 1);
-      newMenuData.splice(destination.index, 0, removed);
-      setMenuData(newMenuData);
-      return;
-    }
-
-    // If no valid destination (e.g. dragged outside the list)
-    if (!destination) {
-      return;
-    }
-
-    // If the position hasn't changed
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    // Find the category from which the item was dragged
-    const startCategory = menuData.find(
-      (category) => category.category_name === source.droppableId
-    );
-
-    // Find the category where the item was dropped
-    const endCategory = menuData.find(
-      (category) => category.category_name === destination.droppableId
-    );
-
-    console.log(startCategory);
-    console.log(endCategory);
-
-    // If it's the same category
-    if (startCategory === endCategory) {
-      // Create a new copy of the menus array
-      const newMenus = Array.from(startCategory.main_menus);
-
-      // Remove the menu from its old position
-      newMenus.splice(source.index, 1);
-
-      // Insert the menu into its new position
-      newMenus.splice(
-        destination.index,
-        0,
-        startCategory.main_menus[source.index]
-      );
-
-      // Create a new copy of the category with the new menus array
-      const newCategory = {
-        ...startCategory,
-        main_menus: newMenus,
-      };
-
-      // Create a new copy of the whole menu data array with the new category
-      const newMenuData = menuData.map((category) =>
-        category.category_name === newCategory.category_name
-          ? newCategory
-          : category
-      );
-
-      // Update the menu data in state
-      setMenuData(newMenuData);
-    } else {
-      // If it's a different category, handle moving items between categories
-      // Remove the menu from the source category
-      const startMenus = Array.from(startCategory.main_menus);
-      const [removed] = startMenus.splice(source.index, 1);
-      const newStart = {
-        ...startCategory,
-        main_menus: startMenus,
-      };
-
-      // Add the menu to the destination category
-      const endMenus = Array.from(endCategory.main_menus);
-      endMenus.splice(destination.index, 0, removed);
-      const newEnd = {
-        ...endCategory,
-        main_menus: endMenus,
-      };
-
-      // Update the menu data in the state
-      setMenuData(
-        menuData.map((category) =>
-          category.category_name === newStart.category_name
-            ? newStart
-            : category.category_name === newEnd.category_name
-            ? newEnd
-            : category
-        )
-      );
-    }
-  };
 
   return (
     <>

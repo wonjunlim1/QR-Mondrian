@@ -10,6 +10,7 @@ import WebLoginPage from "./Pages/Web/LoginPage";
 import WebOrderPage from "./Pages/Web/OrderPage";
 import WebMenuPage from "./Pages/Web/MenuPage";
 import WebMenuDisplayOrderEditPage from "./Pages/Web/MenuDisplayOrderEditPage";
+import WebMenuAddPage from "./Pages/Web/MenuAddPage";
 import MobileMenuPage from "./Pages/Mobile/MenuPage";
 import MobileMenuDetailPage from "./Pages/Mobile/MenuDetailPage";
 import MobileCartPage from "./Pages/Mobile/CartPage";
@@ -103,6 +104,10 @@ function App() {
         <Route
           path="/menu_w/:restaurant_id/:branch_id/edit"
           element={<WebMenuDisplayOrderEditPage />}
+        />
+        <Route
+          path="/menu_w/:restaurant_id/:branch_id/create"
+          element={<WebMenuAddPage />}
         />
       </Routes>
     </Router>

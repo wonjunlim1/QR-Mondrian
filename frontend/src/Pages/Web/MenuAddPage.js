@@ -18,7 +18,12 @@ const MenuAddPage = () => {
 
   // Initializing states
   const [menuData, setMenuData] = useState(null);
-  const [categorySelectedValue, setCategorySelectedValue] = useState("");
+  const [state, setState] = useState({
+    categorySelectedValue: "",
+    menuNameValue: "",
+    menuPriceValue: "",
+    menuDescriptionValue: "",
+  });
   const [optionCardWrappers, setOptionCardWrappers] = useState([
     { id: 0, options: [] },
   ]);
@@ -36,9 +41,19 @@ const MenuAddPage = () => {
   const branchId = decryptUrlParams(encodedBranchId);
   const dummyTableNumber = 0;
 
-  const handleCategorySelectChange = (event) => {
-    console.log(event.target.value);
-    setCategorySelectedValue(event.target.value);
+  /** Event Handlers */
+
+  //handle change function for inputs
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "menuPriceValue" && isNaN(Number(value))) {
+      return;
+    }
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const addOptionRow = (cardId) => {
@@ -169,7 +184,7 @@ const MenuAddPage = () => {
                 src="/arrowleft.svg"
               />
             </button>
-            <b className={styles.title}>메뉴 수정하기</b>
+            <b className={styles.title}>메뉴 추가하기</b>
           </div>
           <div className={styles.layout}>
             <div className={styles.div} id="image_input_body">
@@ -180,7 +195,7 @@ const MenuAddPage = () => {
                   src="/menu-image.svg"
                 />
                 <button className={styles.button}>
-                  <div className={styles.label}>사진 수정</div>
+                  <div className={styles.label}>사진 추가</div>
                 </button>
               </div>
               <div className={styles.div2} id="input_body">
@@ -192,8 +207,10 @@ const MenuAddPage = () => {
                     <input
                       className={styles.container}
                       type="text"
-                      maxLength
-                      minLength
+                      name="menuNameValue"
+                      value={state.menuNameValue}
+                      onChange={handleChange}
+                      maxlength="30"
                     />
                   </div>
                   <div className={styles.textfield}>
@@ -203,8 +220,10 @@ const MenuAddPage = () => {
                     <input
                       className={styles.container}
                       type="text"
-                      maxLength
-                      minLength
+                      name="menuPriceValue"
+                      value={state.menuPriceValue}
+                      onChange={handleChange}
+                      maxLength="15"
                     />
                   </div>
                 </div>
@@ -212,8 +231,9 @@ const MenuAddPage = () => {
                   <div className={styles.select} id="select">
                     <h2 className={styles.label1}>메뉴 구분</h2>
                     <Select
-                      value={categorySelectedValue}
-                      onChange={handleCategorySelectChange}
+                      name="categorySelectedValue"
+                      value={state.categorySelectedValue}
+                      onChange={handleChange}
                       displayEmpty
                       sx={{
                         width: "100%",
@@ -252,8 +272,7 @@ const MenuAddPage = () => {
                     <input
                       className={styles.container}
                       type="text"
-                      maxLength
-                      minLength
+                      maxLength="120"
                     />
                   </div>
                 </div>

@@ -1,29 +1,45 @@
 import React from "react";
-import { useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Select, MenuItem } from "@mui/material";
-import styles from "./Web.module.css";
+import styles from "./MenuAddPage.module.css";
+import WebHeader from "../../Components/WebHeader";
+import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const Web = () => {
+const MenuAddPage = () => {
+  // Navigation and location utility from React Router
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  //Server address variable assignment
+  const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
+
+  // Initializing states
+  const [menuData, setMenuData] = useState(null);
+  const [categorySelectedValue, setCategorySelectedValue] = useState("");
   const [optionCardWrappers, setOptionCardWrappers] = useState([
     { id: 0, options: [] },
   ]);
-  const removeOptionCardWrapper = (cardId) => {
-    setOptionCardWrappers(
-      optionCardWrappers.filter((card) => card.id !== cardId)
-    );
+
+  // If the state was passed in the route, use it, otherwise default to false
+  const isHQUser = location.state ? location.state.isHQUser : false;
+  const isBranchUser = location.state ? location.state.isBranchUser : false;
+
+  // Extracting params from URL
+  const { restaurant_id: encodedRestaurantId, branch_id: encodedBranchId } =
+    useParams();
+
+  // Decoding params
+  const restaurantId = decryptUrlParams(encodedRestaurantId);
+  const branchId = decryptUrlParams(encodedBranchId);
+  const dummyTableNumber = 0;
+
+  const handleCategorySelectChange = (event) => {
+    console.log(event.target.value);
+    setCategorySelectedValue(event.target.value);
   };
-  const [value, setValue] = React.useState("");
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-  const onGNBContainerClick = useCallback(() => {
-    // Please sync "Button" to the project
-  }, []);
-  const onTabMenuItemClick = useCallback(() => {
-    // Please sync "Button" to the project
-  }, []);
 
   const addOptionRow = (cardId) => {
     setOptionCardWrappers(
@@ -52,6 +68,12 @@ const Web = () => {
       ...optionCardWrappers,
       { id: optionCardWrappers.length, options: [] },
     ]);
+  };
+
+  const removeOptionCardWrapper = (cardId) => {
+    setOptionCardWrappers(
+      optionCardWrappers.filter((card) => card.id !== cardId)
+    );
   };
 
   const onDragEnd = (result) => {
@@ -84,34 +106,59 @@ const Web = () => {
     }
   };
 
+  /** Effect Hooks */
+
+  // Effect to redirect user according to their authorization
+  useEffect(() => {
+    if (isBranchUser && !isHQUser) {
+      navigate(
+        `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}`,
+        {
+          state: { isHQUser, isBranchUser },
+        }
+      );
+    } else if (!isHQUser && !isBranchUser) {
+      navigate(`/login_w`);
+    }
+  }, [navigate, isHQUser, isBranchUser, restaurantId, branchId]);
+
+  // Effect to fetch menu data once the component mounts
+  useEffect(() => {
+    const fetchMenuData = async () => {
+      try {
+        const response = await fetch(
+          `${serverAddress}/menu/${restaurantId}/${branchId}/${dummyTableNumber}`
+        );
+        const jsonData = await response.json();
+        const sortedData = jsonData.data.menu.sort(
+          (a, b) => a.display_order - b.display_order
+        );
+        setMenuData(sortedData);
+        /** For edit Page
+         * setCategorySelectedValue(sortedData[5].category_name);
+         */
+      } catch (error) {
+        console.log("Error fetching menu data:", error);
+      }
+    };
+    fetchMenuData();
+  }, [serverAddress, restaurantId, branchId, dummyTableNumber]);
+
+  // Return null while data is loading
+  if (!menuData) {
+    return <div></div>;
+  }
+
   return (
     <div className={styles.web}>
-      <div className={styles.gnb} onClick={onGNBContainerClick}>
-        <div className={styles.fixedarea}>
-          <div className={styles.tabmenugroup}>
-            <a
-              className={styles.tabmenuitem}
-              href="http://www.naver.com"
-              onClick={onTabMenuItemClick}
-            >
-              <b className={styles.b}>메뉴</b>
-            </a>
-            <a
-              className={styles.tabmenuitem1}
-              href="http://www.naver.com"
-              target="_blank"
-            >
-              <b className={styles.b}>주문</b>
-            </a>
-            <a className={styles.tabmenuitem1} href="http://www.naver.com">
-              <b className={styles.b}>데이터</b>
-            </a>
-          </div>
-          <div className={styles.textbutton}>
-            <b className={styles.value}>로그아웃</b>
-          </div>
-        </div>
-      </div>
+      <WebHeader
+        isHQUser={isHQUser}
+        isBranchUser={isBranchUser}
+        restaurantId={restaurantId}
+        branchId={branchId}
+      />
       <div className={styles.bodylayout} id="body">
         <div className={styles.fixedarea1}>
           <div className={styles.titlearea}>
@@ -165,13 +212,12 @@ const Web = () => {
                   <div className={styles.select} id="select">
                     <h2 className={styles.label1}>메뉴 구분</h2>
                     <Select
-                      value={value}
-                      onChange={handleChange}
+                      value={categorySelectedValue}
+                      onChange={handleCategorySelectChange}
                       displayEmpty
                       sx={{
-                        width: "100%", // Change this to adjust the width of the dropdown
-                        height: "40px", // Change this to adjust the height of the dropdown
-                        // You can add more styles if you need to
+                        width: "100%",
+                        height: "40px",
                         boxSizing: "border-box",
                         alignSelf: "stretch",
                         top: "5px",
@@ -188,21 +234,17 @@ const Web = () => {
                         getContentAnchorEl: null,
                         PaperProps: {
                           style: {
-                            maxHeight: 40 * 4.5, // where ITEM_HEIGHT is the height of each MenuItem
-                            width: "20ch", // this will adjust the width of the dropdown menu
+                            maxHeight: 40 * 4.5,
+                            width: "20ch",
                           },
                         },
                       }}
                     >
-                      <MenuItem value="">
-                        <h2 className={styles.placeholder}>Placeholder</h2>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {menuData.map((item) => (
+                        <MenuItem key={item.id} value={item.category_name}>
+                          {item.category_name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </div>
                   <div className={styles.textfield2}>
@@ -430,4 +472,4 @@ const Web = () => {
   );
 };
 
-export default Web;
+export default MenuAddPage;

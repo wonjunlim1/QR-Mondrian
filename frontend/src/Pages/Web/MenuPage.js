@@ -96,6 +96,18 @@ const MenuPage = () => {
     [navigate, isHQUser, isBranchUser, restaurantId, branchId]
   );
 
+  // Function to handle click on menu create button
+  const onMenuCreateButtonClick = useCallback(() => {
+    navigate(
+      `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+        branchId
+      )}/create`,
+      {
+        state: { isHQUser, isBranchUser },
+      }
+    );
+  }, [navigate, isHQUser, isBranchUser, restaurantId, branchId]);
+
   // Function to handle navigate on edit button click
   const onDisplayOrderButtonClick = useCallback(() => {
     navigate(
@@ -344,7 +356,10 @@ const MenuPage = () => {
         </div>
         {isHQUser && (
           <div className={styles.floatingButtonWrapper} id="current_menu_down">
-            <button className={styles.floatingButton}>
+            <button
+              className={styles.floatingButton}
+              onClick={onMenuCreateButtonClick}
+            >
               <div className={styles.floatingButtonChild} />
               <img className={styles.plusIcon} alt="" src={plusIcon} />
             </button>

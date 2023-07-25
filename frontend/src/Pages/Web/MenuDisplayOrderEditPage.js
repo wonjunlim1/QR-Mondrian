@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
-//import { Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import WebHeader from "../../Components/WebHeader";
 import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
@@ -116,6 +115,9 @@ const MenuDisplayOrderEditPage = () => {
         const response = await fetch(
           `${serverAddress}/menu/${restaurantId}/${branchId}/${dummyTableNumber}`
         );
+        console.log(
+          `${serverAddress}/menu/${restaurantId}/${branchId}/${dummyTableNumber}`
+        );
         const jsonData = await response.json();
         setMenuData(jsonData.data.menu);
         console.log(jsonData.data.menu);
@@ -131,6 +133,105 @@ const MenuDisplayOrderEditPage = () => {
   if (!menuData) {
     return <div></div>;
   }
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId, type } = result;
+    console.log(draggableId);
+
+    // Handle dragging categories
+    if (type === "category") {
+      const newMenuData = Array.from(menuData);
+      const [removed] = newMenuData.splice(source.index, 1);
+      newMenuData.splice(destination.index, 0, removed);
+      setMenuData(newMenuData);
+      return;
+    }
+
+    // If no valid destination (e.g. dragged outside the list)
+    if (!destination) {
+      return;
+    }
+
+    // If the position hasn't changed
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    // Find the category from which the item was dragged
+    const startCategory = menuData.find(
+      (category) => category.category_name === source.droppableId
+    );
+
+    // Find the category where the item was dropped
+    const endCategory = menuData.find(
+      (category) => category.category_name === destination.droppableId
+    );
+
+    console.log(startCategory);
+    console.log(endCategory);
+
+    // If it's the same category
+    if (startCategory === endCategory) {
+      // Create a new copy of the menus array
+      const newMenus = Array.from(startCategory.main_menus);
+
+      // Remove the menu from its old position
+      newMenus.splice(source.index, 1);
+
+      // Insert the menu into its new position
+      newMenus.splice(
+        destination.index,
+        0,
+        startCategory.main_menus[source.index]
+      );
+
+      // Create a new copy of the category with the new menus array
+      const newCategory = {
+        ...startCategory,
+        main_menus: newMenus,
+      };
+
+      // Create a new copy of the whole menu data array with the new category
+      const newMenuData = menuData.map((category) =>
+        category.category_name === newCategory.category_name
+          ? newCategory
+          : category
+      );
+
+      // Update the menu data in state
+      setMenuData(newMenuData);
+    } else {
+      // If it's a different category, handle moving items between categories
+      // Remove the menu from the source category
+      const startMenus = Array.from(startCategory.main_menus);
+      const [removed] = startMenus.splice(source.index, 1);
+      const newStart = {
+        ...startCategory,
+        main_menus: startMenus,
+      };
+
+      // Add the menu to the destination category
+      const endMenus = Array.from(endCategory.main_menus);
+      endMenus.splice(destination.index, 0, removed);
+      const newEnd = {
+        ...endCategory,
+        main_menus: endMenus,
+      };
+
+      // Update the menu data in the state
+      setMenuData(
+        menuData.map((category) =>
+          category.category_name === newStart.category_name
+            ? newStart
+            : category.category_name === newEnd.category_name
+            ? newEnd
+            : category
+        )
+      );
+    }
+  };
 
   return (
     <>
@@ -161,82 +262,156 @@ const MenuDisplayOrderEditPage = () => {
               <div className={styles.buttonLabel}>추가하기</div>
             </button>
           </div>
-          <DragDropContext>
-            {menuData.map((menuCategory, index) => (
-              <div key={index} className={styles.layout} id="category_card">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="all-categories" type="category">
+              {(provided) => (
                 <div
-                  className={styles.categoryTitleWrapper}
-                  id="category_card_title"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className={styles.dragWrapper}
                 >
-                  <h2 className={styles.categoryTitleLabel}>
-                    {menuCategory.category_name}
-                  </h2>
-                  <div className={styles.iconWrapper}>
-                    <div className={styles.icon}>
-                      <img alt="" src={dragIcon} />
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.menuRow} id="menu_card_row">
-                  {menuCategory.main_menus.map((menuItem, index) => (
-                    <div
-                      className={styles.menuCard}
-                      key={index}
-                      id="menu_card_body"
+                  {menuData.map((menuCategory, index) => (
+                    <Draggable
+                      key={menuCategory.category_name}
+                      draggableId={menuCategory.category_name}
+                      index={index}
                     >
-                      <div
-                        className={styles.menuCardLayout}
-                        id="menu_card_buttons"
-                      >
-                        <div className={styles.iconGroupWrapper}>
-                          <div className={styles.iconWrapper}>
-                            <div className={styles.icon}>
-                              <img alt="" src={dragIcon} />
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          className={styles.layout}
+                          id="category_card"
+                        >
+                          <div
+                            className={styles.categoryTitleWrapper}
+                            id="category_card_title"
+                          >
+                            <h2 className={styles.categoryTitleLabel}>
+                              {menuCategory.category_name}
+                            </h2>
+                            <div
+                              className={styles.iconWrapper}
+                              {...provided.dragHandleProps}
+                            >
+                              <div className={styles.icon}>
+                                <img alt="" src={dragIcon} />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-
-                      <div className={styles.menuInfoLayout} id="menu_card">
-                        {menuItem.image_url && (
-                          <img
-                            className={
-                              menuItem.menu_status
-                                ? styles.menuImage
-                                : styles.menuImageInactive
-                            }
-                            alt=""
-                            src={menuItem.image_url}
-                            loading="lazy"
-                          />
-                        )}
-
-                        <div className={styles.menuContent} id="menu_card_text">
-                          <div className={styles.menuInfo}>
-                            <h1 className={styles.menuName} id="menu_name">
-                              {menuItem.name}
-                            </h1>
-
-                            {menuItem.description && (
-                              <h2
-                                className={styles.menuDescription}
-                                id="menu_explain"
+                          <Droppable
+                            droppableId={menuCategory.category_name}
+                            type="menu"
+                            direction="horizontal"
+                          >
+                            {(provided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                className={styles.menuRow}
+                                id="menu_card_row"
                               >
-                                {menuItem.description}
-                              </h2>
-                            )}
-                          </div>
+                                {menuCategory.main_menus.map(
+                                  (menuItem, index) => (
+                                    <Draggable
+                                      key={menuItem.name}
+                                      draggableId={menuItem.name}
+                                      index={index}
+                                    >
+                                      {(provided) => (
+                                        <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          className={styles.menuCard}
+                                          id="menu_card_body"
+                                        >
+                                          <div
+                                            className={styles.menuCardLayout}
+                                            id="menu_card_buttons"
+                                          >
+                                            <div
+                                              className={
+                                                styles.iconGroupWrapper
+                                              }
+                                            >
+                                              <div
+                                                {...provided.dragHandleProps}
+                                                className={styles.iconWrapper}
+                                              >
+                                                <div className={styles.icon}>
+                                                  <img alt="" src={dragIcon} />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
 
-                          <h2 className={styles.menuPrice} id="menu_cost">
-                            {menuItem.price.toLocaleString()}원
-                          </h2>
+                                          <div
+                                            className={styles.menuInfoLayout}
+                                            id="menu_card"
+                                          >
+                                            {menuItem.image_url && (
+                                              <img
+                                                className={
+                                                  menuItem.menu_status
+                                                    ? styles.menuImage
+                                                    : styles.menuImageInactive
+                                                }
+                                                alt=""
+                                                src={menuItem.image_url}
+                                                loading="lazy"
+                                              />
+                                            )}
+
+                                            <div
+                                              className={styles.menuContent}
+                                              id="menu_card_text"
+                                            >
+                                              <div className={styles.menuInfo}>
+                                                <h1
+                                                  className={styles.menuName}
+                                                  id="menu_name"
+                                                >
+                                                  {menuItem.name}
+                                                </h1>
+
+                                                {menuItem.description && (
+                                                  <h2
+                                                    className={
+                                                      styles.menuDescription
+                                                    }
+                                                    id="menu_explain"
+                                                  >
+                                                    {menuItem.description}
+                                                  </h2>
+                                                )}
+                                              </div>
+
+                                              <h2
+                                                className={styles.menuPrice}
+                                                id="menu_cost"
+                                              >
+                                                {menuItem.price.toLocaleString()}
+                                                원
+                                              </h2>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </Draggable>
+                                  )
+                                )}
+                                {provided.placeholder}
+                              </div>
+                            )}
+                          </Droppable>
                         </div>
-                      </div>
-                    </div>
+                      )}
+                    </Draggable>
                   ))}
+                  {provided.placeholder}
                 </div>
-              </div>
-            ))}
+              )}
+            </Droppable>
           </DragDropContext>
         </div>
         <div

@@ -1,378 +1,394 @@
 html::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-color: var(--background-alternative); /* Set the desired background color */
-  }
-  
-  .web {
-    position: relative;
-    background-color: var(--background-alternative);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: left;
-    font-size: var(--headline-1);
-    color: var(--text-strong);
-    font-family: var(--font-regular);
-  }
-  
-  .contentWrapper {
-    align-self: stretch;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: scroll;
-    padding: var(--padding-5xl) var(--padding-13xl) var(--padding-13xl);
-    box-sizing: border-box;
-    gap: var(--gap-base);
-    font-size: var(--headline-1);
-    color: var(--text-strong);
-  }
-  
-  .titleArea {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    align-self: stretch;
-    justify-content: space-between;
-    padding-top: 7px;
-    padding-bottom: 7px;
-  }
-  
-  .titleWrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: var(--gap-5xs);
-  }
-  
-  .titleLabel {
-    margin: 0;
-    font-size: inherit;
-    font-family: inherit;
-    position: relative;
-    letter-spacing: -0.02em;
-    line-height: 40px;
-    font-weight: 700;
-    text-align: center;
-  }
-  
-  .inputWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--line-strong);
-    background-color: var(--white);
-    align-self: stretch;
-    border-radius: var(--br-9xs);
-    box-sizing: border-box;
-    height: 40px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: var(--padding-5xs) var(--padding-base);
-    flex-grow: 1;
-  }
-  
-  .buttonWrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-self: stretch;
-    cursor: pointer;
-    border: 0;
-    background-color: var(--primary-normal);
-    border-radius: var(--br-5xs);
-    padding: var(--padding-xs) var(--padding-base);
-    box-sizing: border-box;
-    flex-grow: auto;
-    justify-content: center;
-    gap: var(--gap-5xs);
-    height: 40px;
-  }
-  
-  .buttonLabel {
-    position: relative;
-    font-size: var(--label-2);
-    letter-spacing: 0.01em;
-    line-height: 28px;
-    font-family: var(--font-bold);
-    color: var(--white-white);
-    text-align: left;
-    white-space: nowrap;
-  }
-  
-  .layout{
-    display: flex;
-    justify-content: flex-start;
-    gap: var(--gap-base);
-    align-self: stretch;
-    border-radius: var(--br-5xl);
-    background-color: var(--background-normal);
-    border: 1px solid var(--line-normal);
-    flex-direction: column;
-    padding: var(--padding-13xl) var(--padding-5xl);
-    align-items: center;
-    font-size: var(--title-2);
-    color: var(--text-normal);
-  }
-  
-  .categoryTitleWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--gap-9xs);
-    font-size: var(--headline-1);
-    color: var(--text-strong);
-  }
-  
-  .categoryTitleLabel {
-    margin: 0;
-    font-size: inherit;
-    font-family: inherit;
-    position: relative;
-    letter-spacing: -0.02em;
-    line-height: 32px;
-    font-weight:700;
-  }
-  
-  .iconGroupWrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: var(--gap-9xs);
-  }
-  
-  .iconWrapper {
-    cursor: pointer;
-    border: 0;
-    background-color: transparent;
-    padding: var(--padding-5xs);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.6;
-  }
-  
-  .icon {
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
-    border: 0;
-    background-color: transparent;
-    padding: 0;
-    position: relative;
-    width: 24px;
-    height: 24px;
-    overflow: hidden;
-    flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .menuRow {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-    justify-content: flex-start;
-    gap: var(--gap-base);
-    align-self: stretch;
-    align-items: center;
-  }
-  
-  .menuCard {
-    display: flex;
-    justify-content: flex-start;
-    border-radius: var(--br-5xs);
-    background-color: var(--background-normal);
-    border: 1px solid var(--line-normal);
-    box-sizing: border-box;
-    height: 100%;
-    flex-direction: column;
-    padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
-    align-items: flex-start;
-    gap: var(--gap-base);
-  }
-  
-  .menuCardLayout {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-self: stretch;
-    justify-content: flex-end;
-  }
-  
-  .menuInfoLayout {
-    display: flex;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: var(--gap-2xl);
-  }
-  
-  .menuImage {
-    position: relative;
-    width: 104px;
-    height: 104px;
-    object-fit: cover;
-    border: 0px solid transparent;
-    border-radius: var(--br-9xs) ; 
-  }
-  
-  .menuImageInactive {
-    position: relative;
-    width: 104px;
-    height: 104px;
-    opacity: 0.5;
-    object-fit: cover;
-    border: 0px solid transparent;
-    border-radius: var(--br-9xs) ; 
-  }
-  
-  .menuContent {
-    align-self: stretch;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--gap-base);
-    display: flex;
-    justify-content: flex-start;
-    overflow-x: hidden;
-  }
-  
-  .menuInfo {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-5xs);
-  }
-  
-  .menuName {
-    margin: 0;
-    position: relative;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: 24px;
-    font-weight: 700;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    align-self: stretch;
-  }
-  
-  .menuDescription {
-    margin: 0;
-    position: relative;
-    font-family: inherit;
-    font-size: var(--caption-1);
-    letter-spacing: 0.03em;
-    line-height: 16px;
-    font-weight: 400;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    align-self: stretch;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    word-break: keep-all; 
-  }
-  
-  .menuPrice {
-    margin: 0;
-    position: relative;
-    font-size: var(--label-2);
-    letter-spacing: 0.01em;
-    line-height: 24px;
-    font-weight: 700;
-    font-family: inherit;
-  }
-  
-  .floatingButtonWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    padding: 0 var(--padding-13xl) var(--padding-13xl);
-    align-items: flex-start;
-    justify-content: flex-end;
-  }
-  
-  .floatingButton {
-    cursor: pointer;
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    position: relative;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-    width: 64px;
-    height: 64px;
-  }
-  
-  .floatingButtonChild {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 50%;
-    background-color: var(--primary-normal);
-    width: 64px;
-    height: 64px;
-  }
-  
-  .plusIcon {
-    position: absolute;
-    top: calc(50% - 16px);
-    left: calc(50% - 16px);
-    width: 32px;
-    height: 32px;
-  }
-  
-  .submitButtonWrapper {
-    align-self: stretch;
-    height: 86px;
-    flex-direction: row;
-    padding: 0 var(--padding-13xl) var(--padding-13xl);
-    box-sizing: border-box;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-  }
-  
-  .submitButton {
-    cursor: pointer;
-    border: 0;
-    padding: var(--padding-xs) var(--padding-base);
-    background-color: var(--primary-normal);
-    flex: 1;
-    border-radius: var(--br-5xs);
-    height: 56px;
-    flex-direction: row;
-    box-sizing: border-box;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-  }
-  
-  .submitButtonLabel {
-    position: relative;
-    font-size: var(--label-1);
-    letter-spacing: 0.01em;
-    line-height: 28px;
-    font-family: var(--font-bold);
-    color: var(--white-white);
-    text-align: left;
-  }
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: var(--background-alternative); /* Set the desired background color */
+}
+
+.web {
+  position: relative;
+  background-color: var(--background-alternative);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  font-size: var(--headline-1);
+  color: var(--text-strong);
+  font-family: var(--font-regular);
+}
+
+.contentWrapper {
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  padding: var(--padding-5xl) var(--padding-13xl) var(--padding-13xl);
+  box-sizing: border-box;
+  gap: var(--gap-base);
+  font-size: var(--headline-1);
+  color: var(--text-strong);
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  align-self: stretch;
+  justify-content: space-between;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-5xs);
+}
+
+.titleLabel {
+  margin: 0;
+  font-size: inherit;
+  font-family: inherit;
+  position: relative;
+  letter-spacing: -0.02em;
+  line-height: 40px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  background-color: var(--white);
+  align-self: stretch;
+  border-radius: var(--br-9xs);
+  box-sizing: border-box;
+  height: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: var(--padding-5xs) var(--padding-base);
+  flex-grow: 1;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  cursor: pointer;
+  border: 0;
+  background-color: var(--primary-normal);
+  border-radius: var(--br-5xs);
+  padding: var(--padding-xs) var(--padding-base);
+  box-sizing: border-box;
+  flex-grow: auto;
+  justify-content: center;
+  gap: var(--gap-5xs);
+  height: 40px;
+}
+
+.buttonLabel {
+  position: relative;
+  font-size: var(--label-2);
+  letter-spacing: 0.01em;
+  line-height: 28px;
+  font-family: var(--font-bold);
+  color: var(--white-white);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.dragWrapper {
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  gap: var(--gap-base);
+  font-size: var(--headline-1);
+  color: var(--text-strong);
+}
+
+.layout{
+  display: flex;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+  align-self: stretch;
+  border-radius: var(--br-5xl);
+  background-color: var(--background-normal);
+  border: 1px solid var(--line-normal);
+  flex-direction: column;
+  padding: var(--padding-13xl) var(--padding-5xl);
+  align-items: center;
+  font-size: var(--title-2);
+  color: var(--text-normal);
+}
+
+.categoryTitleWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-9xs);
+  font-size: var(--headline-1);
+  color: var(--text-strong);
+}
+
+.categoryTitleLabel {
+  margin: 0;
+  font-size: inherit;
+  font-family: inherit;
+  position: relative;
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  font-weight:700;
+}
+
+.iconGroupWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-9xs);
+}
+
+.iconWrapper {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  padding: var(--padding-5xs);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  cursor: 'grab';
+}
+
+.icon {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.menuRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+  align-self: stretch;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.menuCard {
+  display: flex;
+  justify-content: flex-start;
+  border-radius: var(--br-5xs);
+  background-color: var(--background-normal);
+  border: 1px solid var(--line-normal);
+  box-sizing: border-box;
+  height: 200px;
+  flex-direction: column;
+  padding: var(--padding-base) var(--padding-base) var(--padding-5xl);
+  align-items: flex-start;
+  gap: var(--gap-base);
+  width: 350px;
+}
+
+.menuCardLayout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  justify-content: flex-end;
+}
+
+.menuInfoLayout {
+  display: flex;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--gap-2xl);
+}
+
+.menuImage {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  object-fit: cover;
+  border: 0px solid transparent;
+  border-radius: var(--br-9xs) ; 
+}
+
+.menuImageInactive {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  opacity: 0.5;
+  object-fit: cover;
+  border: 0px solid transparent;
+  border-radius: var(--br-9xs) ; 
+}
+
+.menuContent {
+  align-self: stretch;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-base);
+  display: flex;
+  justify-content: flex-start;
+  overflow-x: hidden;
+}
+
+.menuInfo {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+}
+
+.menuName {
+  margin: 0;
+  position: relative;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 24px;
+  font-weight: 700;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  align-self: stretch;
+}
+
+.menuDescription {
+  margin: 0;
+  position: relative;
+  font-family: inherit;
+  font-size: var(--caption-1);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: stretch;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: keep-all; 
+}
+
+.menuPrice {
+  margin: 0;
+  position: relative;
+  font-size: var(--label-2);
+  letter-spacing: 0.01em;
+  line-height: 24px;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.floatingButtonWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  padding: 0 var(--padding-13xl) var(--padding-13xl);
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.floatingButton {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  width: 64px;
+  height: 64px;
+}
+
+.floatingButtonChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background-color: var(--primary-normal);
+  width: 64px;
+  height: 64px;
+}
+
+.plusIcon {
+  position: absolute;
+  top: calc(50% - 16px);
+  left: calc(50% - 16px);
+  width: 32px;
+  height: 32px;
+}
+
+.submitButtonWrapper {
+  align-self: stretch;
+  height: 86px;
+  flex-direction: row;
+  padding: 0 var(--padding-13xl) var(--padding-13xl);
+  box-sizing: border-box;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.submitButton {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-xs) var(--padding-base);
+  background-color: var(--primary-normal);
+  flex: 1;
+  border-radius: var(--br-5xs);
+  height: 56px;
+  flex-direction: row;
+  box-sizing: border-box;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.submitButtonLabel {
+  position: relative;
+  font-size: var(--label-1);
+  letter-spacing: 0.01em;
+  line-height: 28px;
+  font-family: var(--font-bold);
+  color: var(--white-white);
+  text-align: left;
+}

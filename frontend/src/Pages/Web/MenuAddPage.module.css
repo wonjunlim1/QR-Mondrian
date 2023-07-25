@@ -1,0 +1,698 @@
+.b {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 28px;
+  }
+  .tabmenuitem {
+    text-decoration: none;
+    border-bottom: 3px solid var(--white);
+    box-sizing: border-box;
+    width: 120px;
+    padding: var(--padding-base) var(--padding-21xl);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: inherit;
+  }
+  .tabmenugroup,
+  .tabmenuitem,
+  .tabmenuitem1 {
+    display: flex;
+    flex-direction: row;
+  }
+  .tabmenuitem1 {
+    text-decoration: none;
+    width: 120px;
+    padding: var(--padding-base) var(--padding-21xl);
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+    color: inherit;
+  }
+  .tabmenugroup {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .textbutton {
+    padding: var(--padding-base);
+    justify-content: center;
+    font-size: var(--label-2-regular-size);
+  }
+  .fixedarea,
+  .gnb,
+  .textbutton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .fixedarea {
+    width: 1136px;
+    justify-content: space-between;
+  }
+  .gnb {
+    align-self: stretch;
+    background-color: var(--primary-normal);
+    padding: 0 var(--padding-13xl);
+    justify-content: center;
+    cursor: pointer;
+  }
+  .arrowLeftIcon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .icon {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-5xs);
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .title {
+    position: relative;
+    letter-spacing: -0.02em;
+    line-height: 32px;
+  }
+  .titlearea {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--gap-5xs);
+  }
+  .menuImageIcon {
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .label {
+    position: relative;
+    font-size: var(--label-1-bold-size);
+    letter-spacing: 0.01em;
+    line-height: 28px;
+    font-family: var(--label-1-bold);
+    color: var(--text-alternative-1);
+    text-align: left;
+  }
+  .button,
+  .div1 {
+    align-self: stretch;
+    display: flex;
+  }
+  .button {
+    cursor: pointer;
+    border: 1px solid var(--line-strong);
+    padding: var(--padding-5xs) var(--padding-base);
+    background-color: var(--secondary-normal);
+    border-radius: var(--br-5xs);
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .div1 {
+    width: 362.67px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-base);
+  }
+  .label1 {
+    margin: 0;
+    position: relative;
+    font-size: inherit;
+    letter-spacing: 0.01em;
+    line-height: 20px;
+    font-weight: 400;
+    font-family: inherit;
+  }
+  .container {
+    border: 1px solid var(--line-strong);
+    background-color: var(--white);
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    box-sizing: border-box;
+    height: 40px;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+  }
+  .container,
+  .layout1,
+  .textfield {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .textfield {
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-9xs);
+  }
+  .layout1 {
+    align-self: stretch;
+    flex-direction: row;
+    gap: var(--gap-13xl);
+    height: 100%;
+    width: 100%;
+  }
+  .placeholder {
+    margin: 0;
+    flex: 1;
+    position: relative;
+    font-size: inherit;
+    letter-spacing: 0.01em;
+    line-height: 24px;
+    font-weight: 400;
+    font-family: inherit;
+  }
+  .vectorIcon {
+    position: absolute;
+    height: 33.33%;
+    width: 58.33%;
+    top: 33.33%;
+    right: 20.83%;
+    bottom: 33.33%;
+    left: 20.83%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .chevronUp {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .container2 {
+    border-radius: var(--br-9xs);
+    background-color: var(--white);
+    border: 1px solid var(--grayscale-gray900);
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--gap-3xs);
+  }
+  .container2,
+  .dropdown,
+  .layout3 {
+    align-self: stretch;
+  }
+  .layout3 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-5xs);
+    font-size: var(--label-2-regular-size);
+    color: var(--text-assitive);
+  }
+  .select {
+    flex: 1;
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    box-sizing: border-box;
+    height: 40px;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .label4 {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 20px;
+  }
+  .textfield2 {
+    flex: 1;
+    height: 64px;
+    flex-direction: column;
+    gap: var(--gap-9xs);
+  }
+  .div,
+  .div2,
+  .textfield2 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .div2 {
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-5xl);
+  }
+  .div {
+    align-self: stretch;
+    flex-direction: row;
+    gap: var(--gap-13xl);
+  }
+  .dragIndicatorIcon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  .container4 {
+    box-sizing: border-box;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .icon1 {
+    cursor: pointer;
+    border: 0;
+    padding: 0 0 0 var(--padding-3xs);
+    background-color: transparent;
+    width: 22px;
+    justify-content: flex-end;
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+    opacity: 0.2;
+  
+    box-sizing: border-box;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  
+    position: relative;
+    top: 30px; /* Adjust as per your need */
+    
+  }
+  .container4 {
+    border: 1px solid var(--grayscale-gray900);
+    background-color: var(--white);
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    padding: var(--padding-5xs) var(--padding-base);
+    justify-content: flex-start;
+  }
+  .xLChild {
+    position: relative;
+    width: 18.5px;
+    height: 18.5px;
+  }
+  .div4,
+  .textfield4,
+  .xL {
+    display: flex;
+    flex-direction: row;
+  }
+  .xL {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-11xs);
+    background-color: transparent;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+  }
+  .div4,
+  .textfield4 {
+    width: 314.67px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: var(--gap-6xl);
+  }
+  .textfield4 {
+    width: 114.33px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--gap-9xs);
+  }
+  .container6,
+  .deleteChild {
+    border-radius: var(--br-9xs);
+    height: 40px;
+  }
+  .container6 {
+    border: 1px solid var(--line-strong);
+    font-family: var(--label-1-bold);
+    font-size: var(--label-2-regular-size);
+    background-color: var(--white);
+    align-self: stretch;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .deleteChild {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: var(--secondary-normal);
+    width: 40px;
+  }
+  .minusIcon {
+    position: absolute;
+    top: calc(50% - 1px);
+    left: calc(50% - 11px);
+    width: 22px;
+    height: 2px;
+  }
+  .delete {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  .dragIndicatorIcon1 {
+    position: relative;
+    width: 12px;
+    height: 20px;
+  }
+  .icon2,
+  .row {
+    flex-direction: row;
+  }
+  .icon2 {
+    cursor: pointer;
+    border: 0;
+    padding: 0 0 0 var(--padding-3xs);
+    background-color: transparent;
+    height: 40px;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .row {
+    width: 314.67px;
+    align-items: flex-end;
+    gap: var(--gap-5xs);
+  }
+  .button1,
+  .div5,
+  .row,
+  .row1 {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .row1 {
+    align-self: stretch;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: var(--gap-5xs);
+  }
+  .button1,
+  .div5 {
+    width: 330px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-base);
+  }
+  .div5{
+    height: 224px;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  
+  .div5::-webkit-scrollbar {
+    width: 5px; /* change the number to make it even thinner or thicker */
+  }
+  
+  .div5::-webkit-scrollbar-thumb {
+    background: #888; /* color of the scroll bar */
+    border-radius: 2px; /* if you want it to have rounded corners */
+  }
+  
+  .div5::-webkit-scrollbar-thumb:hover {
+    background: #555; /* color of the scroll bar when hovered */
+  }
+  
+  
+  .button1 {
+    cursor: pointer;
+    border: 1px solid var(--line-strong);
+    padding: var(--padding-xs) var(--padding-base);
+    background-color: var(--secondary-normal);
+    border-radius: var(--br-5xs);
+    box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-5xs);
+  }
+  .layout4 {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-5xl);
+  }
+  .optionCard,
+  .optionCardWrapper {
+    width: 362.67px;
+    display: flex;
+    align-items: center;
+  }
+  .optionCard {
+    border-radius: var(--br-5xs);
+    background-color: var(--white);
+    flex-direction: column;
+    padding: var(--padding-base) var(--padding-5xl) var(--padding-5xl);
+    box-sizing: border-box;
+    justify-content: flex-start;
+    gap: var(--gap-5xs);
+    position: relative;
+  }
+  
+  
+  .optionCardWrapper {
+    align-self: stretch;
+    flex-direction: row;
+    justify-content: center;
+    flex: 1 0 30%; /* this will allow 3 items per row, you can adjust this value to best fit your needs */
+    box-sizing: border-box;
+    max-width: 30%; /* set the same value as flex-basis above */
+  }
+  .value {
+    position: relative;
+    letter-spacing: 0.01em;
+    line-height: 24px;
+  }
+  .container10 {
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    background-color: var(--white);
+    border: 1px solid var(--line-strong);
+    box-sizing: border-box;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: var(--label-2-regular-size);
+    color: var(--text-normal);
+  }
+  .delete2 {
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  .button2,
+  .container12,
+  .icon5 {
+    display: flex;
+    flex-direction: row;
+  }
+  .icon5 {
+    height: 40px;
+    padding: 0 0 0 var(--padding-3xs);
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .button2,
+  .container12 {
+    align-self: stretch;
+    border: 1px solid var(--line-strong);
+  }
+  .container12 {
+    border-radius: var(--br-9xs);
+    background-color: var(--white);
+    box-sizing: border-box;
+    height: 40px;
+    padding: var(--padding-5xs) var(--padding-base);
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: var(--label-2-regular-size);
+    color: var(--text-assitive);
+  }
+  .button2 {
+    border-radius: var(--br-5xs);
+    background-color: var(--secondary-normal);
+    padding: var(--padding-xs) var(--padding-base);
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-5xs);
+    font-size: var(--label-1-bold-size);
+    color: var(--text-alternative-1);
+  }
+  .layout5,
+  .plusParent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .layout5 {
+    width: 314.67px;
+    align-items: flex-start;
+    gap: var(--gap-5xl);
+  }
+  .plusParent {
+    flex: 1;
+    align-items: center;
+    gap: var(--gap-5xs);
+  }
+  .div3,
+  .layout {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .optionCard2 {
+    cursor: pointer;
+    border: 1px solid var(--line-strong);
+    padding: 0;
+    background-color: var(--secondary-normal);
+    border-radius: var(--br-5xs);
+    box-sizing: border-box;
+    width: 362.67px;
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .div3,
+  .layout {
+    gap: var(--gap-5xl);
+  }
+  .layout {
+    flex-direction: column;
+    gap: var(--gap-13xl);
+    font-size: var(--label-3-regular-size);
+    color: var(--text-alternative-2);
+  }
+  .label17 {
+    position: relative;
+    font-size: var(--label-1-bold-size);
+    letter-spacing: 0.01em;
+    line-height: 28px;
+    font-family: var(--label-1-bold);
+    color: var(--white);
+    text-align: left;
+  }
+  .button3 {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-xs) var(--padding-base);
+    background-color: var(--primary-normal);
+    align-self: stretch;
+    flex: 1;
+    border-radius: var(--br-5xs);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .fixedarea1 {
+    align-self: stretch;
+    gap: var(--gap-13xl);
+  }
+  .bodylayout,
+  .fixedarea1,
+  .web {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .bodylayout {
+    align-self: stretch;
+    flex: 1;
+    padding: var(--padding-13xl);
+    font-size: var(--headline-bold-size);
+    color: var(--grayscale-gray900);
+  }
+  .web {
+    position: relative;
+    background-color: var(--background-alternative);
+    width: 100%;
+    height: 992px;
+    text-align: left;
+    font-size: var(--label-1-bold-size);
+    color: var(--white);
+    font-family: var(--label-1-bold);
+  }
+  
+  .div3 {
+    display: flex ;
+    flex-direction: row  ;
+    overflow-x: scroll;
+    justify-content: flex-start ;
+    align-items: flex-start ;
+    box-sizing: border-box ;
+    gap: var(--gap-5xl) ;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Or however much space you want between rows */
+  }
+  
+  
+  
+  @media screen and (max-width: 960px) {
+    .div1 {
+      flex: 1;
+    }
+    .div1,
+    .layout {
+      height: auto;
+    }
+    .div3{
+      flex-direction: column;
+    }
+    
+  
+  }
+  @media screen and (max-width: 840px) {
+    .div2 {
+      flex: unset;
+      align-self: stretch;
+    }
+    .div {
+      flex-direction: column;
+    }
+    
+  }

@@ -59,6 +59,7 @@ const MenuDisplayOrderEditPage = () => {
       );
       console.log(response);
       setEventCounter(eventCounter + 1);
+      setCategoryInputValue("");
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +67,8 @@ const MenuDisplayOrderEditPage = () => {
 
   // Function to handle click on edit submit button
   const onEditSubmitButtonClick = async () => {
+    console.log(menuData);
+    return;
     const data = {};
     navigate(
       `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(branchId)}`,
@@ -138,6 +141,8 @@ const MenuDisplayOrderEditPage = () => {
       );
       setMenuData(newMenuData);
     } else {
+      window.alert("다른 메뉴 구분으로는 이동이 불가합니다");
+      /**
       const startMenus = Array.from(startCategory.main_menus);
       const [removed] = startMenus.splice(source.index, 1);
       const newStart = {
@@ -159,6 +164,7 @@ const MenuDisplayOrderEditPage = () => {
             : category
         )
       );
+       */
     }
   };
 
@@ -218,13 +224,11 @@ const MenuDisplayOrderEditPage = () => {
         <div className={styles.contentWrapper} id="current_menu_body">
           <div className={styles.titleArea} id="title_div">
             <div className={styles.titleWrapper}>
-              <h1 className={styles.titleLabel}>메뉴 카테고리 추가</h1>
+              <h1 className={styles.titleLabel}>메뉴 구분 추가</h1>
             </div>
             <input
               className={styles.inputWrapper}
               type="text"
-              maxLength="10"
-              minLength="5"
               value={categoryInputValue}
               onChange={(e) => setCategoryInputValue(e.target.value)}
             />

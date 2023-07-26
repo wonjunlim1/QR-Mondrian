@@ -195,6 +195,20 @@ html::before {
     justify-content: flex-start;
   }
   
+  .textFieldContainerLong {
+    border: 1px solid var(--line-strong);
+    background-color: var(--white);
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    box-sizing: border-box;
+    height: 120px;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  
   .selectArea {
     flex: 1;
     align-self: stretch;

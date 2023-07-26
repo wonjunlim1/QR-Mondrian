@@ -253,7 +253,6 @@ const MenuAddPage = () => {
                       name="menuNameValue"
                       value={state.menuNameValue}
                       onChange={handleChange}
-                      maxlength="30"
                     />
                   </div>
                   <div className={styles.textField}>
@@ -262,11 +261,10 @@ const MenuAddPage = () => {
                     </h2>
                     <input
                       className={styles.textFieldContainer}
-                      type="text"
+                      type="number"
                       name="menuPriceValue"
                       value={state.menuPriceValue}
                       onChange={handleChange}
-                      maxLength="15"
                     />
                   </div>
                 </div>
@@ -312,11 +310,7 @@ const MenuAddPage = () => {
                   </div>
                   <div className={styles.textField}>
                     <div className={styles.textFieldLabel}>메뉴 설명</div>
-                    <input
-                      className={styles.textFieldContainer}
-                      type="text"
-                      maxLength="120"
-                    />
+                    <input className={styles.textFieldContainer} type="text" />
                   </div>
                 </div>
               </div>
@@ -374,8 +368,6 @@ const MenuAddPage = () => {
                                       <input
                                         className={styles.textFieldContainer}
                                         type="text"
-                                        maxLength
-                                        minLength
                                       />
                                     </div>
                                     <button
@@ -436,8 +428,6 @@ const MenuAddPage = () => {
                                                         styles.textFieldContainer
                                                       }
                                                       type="text"
-                                                      maxLength
-                                                      minLength
                                                     />
                                                   </div>
                                                   <div
@@ -456,9 +446,7 @@ const MenuAddPage = () => {
                                                       className={
                                                         styles.textFieldContainer
                                                       }
-                                                      type="text"
-                                                      maxLength
-                                                      minLength
+                                                      type="number"
                                                     />
                                                   </div>
                                                   <button

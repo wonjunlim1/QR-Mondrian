@@ -46,7 +46,7 @@
 .boldLabel {
   position: relative;
   letter-spacing: 0.01em;
-  line-height: 34px;
+  line-height: 28px;
 }
 
 .tabMenuItemActive {
@@ -67,7 +67,7 @@
 .buttonLabel {
   position: relative;
   letter-spacing: 0.01em;
-  line-height: 30px;
+  line-height: 24px;
 }
 
 .button {

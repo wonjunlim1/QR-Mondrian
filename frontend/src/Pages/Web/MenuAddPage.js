@@ -69,6 +69,32 @@ const MenuAddPage = () => {
     }));
   };
 
+  // Function to handle click on edit submit button
+  const onSubmitButtonClick = async () => {
+    const data = {};
+    navigate(
+      `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(branchId)}`,
+      {
+        state: { isHQUser, isBranchUser },
+      }
+    );
+    try {
+      const response = await fetch(
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/TBD`,
+        {
+          method: "TBD",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const addOptionRow = (cardId) => {
     console.log(optionCardWrappers);
     setOptionCardWrappers(
@@ -518,7 +544,7 @@ const MenuAddPage = () => {
               </DragDropContext>
             </div>
           </div>
-          <button className={styles.submitButton}>
+          <button className={styles.submitButton} onClick={onSubmitButtonClick}>
             <b className={styles.submitButtonLabel}>추가하기</b>
           </button>
         </div>

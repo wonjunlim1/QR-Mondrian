@@ -5,8 +5,13 @@ import { Select, MenuItem } from "@mui/material";
 import styles from "./MenuAddPage.module.css";
 import WebHeader from "../../Components/WebHeader";
 import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
-
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import dragIcon from "../../Assets/Images/drag.svg";
+import menuImageIcon from "../../Assets/Images/menu-placeholder.svg";
+import deleteIcon from "../../Assets/Images/delete.svg";
+import minusIcon from "../../Assets/Images/minus-web.svg";
+import plusIcon from "../../Assets/Images/plus.svg";
+import backIcon from "../../Assets/Images/arrow-back.svg";
 
 const MenuAddPage = () => {
   // Navigation and location utility from React Router
@@ -27,6 +32,7 @@ const MenuAddPage = () => {
   const [optionCardWrappers, setOptionCardWrappers] = useState([
     { id: 0, options: [] },
   ]);
+  const [nextOptionId, setNextOptionId] = useState(0);
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
@@ -57,14 +63,17 @@ const MenuAddPage = () => {
   };
 
   const addOptionRow = (cardId) => {
+    console.log(optionCardWrappers);
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
         card.id === cardId
-          ? { ...card, options: [...card.options, { id: Math.random() }] }
+          ? { ...card, options: [...card.options, { id: nextOptionId }] }
           : card
       )
     );
+    setNextOptionId((prevId) => prevId + 1);
   };
+
   const removeOptionRow = (cardId, optionId) => {
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
@@ -174,38 +183,34 @@ const MenuAddPage = () => {
         restaurantId={restaurantId}
         branchId={branchId}
       />
-      <div className={styles.bodylayout} id="body">
-        <div className={styles.fixedarea1}>
-          <div className={styles.titlearea}>
+      <div className={styles.contentWrapper} id="body">
+        <div className={styles.layout}>
+          <div className={styles.titleArea}>
             <button className={styles.icon}>
-              <img
-                className={styles.arrowLeftIcon}
-                alt=""
-                src="/arrowleft.svg"
-              />
+              <img className={styles.backIcon} alt="" src={backIcon} />
             </button>
-            <b className={styles.title}>메뉴 추가하기</b>
+            <b className={styles.titleLabel}>메뉴 추가하기</b>
           </div>
-          <div className={styles.layout}>
-            <div className={styles.div} id="image_input_body">
-              <div className={styles.div1} id="image_body">
+          <div className={styles.bodyLayout}>
+            <div className={styles.menuWrapper} id="image_input_body">
+              <div className={styles.menuImageWrapper} id="image_body">
                 <img
                   className={styles.menuImageIcon}
                   alt=""
-                  src="/menu-image.svg"
+                  src={menuImageIcon}
                 />
-                <button className={styles.button}>
-                  <div className={styles.label}>사진 추가</div>
+                <button className={styles.menuAddButton}>
+                  <div className={styles.buttonLabel}>사진 추가</div>
                 </button>
               </div>
-              <div className={styles.div2} id="input_body">
-                <div className={styles.layout1}>
-                  <div className={styles.textfield}>
-                    <h2 className={styles.label1} id="menu_name">
+              <div className={styles.menuValueWrapper} id="input_body">
+                <div className={styles.menuValueRow}>
+                  <div className={styles.textField}>
+                    <h2 className={styles.textFieldLabel} id="menu_name">
                       메뉴 이름
                     </h2>
                     <input
-                      className={styles.container}
+                      className={styles.textFieldContainer}
                       type="text"
                       name="menuNameValue"
                       value={state.menuNameValue}
@@ -213,12 +218,12 @@ const MenuAddPage = () => {
                       maxlength="30"
                     />
                   </div>
-                  <div className={styles.textfield}>
-                    <h2 className={styles.label1} id="menu_price">
+                  <div className={styles.textField}>
+                    <h2 className={styles.textFieldLabel} id="menu_price">
                       메뉴 가격
                     </h2>
                     <input
-                      className={styles.container}
+                      className={styles.textFieldContainer}
                       type="text"
                       name="menuPriceValue"
                       value={state.menuPriceValue}
@@ -227,9 +232,9 @@ const MenuAddPage = () => {
                     />
                   </div>
                 </div>
-                <div className={styles.layout1}>
-                  <div className={styles.select} id="select">
-                    <h2 className={styles.label1}>메뉴 구분</h2>
+                <div className={styles.menuValueRow}>
+                  <div className={styles.selectArea} id="select">
+                    <h2 className={styles.textFieldLabel}>메뉴 구분</h2>
                     <Select
                       name="categorySelectedValue"
                       value={state.categorySelectedValue}
@@ -267,10 +272,10 @@ const MenuAddPage = () => {
                       ))}
                     </Select>
                   </div>
-                  <div className={styles.textfield2}>
-                    <div className={styles.label4}>메뉴 설명</div>
+                  <div className={styles.textField}>
+                    <div className={styles.textFieldLabel}>메뉴 설명</div>
                     <input
-                      className={styles.container}
+                      className={styles.textFieldContainer}
                       type="text"
                       maxLength="120"
                     />
@@ -278,212 +283,229 @@ const MenuAddPage = () => {
                 </div>
               </div>
             </div>
-
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable
-                droppableId="options"
-                direction="horizontal"
-                type="card"
-              >
-                {(provided) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className={styles.div3}
-                  >
-                    {optionCardWrappers.map((card, index) => (
-                      <Draggable
-                        key={card.id}
-                        draggableId={`card-${card.id}`}
-                        index={index}
-                        type="card"
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            id={`option_card_${index}`}
-                          >
-                            <div className={styles.optionCard} id="option_card">
+            <div className={styles.optionWrapper}>
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable
+                  droppableId="options"
+                  direction="horizontal"
+                  type="card"
+                >
+                  {(provided) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className={styles.optionWrapper}
+                    >
+                      {optionCardWrappers.map((card, index) => (
+                        <Draggable
+                          key={card.id}
+                          draggableId={`card-${card.id}`}
+                          index={index}
+                          type="card"
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              id={`option_card_${index}`}
+                            >
                               <div
-                                {...provided.dragHandleProps}
-                                className={styles.icon1}
+                                className={styles.optionCard}
+                                id="option_card"
                               >
-                                <img
-                                  className={styles.dragIndicatorIcon}
-                                  alt=""
-                                  src="/drag-indicator2.svg"
-                                />
-                              </div>
-
-                              <div className={styles.layout4}>
                                 <div
-                                  className={styles.div4}
-                                  id="option_classification"
-                                >
-                                  <div className={styles.textfield}>
-                                    <div className={styles.label4}>
-                                      옵션 구분
-                                    </div>
-                                    <input
-                                      className={styles.container4}
-                                      type="text"
-                                      maxLength
-                                      minLength
-                                    />
-                                  </div>
-                                  <button
-                                    onClick={() =>
-                                      removeOptionCardWrapper(card.id)
-                                    }
-                                    className={styles.xL}
-                                  >
-                                    <img
-                                      className={styles.xLChild}
-                                      alt=""
-                                      src="/group-12.svg"
-                                    />
-                                  </button>
-                                </div>
-                                <Droppable
-                                  droppableId={`option-${card.id}`}
-                                  direction="vertical"
-                                  type="option"
-                                >
-                                  {(provided) => (
-                                    <div
-                                      {...provided.droppableProps}
-                                      ref={provided.innerRef}
-                                      className={styles.div5}
-                                    >
-                                      {card.options.map(
-                                        (option, optionIndex) => (
-                                          <Draggable
-                                            key={option.id}
-                                            draggableId={`option-${card.id}-${option.id}`}
-                                            index={optionIndex}
-                                            type="option"
-                                          >
-                                            {(provided) => (
-                                              <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                id={`option_input_row_${optionIndex}`}
-                                                className={styles.row}
-                                              >
-                                                <div
-                                                  className={styles.textfield4}
-                                                >
-                                                  <div
-                                                    className={styles.label4}
-                                                  >
-                                                    옵션 이름
-                                                  </div>
-                                                  <input
-                                                    className={styles.container}
-                                                    type="text"
-                                                    maxLength
-                                                    minLength
-                                                  />
-                                                </div>
-                                                <div
-                                                  className={styles.textfield4}
-                                                >
-                                                  <div
-                                                    className={styles.label4}
-                                                  >
-                                                    옵션 가격
-                                                  </div>
-                                                  <input
-                                                    className={
-                                                      styles.container6
-                                                    }
-                                                    type="text"
-                                                    placeholder="16,000"
-                                                    maxLength
-                                                    minLength
-                                                  />
-                                                </div>
-                                                <button
-                                                  onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    removeOptionRow(
-                                                      card.id,
-                                                      option.id
-                                                    );
-                                                  }}
-                                                  className={styles.delete}
-                                                >
-                                                  <div
-                                                    className={
-                                                      styles.deleteChild
-                                                    }
-                                                  />
-                                                  <img
-                                                    className={styles.minusIcon}
-                                                    alt=""
-                                                    src="/minus2.svg"
-                                                  />
-                                                </button>
-                                                <div
-                                                  {...provided.dragHandleProps}
-                                                  className={styles.icon2}
-                                                >
-                                                  <img
-                                                    className={
-                                                      styles.dragIndicatorIcon1
-                                                    }
-                                                    alt=""
-                                                    src="/drag-indicator2.svg"
-                                                  />
-                                                </div>
-                                              </div>
-                                            )}
-                                          </Draggable>
-                                        )
-                                      )}
-                                      {provided.placeholder}
-                                    </div>
-                                  )}
-                                </Droppable>
-                                <button
-                                  onClick={() => addOptionRow(card.id)}
-                                  className={styles.button1}
+                                  {...provided.dragHandleProps}
+                                  className={styles.dragHorizontalIconWrapper}
                                 >
                                   <img
-                                    className={styles.dragIndicatorIcon}
+                                    className={styles.dragIcon}
                                     alt=""
-                                    src="/plus1.svg"
+                                    src={dragIcon}
                                   />
-                                  <div className={styles.label}>옵션 추가</div>
-                                </button>
+                                </div>
+
+                                <div className={styles.optionCardContent}>
+                                  <div
+                                    className={styles.optionCategoryWrapper}
+                                    id="option_classification"
+                                  >
+                                    <div className={styles.textField}>
+                                      <div className={styles.textFieldLabel}>
+                                        옵션 구분
+                                      </div>
+                                      <input
+                                        className={styles.textFieldContainer}
+                                        type="text"
+                                        maxLength
+                                        minLength
+                                      />
+                                    </div>
+                                    <button
+                                      onClick={() =>
+                                        removeOptionCardWrapper(card.id)
+                                      }
+                                      className={styles.deleteIconWrapper}
+                                    >
+                                      <img
+                                        className={styles.deleteIcon}
+                                        alt=""
+                                        src={deleteIcon}
+                                      />
+                                    </button>
+                                  </div>
+                                  <Droppable
+                                    droppableId={`option-${card.id}`}
+                                    direction="vertical"
+                                    type="option"
+                                  >
+                                    {(provided) => (
+                                      <div
+                                        {...provided.droppableProps}
+                                        ref={provided.innerRef}
+                                        className={styles.optionItemWrapper}
+                                      >
+                                        {card.options.map(
+                                          (option, optionIndex) => (
+                                            <Draggable
+                                              key={option.id}
+                                              draggableId={`option-${card.id}-${option.id}`}
+                                              index={optionIndex}
+                                              type="option"
+                                            >
+                                              {(provided) => (
+                                                <div
+                                                  ref={provided.innerRef}
+                                                  {...provided.draggableProps}
+                                                  id={`option_input_row_${optionIndex}`}
+                                                  className={styles.optionRow}
+                                                >
+                                                  <div
+                                                    className={
+                                                      styles.textFieldOption
+                                                    }
+                                                  >
+                                                    <div
+                                                      className={
+                                                        styles.textFieldLabel
+                                                      }
+                                                    >
+                                                      옵션 이름
+                                                    </div>
+                                                    <input
+                                                      className={
+                                                        styles.textFieldContainer
+                                                      }
+                                                      type="text"
+                                                      maxLength
+                                                      minLength
+                                                    />
+                                                  </div>
+                                                  <div
+                                                    className={
+                                                      styles.textFieldOption
+                                                    }
+                                                  >
+                                                    <div
+                                                      className={
+                                                        styles.textFieldLabel
+                                                      }
+                                                    >
+                                                      옵션 가격
+                                                    </div>
+                                                    <input
+                                                      className={
+                                                        styles.textFieldContainer
+                                                      }
+                                                      type="text"
+                                                      maxLength
+                                                      minLength
+                                                    />
+                                                  </div>
+                                                  <button
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      removeOptionRow(
+                                                        card.id,
+                                                        option.id
+                                                      );
+                                                    }}
+                                                    className={
+                                                      styles.minusIconArea
+                                                    }
+                                                  >
+                                                    <div
+                                                      className={
+                                                        styles.minusIconWrapper
+                                                      }
+                                                    />
+                                                    <img
+                                                      className={
+                                                        styles.minusIcon
+                                                      }
+                                                      alt=""
+                                                      src={minusIcon}
+                                                    />
+                                                  </button>
+                                                  <div
+                                                    {...provided.dragHandleProps}
+                                                    className={
+                                                      styles.dragVerticalIconWrapper
+                                                    }
+                                                  >
+                                                    <img
+                                                      className={
+                                                        styles.dragIcon
+                                                      }
+                                                      alt=""
+                                                      src={dragIcon}
+                                                    />
+                                                  </div>
+                                                </div>
+                                              )}
+                                            </Draggable>
+                                          )
+                                        )}
+                                        {provided.placeholder}
+                                      </div>
+                                    )}
+                                  </Droppable>
+                                  <button
+                                    onClick={() => addOptionRow(card.id)}
+                                    className={styles.optionAddButton}
+                                  >
+                                    <img
+                                      className={styles.plusIcon}
+                                      alt=""
+                                      src={plusIcon}
+                                    />
+                                    <div className={styles.buttonLabel}>
+                                      옵션 추가
+                                    </div>
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    <button
-                      onClick={addOptionWrapper}
-                      className={styles.optionCard2}
-                    >
-                      <div className={styles.plusParent}>
-                        <img
-                          className={styles.dragIndicatorIcon}
-                          alt=""
-                          src="/plus3.svg"
-                        />
-                        <div className={styles.label}>옵션 구분 추가</div>
-                      </div>
-                    </button>
-                    {provided.placeholder}
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+                <button
+                  onClick={addOptionWrapper}
+                  className={styles.optionCardAdd}
+                >
+                  <div className={styles.plusIconWrapper}>
+                    <img className={styles.plusIcon} alt="" src={plusIcon} />
+                    <div className={styles.buttonLabel}>옵션 구분 추가</div>
                   </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+                </button>
+              </DragDropContext>
+            </div>
           </div>
-          <button className={styles.button3}>
-            <b className={styles.label17}>수정 완료</b>
+          <button className={styles.submitButton}>
+            <b className={styles.submitButtonLabel}>추가하기</b>
           </button>
         </div>
       </div>

@@ -17,6 +17,7 @@ const MenuDisplayOrderEditPage = () => {
 
   // Initializing states
   const [menuData, setMenuData] = useState(null);
+  const [initialMenuData, setInitialMenuData] = useState(null);
   const [eventCounter, setEventCounter] = useState(0);
   const [categoryInputValue, setCategoryInputValue] = useState("");
 
@@ -67,15 +68,98 @@ const MenuDisplayOrderEditPage = () => {
 
   // Function to handle click on edit submit button
   const onEditSubmitButtonClick = async () => {
-    console.log(menuData);
-    return;
-    const data = {};
-    navigate(
-      `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(branchId)}`,
-      {
-        state: { isHQUser, isBranchUser },
-      }
+    const initialData = initialMenuData.map((category, categoryIndex) => ({
+      id: category.id,
+      name: category.category_name,
+      display_order: categoryIndex + 1,
+      main_menus: category.main_menus.map((menu, menuIndex) => ({
+        id: menu.id,
+        name: menu.name,
+        display_order: menuIndex + 1,
+      })),
+    }));
+    const newData = menuData.map((category, categoryIndex) => ({
+      id: category.id,
+      name: category.category_name,
+      display_order: categoryIndex + 1,
+      main_menus: category.main_menus.map((menu, menuIndex) => ({
+        id: menu.id,
+        name: menu.name,
+        display_order: menuIndex + 1,
+      })),
+    }));
+
+    const initialDataCategoryMap = new Map(
+      initialData.map((item) => [
+        item.id,
+        { display_order: item.display_order, name: item.name },
+      ])
     );
+    const newDataCategoryMap = new Map(
+      newData.map((item) => [
+        item.id,
+        { display_order: item.display_order, name: item.name },
+      ])
+    );
+
+    let categoryDiffList = [];
+
+    for (let [id, data] of initialDataCategoryMap) {
+      if (newDataCategoryMap.get(id).display_order !== data.display_order) {
+        categoryDiffList.push({
+          id: id,
+          display_order: newDataCategoryMap.get(id).display_order,
+          name: newDataCategoryMap.get(id).name,
+        });
+      }
+    }
+
+    let menuDiffList = [];
+
+    initialData.forEach((initialDataCategory, i) => {
+      const newDataCategory = newData[i];
+
+      // convert both arrays to maps for easy lookup
+      const initialDataMenuMap = new Map(
+        initialDataCategory.main_menus.map((item) => [
+          item.id,
+          { display_order: item.display_order, name: item.name },
+        ])
+      );
+      const newDataMenuMap = new Map(
+        newDataCategory.main_menus.map((item) => [
+          item.id,
+          { display_order: item.display_order, name: item.name },
+        ])
+      );
+
+      for (let [id, data] of initialDataMenuMap) {
+        if (
+          newDataMenuMap.has(id) &&
+          newDataMenuMap.get(id).display_order !== data.display_order
+        ) {
+          menuDiffList.push({
+            id: id,
+            display_order: newDataMenuMap.get(id).display_order,
+            name: newDataMenuMap.get(id).name,
+          });
+        }
+      }
+    });
+    if (categoryDiffList.length === 0 && menuDiffList.length === 0) {
+      console.log("empty");
+      return;
+    }
+    const data = {
+      category_edit: categoryDiffList.map(({ id, display_order }) => ({
+        id,
+        display_order,
+      })),
+      menu_edit: menuDiffList.map(({ id, display_order }) => ({
+        id,
+        display_order,
+      })),
+    };
     try {
       const response = await fetch(
         `${serverAddress}/menu_w/${restaurantId}/${branchId}/display_order`,
@@ -88,6 +172,14 @@ const MenuDisplayOrderEditPage = () => {
         }
       );
       console.log(response);
+      navigate(
+        `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}`,
+        {
+          state: { isHQUser, isBranchUser },
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +188,6 @@ const MenuDisplayOrderEditPage = () => {
   // Function to handle click on edit submit button
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
-    console.log(result);
     console.log(draggableId);
     if (type === "category") {
       const newMenuData = Array.from(menuData);
@@ -193,19 +284,25 @@ const MenuDisplayOrderEditPage = () => {
         const response = await fetch(
           `${serverAddress}/menu/${restaurantId}/${branchId}/${dummyTableNumber}`
         );
-        console.log(
-          `${serverAddress}/menu/${restaurantId}/${branchId}/${dummyTableNumber}`
-        );
         const jsonData = await response.json();
         setMenuData(jsonData.data.menu);
-        console.log(jsonData.data.menu);
+        if (initialMenuData === null) {
+          setInitialMenuData(jsonData.data.menu);
+        }
       } catch (error) {
         console.log("Error fetching menu data:", error);
       }
     };
 
     fetchMenuData();
-  }, [serverAddress, restaurantId, branchId, dummyTableNumber, eventCounter]);
+  }, [
+    serverAddress,
+    restaurantId,
+    branchId,
+    dummyTableNumber,
+    eventCounter,
+    initialMenuData,
+  ]);
 
   // Return null while data is loading
   if (!menuData) {

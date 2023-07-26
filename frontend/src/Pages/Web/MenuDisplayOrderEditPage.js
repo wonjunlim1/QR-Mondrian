@@ -90,9 +90,10 @@ const MenuDisplayOrderEditPage = () => {
     }
   };
 
-  // Function to handle drag
+  // Function to handle click on edit submit button
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
+    console.log(result);
     console.log(draggableId);
     if (type === "category") {
       const newMenuData = Array.from(menuData);
@@ -111,10 +112,12 @@ const MenuDisplayOrderEditPage = () => {
       return;
     }
     const startCategory = menuData.find(
-      (category) => category.category_name === source.droppableId
+      (category) =>
+        `${category.id}-${category.category_name}` === source.droppableId
     );
     const endCategory = menuData.find(
-      (category) => category.category_name === destination.droppableId
+      (category) =>
+        `${category.id}-${category.category_name}` === destination.droppableId
     );
     if (startCategory === endCategory) {
       const newMenus = Array.from(startCategory.main_menus);
@@ -242,8 +245,8 @@ const MenuDisplayOrderEditPage = () => {
                 >
                   {menuData.map((menuCategory, index) => (
                     <Draggable
-                      key={menuCategory.category_name}
-                      draggableId={menuCategory.category_name}
+                      key={`${menuCategory.id}-${menuCategory.category_name}`}
+                      draggableId={`${menuCategory.id}-${menuCategory.category_name}`}
                       index={index}
                     >
                       {(provided) => (
@@ -270,7 +273,7 @@ const MenuDisplayOrderEditPage = () => {
                             </div>
                           </div>
                           <Droppable
-                            droppableId={menuCategory.category_name}
+                            droppableId={`${menuCategory.id}-${menuCategory.category_name}`}
                             type="menu"
                             direction="horizontal"
                           >
@@ -284,8 +287,8 @@ const MenuDisplayOrderEditPage = () => {
                                 {menuCategory.main_menus.map(
                                   (menuItem, index) => (
                                     <Draggable
-                                      key={menuItem.name}
-                                      draggableId={menuItem.name}
+                                      key={`${menuItem.id}-${menuItem.name}`}
+                                      draggableId={`${menuItem.id}-${menuItem.name}`}
                                       index={index}
                                     >
                                       {(provided) => (

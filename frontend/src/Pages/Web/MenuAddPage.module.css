@@ -20,7 +20,7 @@ html::before {
     text-align: left;
     font-size: var(--label-1);
     color: var(--white);
-    font-family: var(--label-1);
+    font-family: var(--font-regular);
   }
   
   .contentWrapper {
@@ -301,7 +301,7 @@ html::before {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--gap-base);
-    height: 224px;
+    height: 150px;
     overflow: hidden;
     overflow-y: scroll;
   }
@@ -319,7 +319,7 @@ html::before {
     background: #555; /* color of the scroll bar when hovered */
   }
   
-  .optionRow {
+  .optionItemRow {
     width: 314.67px;
     align-items: flex-end;
     gap: var(--gap-5xs);
@@ -327,7 +327,7 @@ html::before {
     justify-content: flex-start;
     display: flex;
     flex-direction: row;
-    margin-bottom: 20px;
+    background-color: var(--white-white);
   }
   
   .textFieldOption {
@@ -405,8 +405,8 @@ html::before {
     background-color: var(--secondary-normal);
     border-radius: var(--br-5xs);
     box-sizing: border-box;
-    min-width: 215px;
-    max-width: 215px;
+    min-width: 218px;
+    max-width: 218px;
     align-self: stretch;
     display: flex;
     flex-direction: row;
@@ -448,9 +448,10 @@ html::before {
     font-size: var(--label-1);
     letter-spacing: 0.01em;
     line-height: 28px;
-    font-family: var(--label-1);
-    color: var(--white);
+    font-family: var(--font-regular);
+    color: var(--white-white);
     text-align: left;
+    font-weight: 700;
   }
   
   @media screen and (max-width: 960px) {

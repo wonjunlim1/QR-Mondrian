@@ -377,7 +377,9 @@ const MenuAddPage = () => {
                                                   ref={provided.innerRef}
                                                   {...provided.draggableProps}
                                                   id={`option_input_row_${optionIndex}`}
-                                                  className={styles.optionRow}
+                                                  className={
+                                                    styles.optionItemRow
+                                                  }
                                                 >
                                                   <div
                                                     className={

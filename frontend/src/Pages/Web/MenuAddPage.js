@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Select, MenuItem } from "@mui/material";
 import styles from "./MenuAddPage.module.css";
@@ -49,7 +49,14 @@ const MenuAddPage = () => {
 
   /** Event Handlers */
 
-  //handle change function for inputs
+  // Function to handle click on back icon
+  const onBackIconClick = useCallback(() => {
+    navigate(-1, {
+      state: { isHQUser, isBranchUser },
+    });
+  }, [navigate, isHQUser, isBranchUser]);
+
+  // Function to handle change function for inputs
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -187,7 +194,12 @@ const MenuAddPage = () => {
         <div className={styles.layout}>
           <div className={styles.titleArea}>
             <button className={styles.icon}>
-              <img className={styles.backIcon} alt="" src={backIcon} />
+              <img
+                className={styles.backIcon}
+                alt=""
+                src={backIcon}
+                onClick={onBackIconClick}
+              />
             </button>
             <b className={styles.titleLabel}>메뉴 추가하기</b>
           </div>

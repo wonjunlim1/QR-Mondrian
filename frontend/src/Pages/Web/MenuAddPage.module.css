@@ -437,6 +437,7 @@ html::before {
     align-self: stretch;
     flex: 1;
     border-radius: var(--br-5xs);
+    height: 56px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -448,10 +449,9 @@ html::before {
     font-size: var(--label-1);
     letter-spacing: 0.01em;
     line-height: 28px;
-    font-family: var(--font-regular);
+    font-family: var(--font-bold);
     color: var(--white-white);
     text-align: left;
-    font-weight: 700;
   }
   
   @media screen and (max-width: 960px) {

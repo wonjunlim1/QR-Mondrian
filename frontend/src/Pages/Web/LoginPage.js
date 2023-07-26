@@ -88,7 +88,7 @@ function LoginPage() {
 
   // Render the component
   return (
-    <div className={styles.loginPage}>
+    <div className={styles.web}>
       <img src={logoImage} alt="Logo" className={styles.logoImage} />
       <form onSubmit={handleLogin} className={styles.fieldWrapper}>
         <p className={styles.inputLabel}>ID</p>

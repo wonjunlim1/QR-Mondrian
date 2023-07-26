@@ -1,68 +1,80 @@
-.loginPage {
-  background-color: var(--background-normal);
-  border-radius: var(--br-5xl);
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--padding-5xl);
-  box-sizing: border-box;
-  height: 100vh;
-  justify-content: center;
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: var(--background-alternative); 
 }
 
-.fieldWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 352px;
-}
+.web {
+    background-color: var(--background-normal);
+    border-radius: var(--br-5xl);
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--padding-5xl);
+    box-sizing: border-box;
+    height: 100vh;
+    justify-content: center;
+  }
+  
+  .fieldWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 352px;
+  }
+  
+  .logoImage {
+    width: 387.2px;
+    height: 352px;
+    margin-bottom: var(--gap-5xl);
+    object-fit: cover;
+    border: 0px solid transparent;
+    border-radius: var(--br-5xs) ; 
+  }
+  
+  .inputLabel {
+    color: var(--text-alternative-2);
+    font-family: var(--font-regular);
+    font-size: var(--label-3);
+    margin-bottom: var(--gap-11xs);
+  }
+  
+  .inputField {
+    border: 1px solid var(--line-strong);
+    border-radius: var(--br-9xs);
+    width: 318px;
+    height: 22px;
+    color: var(--text-strong);
+    margin-bottom: var(--gap-11xs);
+    padding: var(--padding-5xs) var(--padding-base);
+    font-family: var(--font-regular);
+    font-size: var(--label-2);
+  }
+  
+  .inputField:focus {
+    outline: none;
+    border-color: var(--color-gray-900);
+  }
+  
+  .styledButton {
+    width: 352px;
+    margin-top: var(--gap-6xl);
+    height: 40px;
+    color: var(--white-white);
+    font-family: var(--font-bold);
+    font-size: var(--label-1);
+    background-color: var(--primary-normal);
+    border-radius: var(--br-5xs);
+    border-width: 0px;
+  }
 
-.logoImage {
-  width: 387.2px;
-  height: 352px;
-  margin-bottom: var(--gap-5xl);
-  object-fit: cover;
-  border: 0px solid transparent;
-  border-radius: var(--br-5xs) ; 
-}
-
-.inputLabel {
-  color: var(--text-alternative-2);
-  font-family: var(--font-regular);
-  font-size: var(--label-3);
-  margin-bottom: var(--gap-11xs);
-}
-
-.inputField {
-  border: 1px solid var(--line-strong);
-  border-radius: var(--br-9xs);
-  width: 318px;
-  height: 22px;
-  color: var(--text-strong);
-  margin-bottom: var(--gap-11xs);
-  padding: var(--padding-5xs) var(--padding-base);
-  font-family: var(--font-regular);
-  font-size: var(--label-2);
-}
-
-.inputField:focus {
-  outline: none;
-  border-color: var(--color-gray-900);
-}
-
-.styledButton {
-  width: 352px;
-  margin-top: var(--gap-6xl);
-  height: 40px;
-  color: var(--white-white);
-  font-family: var(--font-bold);
-  font-size: var(--label-1);
-  background-color: var(--primary-normal);
-  border-radius: var(--br-5xs);
-  border-width: 0px;
-}
-
-.styledButton:hover {
-  background-color: var(--interaction-primary-hover);
-}
+  .styledButton:hover {
+    background-color: var(--interaction-primary-hover);
+  }
+  

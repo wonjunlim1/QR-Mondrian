@@ -35,17 +35,20 @@ const MenuAddPage = () => {
     {
       id: 0,
       optionCategoryName: "",
-      options: [{ id: 0, optionName: "", optionPrice: "" }],
-      options: [{ id: 1, optionName: "", optionPrice: "" }],
+      options: [
+        { id: 0, optionName: "", optionPrice: "" },
+        { id: 1, optionName: "", optionPrice: "" },
+      ],
     },
     {
       id: 1,
       optionCategoryName: "",
-      options: [{ id: 5, optionName: "", optionPrice: "" }],
-      options: [{ id: 6, optionName: "", optionPrice: "" }],
+      options: [
+        { id: 0, optionName: "", optionPrice: "" },
+        { id: 1, optionName: "", optionPrice: "" },
+      ],
     },
   ]);
-  const [nextOptionId, setNextOptionId] = useState(1);
 
   // Ref for the file input
   const fileInputRef = useRef();
@@ -170,16 +173,15 @@ const MenuAddPage = () => {
           .filter((option) => option.optionName.trim() !== "") // Remove any option where the optionName is empty
           .map((option) => ({
             ...option,
-            optionPrice:
-              option.optionPrice.trim() !== "" ? option.optionPrice : "0", // If optionPrice is empty, make it "0"
+            optionPrice: Number(option.optionPrice),
           })),
       }));
 
     let formData = new FormData();
-    formData.append("image", selectedFile); // This is the image
+    formData.append("image", selectedFile);
     formData.append("category", state.categorySelectedValue);
     formData.append("name", state.menuNameValue);
-    formData.append("price", state.menuPriceValue.toString()); // FormData accepts only strings or blobs
+    formData.append("price", state.menuPriceValue.toString());
     formData.append("description", state.menuDescriptionValue);
     formData.append("display_order", (maxDisplayOrder + 1).toString());
     formData.append(
@@ -190,7 +192,7 @@ const MenuAddPage = () => {
           display_order: index + 1,
           option_menus: wrapper.options.map((option, index) => ({
             name: option.optionName,
-            price: Number(option.optionPrice),
+            price: option.optionPrice,
             display_order: index + 1,
           })),
         }))
@@ -227,17 +229,24 @@ const MenuAddPage = () => {
               ...card,
               options: [
                 ...card.options,
-                { id: nextOptionId, optionName: "", optionPrice: "" },
+                {
+                  id:
+                    card.options.length > 0
+                      ? Math.max(...card.options.map((option) => option.id)) + 1
+                      : 0,
+                  optionName: "",
+                  optionPrice: "",
+                },
               ],
             }
           : card
       )
     );
-    setNextOptionId((prevId) => prevId + 1);
   };
 
   // Function to handle delete option item row
   const removeOptionRow = (cardId, optionId) => {
+    console.log(optionCardWrappers);
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
         card.id === cardId

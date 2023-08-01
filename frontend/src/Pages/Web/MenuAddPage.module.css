@@ -114,12 +114,36 @@ html::before {
   align-self: stretch;
   flex: 1;
   position: relative;
-  max-width: 100%;
+  width: 362.66px;
   overflow: hidden;
-  max-height: 100%;
+  min-height: 255.76px;
+  max-height: 255.76px;
 }
 
-.menuAddButton {
+.menuImageIconWithFile {
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+  width: 362.66px;
+  overflow: hidden;
+  min-height: 255.76px;
+  max-height: 255.76px;
+  object-fit: cover;
+  border: 0px solid transparent;
+  border-radius: var(--br-9xs) ; 
+}
+
+.menuImageButtonWrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 100%;
+  gap: var(--gap-11xs);
+}
+
+.menuImageButton {
   cursor: pointer;
   border: 1px solid var(--line-strong);
   padding: var(--padding-5xs) var(--padding-base);
@@ -130,6 +154,7 @@ html::before {
   justify-content: center;
   align-self: stretch;
   display: flex;
+  flex: 1;
 }
 
 .buttonLabel {

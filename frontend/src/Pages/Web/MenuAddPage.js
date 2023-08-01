@@ -1,5 +1,5 @@
 import React from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Select, MenuItem } from "@mui/material";
 import styles from "./MenuAddPage.module.css";
@@ -23,6 +23,8 @@ const MenuAddPage = () => {
 
   // Initializing states
   const [menuData, setMenuData] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(menuImageIcon); // For selected image
+  const [selectedFile, setSelectedFile] = useState(null);
   const [state, setState] = useState({
     categorySelectedValue: "",
     menuNameValue: "",
@@ -39,11 +41,14 @@ const MenuAddPage = () => {
     {
       id: 1,
       optionClass: "",
-      options: [{ id: 0, optionName: "", optionPrice: "" }],
-      options: [{ id: 1, optionName: "", optionPrice: "" }],
+      options: [{ id: 5, optionName: "", optionPrice: "" }],
+      options: [{ id: 6, optionName: "", optionPrice: "" }],
     },
   ]);
   const [nextOptionId, setNextOptionId] = useState(1);
+
+  // Ref for the file input
+  const fileInputRef = useRef();
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
@@ -59,6 +64,23 @@ const MenuAddPage = () => {
   const dummyTableNumber = 0;
 
   /** Event Handlers */
+
+  // Funcion to handle image file change
+  const onFileChange = (event) => {
+    setSelectedImage(URL.createObjectURL(event.target.files[0]));
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // Function to
+  const onFileChangeDeleteButtonClick = () => {
+    setSelectedImage(menuImageIcon);
+    setSelectedFile(null);
+  };
+
+  // Function to handle image file add
+  const onFileChangeAddButtonClick = (event) => {
+    fileInputRef.current.click();
+  };
 
   // Function to handle click on back icon
   const onBackIconClick = useCallback(() => {
@@ -112,18 +134,55 @@ const MenuAddPage = () => {
     );
   };
 
+  // Function to check whether there are mandatory values inputted
+  const checkStateValues = () => {
+    const hasValue = (str) => {
+      return str !== null && str.trim().length > 0;
+    };
+
+    const { categorySelectedValue, menuNameValue, menuPriceValue } = state;
+
+    if (
+      hasValue(categorySelectedValue) &&
+      hasValue(menuNameValue) &&
+      hasValue(menuPriceValue)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   // Function to handle click on edit submit button
   const onSubmitButtonClick = async () => {
+    if (!checkStateValues()) {
+      return;
+    }
+
+    const category = menuData.find(
+      (cat) => cat.category_name === state.categorySelectedValue
+    );
+
+    const maxDisplayOrder = category
+      ? Math.max(...category.main_menus.map((menu) => menu.display_order))
+      : Number.MIN_SAFE_INTEGER;
+
+    const imageData = new FormData();
+    console.log(selectedFile);
+    imageData.append("myImage", selectedFile);
     const data = {
       category: state.categorySelectedValue,
       name: state.menuNameValue,
       price: Number(state.menuPriceValue),
+      image: imageData,
       description: state.menuDescriptionValue,
-      option_categories: optionCardWrappers.map((wrapper) => ({
+      display_order: maxDisplayOrder + 1,
+      option_categories: optionCardWrappers.map((wrapper, index) => ({
         option_category_name: wrapper.optionClass,
-        option_menus: wrapper.options.map((option) => ({
+        display_order: index + 1,
+        option_menus: wrapper.options.map((option, index) => ({
           name: option.optionName,
           price: Number(option.optionPrice),
+          display_order: index + 1,
         })),
       })),
     };
@@ -153,7 +212,6 @@ const MenuAddPage = () => {
 
   // Function to handle add option item row
   const addOptionRow = (cardId) => {
-    console.log(optionCardWrappers);
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
         card.id === cardId
@@ -307,13 +365,34 @@ const MenuAddPage = () => {
             <div className={styles.menuWrapper} id="image_input_body">
               <div className={styles.menuImageWrapper} id="image_body">
                 <img
-                  className={styles.menuImageIcon}
+                  className={
+                    selectedFile
+                      ? styles.menuImageIconWithFile
+                      : styles.menuImageIcon
+                  }
                   alt=""
-                  src={menuImageIcon}
+                  src={selectedImage}
                 />
-                <button className={styles.menuAddButton}>
-                  <div className={styles.buttonLabel}>사진 추가</div>
-                </button>
+                <div className={styles.menuImageButtonWrapper}>
+                  <button
+                    className={styles.menuImageButton}
+                    onClick={onFileChangeAddButtonClick}
+                  >
+                    <div className={styles.buttonLabel}>사진 추가</div>
+                  </button>
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    ref={fileInputRef}
+                    onChange={onFileChange}
+                  />
+                  <button
+                    className={styles.menuImageButton}
+                    onClick={onFileChangeDeleteButtonClick}
+                  >
+                    <div className={styles.buttonLabel}>사진 삭제</div>
+                  </button>
+                </div>
               </div>
               <div className={styles.menuValueWrapper} id="input_body">
                 <div className={styles.menuValueRow}>

@@ -264,22 +264,30 @@ module.exports = {
         throw new Error(`Menu with id ${menu_id} not found`);
       }
 
-      // Step 1: Update the MainCategory table by looking up the previous main menu id
-      await MainCategory.update(
-        {
+      // Step 1: Find MainCategory
+      const mainCategory = await MainCategory.findOne({
+        where: {
           restaurant_id: restaurant_id,
           name: menuData.category,
-          display_order: menuData.display_order,
-          updated_at: new Date(),
         },
-        { where: { id: mainMenu.main_category_id }, transaction }
-      );
+        transaction,
+      });
+
+      if (menuData.image_deleted == "false") {
+        imageUrl =
+          "https://spqr-menu.s3.ap-northeast-2.amazonaws.com/" +
+          restaurant_id +
+          "/" +
+          menu_id +
+          ".PNG";
+      }
 
       // Step 2: Update the MainMenu table
       await MainMenu.update(
         {
           name: menuData.name,
           price: menuData.price,
+          main_category_id: mainCategory.id,
           description: menuData.description,
           image_url: imageUrl,
           display_order: menuData.display_order,

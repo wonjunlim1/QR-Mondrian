@@ -1,1 +1,1 @@
-# repo for qr-project
+# QR Mondrian

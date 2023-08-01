@@ -11,16 +11,21 @@ const {
   OptionCategory,
   OptionMenu,
 } = require("../models");
-const Sequelize = require('sequelize');
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.json')[env];
+const Sequelize = require("sequelize");
+const env = process.env.NODE_ENV || "development";
+const config = require("../config/config.json")[env];
 const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
 }
 
 db.sequelize = sequelize;
@@ -50,7 +55,7 @@ module.exports = {
         }
       );
       return affectedRows;
-    } catch (error) { }
+    } catch (error) {}
   },
   deleteMenuCategory: async (
     restaurant_id,
@@ -84,10 +89,7 @@ module.exports = {
       console.log("Invalid delete request.");
     }
   },
-  createMenuCategory: async (
-    restaurant_id,
-    branch_id,
-    new_category) => {
+  createMenuCategory: async (restaurant_id, branch_id, new_category) => {
     try {
       // Add to MainCategory table
       const category = await MainCategory.create({
@@ -97,23 +99,26 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       });
-      return category.id
-    } catch (error) { }
+      return category.id;
+    } catch (error) {}
   },
   putDisplayOrder: async (restaurant_id, branch_id, curr_request) => {
-    const category_update = curr_request.category_edit
-    const menu_update = curr_request.menu_edit
-    const updated_menu_category_id = []
-    const updated_menu_id = []
+    const category_update = curr_request.category_edit;
+    const menu_update = curr_request.menu_edit;
+    const updated_menu_category_id = [];
+    const updated_menu_id = [];
 
     if (category_update) {
       for (let i = 0; i < category_update.length; i++) {
         const affectedRows = await MainCategory.update(
-          { display_order: category_update[i].display_order, updated_at: new Date() },
+          {
+            display_order: category_update[i].display_order,
+            updated_at: new Date(),
+          },
           {
             where: {
               id: category_update[i].id,
-            }
+            },
           },
           updated_menu_category_id.push(category_update[i].id)
         );
@@ -122,17 +127,20 @@ module.exports = {
     if (menu_update) {
       for (let i = 0; i < menu_update.length; i++) {
         const affectedRows = await MainMenu.update(
-          { display_order: menu_update[i].display_order, updated_at: new Date() },
+          {
+            display_order: menu_update[i].display_order,
+            updated_at: new Date(),
+          },
           {
             where: {
               id: menu_update[i].id,
-            }
+            },
           },
           updated_menu_id.push(menu_update[i].id)
         );
       }
     }
-    return [updated_menu_category_id, updated_menu_id]
+    return [updated_menu_category_id, updated_menu_id];
   },
 
   createMenu: async (restaurant_id, branch_id, imageUrl, menuData) => {
@@ -147,23 +155,17 @@ module.exports = {
 
       // Get max Main menu Id
       const getMaxMainMenuId = await MainMenu.findOne({
-        attributes: [
-          [Sequelize.fn('MAX', Sequelize.col('id')), 'maxId'],
-        ],
-        raw: true
-
-      })
-      // Step 1: Add to MainCategory table
-      const mainCategory = await MainCategory.create(
-        {
+        attributes: [[Sequelize.fn("MAX", Sequelize.col("id")), "maxId"]],
+        raw: true,
+      });
+      // Step 1: Find MainCategory
+      const mainCategory = await MainCategory.findOne({
+        where: {
           restaurant_id: restaurant_id,
           name: menuData.category,
-          display_order: menuData.display_order,
-          created_at: new Date(),
-          updated_at: new Date(),
         },
-        { transaction }
-      );
+        transaction,
+      });
 
       // Step 2: Add to MainMenu table
       const menu = await MainMenu.create(
@@ -214,15 +216,24 @@ module.exports = {
       await mainCategory.addMainMenu(menu, { transaction });
 
       // Step 5: Add data to BranchMenuStatus table
-      const branchMenuStatus = await BranchMenuStatus.create(
-        {
-          branch_id: branch_id,
-          main_menu_id: menu.id,
-          active: true,
-          updated_at: new Date(),
+      const branch_ids = await Branch.findAll({
+        where: {
+          restaurant_id: restaurant_id,
         },
-        { transaction }
-      );
+        transaction,
+      });
+
+      for (let branch of branch_ids) {
+        const branchMenuStatus = await BranchMenuStatus.create(
+          {
+            branch_id: branch.id,
+            main_menu_id: menu.id,
+            active: true,
+            updated_at: new Date(),
+          },
+          { transaction }
+        );
+      }
 
       // Commit the transaction
       await transaction.commit();
@@ -232,7 +243,7 @@ module.exports = {
     } catch (error) {
       // Rollback the transaction in case of an error
       if (transaction) await transaction.rollback();
-      console.error('Error while creating menu:', error);
+      console.error("Error while creating menu:", error);
       throw error;
     }
   },
@@ -278,7 +289,10 @@ module.exports = {
       );
 
       // Step 3: Delete all related OptionCategory and OptionMenu records for the menu
-      await OptionCategory.destroy({ where: { main_menu_id: menu_id }, transaction });
+      await OptionCategory.destroy({
+        where: { main_menu_id: menu_id },
+        transaction,
+      });
 
       // Step 4: Add to OptionCategory and OptionMenu tables
       for (const optionCategoryData of optionCategories) {
@@ -309,16 +323,6 @@ module.exports = {
         }
       }
 
-      // Step 5: Update data in BranchMenuStatus table
-      await BranchMenuStatus.update(
-        {
-          branch_id: branch_id,
-          active: true,
-          updated_at: new Date(),
-        },
-        { where: { main_menu_id: menu_id }, transaction }
-      );
-
       // Commit the transaction
       await transaction.commit();
 
@@ -327,9 +331,8 @@ module.exports = {
     } catch (error) {
       // Rollback the transaction in case of an error
       if (transaction) await transaction.rollback();
-      console.error('Error while updating menu:', error);
+      console.error("Error while updating menu:", error);
       throw error;
     }
-  }
-
+  },
 };

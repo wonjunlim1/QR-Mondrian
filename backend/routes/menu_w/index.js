@@ -19,6 +19,6 @@ router.put("/:restaurant_id/:branch_id/display_order", webController.putDisplayO
 router.post("/:restaurant_id/:branch_id/menu", upload.single('image'), webController.createMenu)
 
 /** Update menu with image for restaurant_id > branch_id > menu_id */
-// router.put("/:restaurant_id/:branch_id/:menu_id/menu", upload.single('image'), webController.updateMenu)
+router.put("/:restaurant_id/:branch_id/:menu_id/menu", upload.single('image'), webController.updateMenu)
 
 module.exports = router;

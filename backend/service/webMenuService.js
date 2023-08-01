@@ -235,5 +235,101 @@ module.exports = {
       console.error('Error while creating menu:', error);
       throw error;
     }
+  },
+
+  updateMenu: async (restaurant_id, branch_id, menu_id, imageUrl, menuData) => {
+    let transaction;
+
+    try {
+      // Start a transaction
+      transaction = await sequelize.transaction();
+
+      // Parse option_categories JSON data
+      const optionCategories = JSON.parse(menuData.option_categories);
+
+      // Step 1: Lookup the main menu by menu_id
+      const mainMenu = await MainMenu.findByPk(menu_id, { transaction });
+      if (!mainMenu) {
+        throw new Error(`Menu with id ${menu_id} not found`);
+      }
+
+      // Step 1: Update the MainCategory table by looking up the previous main menu id
+      await MainCategory.update(
+        {
+          restaurant_id: restaurant_id,
+          name: menuData.category,
+          display_order: menuData.display_order,
+          updated_at: new Date(),
+        },
+        { where: { id: mainMenu.main_category_id }, transaction }
+      );
+
+      // Step 2: Update the MainMenu table
+      await MainMenu.update(
+        {
+          name: menuData.name,
+          price: menuData.price,
+          description: menuData.description,
+          image_url: imageUrl,
+          display_order: menuData.display_order,
+          updated_at: new Date(),
+        },
+        { where: { id: menu_id }, transaction }
+      );
+
+      // Step 3: Delete all related OptionCategory and OptionMenu records for the menu
+      await OptionCategory.destroy({ where: { main_menu_id: menu_id }, transaction });
+
+      // Step 4: Add to OptionCategory and OptionMenu tables
+      for (const optionCategoryData of optionCategories) {
+        const optionCategory = await OptionCategory.create(
+          {
+            main_menu_id: menu_id,
+            name: optionCategoryData.option_category_name,
+            display_order: optionCategoryData.display_order,
+            created_at: new Date(),
+            updated_at: new Date(),
+          },
+          { transaction }
+        );
+
+        for (const optionMenuData of optionCategoryData.option_menus) {
+          await OptionMenu.create(
+            {
+              option_category_id: optionCategory.id,
+              name: optionMenuData.name,
+              price: optionMenuData.price,
+              description: optionMenuData.description,
+              display_order: optionMenuData.display_order,
+              created_at: new Date(),
+              updated_at: new Date(),
+            },
+            { transaction }
+          );
+        }
+      }
+
+      // Step 5: Update data in BranchMenuStatus table
+      await BranchMenuStatus.update(
+        {
+          branch_id: branch_id,
+          active: true,
+          updated_at: new Date(),
+        },
+        { where: { main_menu_id: menu_id }, transaction }
+      );
+
+      // Commit the transaction
+      await transaction.commit();
+
+      // Return the updated menu id
+      return menu_id;
+    } catch (error) {
+      // Rollback the transaction in case of an error
+      if (transaction) await transaction.rollback();
+      console.error('Error while updating menu:', error);
+      throw error;
+    }
   }
+
 };

@@ -161,7 +161,7 @@ module.exports = {
     }
 
     try {
-      const params = await webMenuService.createMenu(
+      const affectedMenuId = await webMenuService.createMenu(
         restaurant_id,
         branch_id,
         imageFile,
@@ -169,7 +169,7 @@ module.exports = {
       );
       return res
         .status(sc.OK)
-        .send(ut.success(sc.OK, `Menu successfully created: menu id ${params}`));
+        .send(ut.success(sc.OK, `Menu successfully created: menu id ${affectedMenuId}`));
     } catch (error) {
       console.error(error);
       return res
@@ -178,6 +178,40 @@ module.exports = {
     }
 
   },
+
+  updateMenu: async (req, res) => {
+    const restaurant_id = req.params.restaurant_id;
+    const branch_id = req.params.branch_id;
+    const menu_id = req.params.menu_id;
+    let imageFile = ''; // Initialize imageFile as an empty string
+
+    // Check if req.file exists and assign the location to imageFile
+    if (req.file) {
+      imageFile = req.file.location;
+      console.log(imageFile);
+    }
+
+    try {
+      const affectedMenuId = await webMenuService.updateMenu(
+        restaurant_id,
+        branch_id,
+        menu_id,
+        imageFile,
+        req.body
+      );
+      return res
+        .status(sc.OK)
+        .send(ut.success(sc.OK, `Menu successfully updated: menu id ${affectedMenuId}`));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(sc.INTERNAL_SERVER_ERROR)
+        .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    }
+
+  },
+
+
 
 
 };

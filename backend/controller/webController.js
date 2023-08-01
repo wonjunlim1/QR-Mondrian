@@ -4,6 +4,8 @@ const webOrderService = require("../service/webOrderService");
 const ut = require("../modules/util");
 const rm = require("../modules/responseMessage");
 const sc = require("../modules/statusCode");
+const upload = require('../modules/multer');
+
 
 module.exports = {
   /* GET: [ /:restaurant_id/:branch_id/] */
@@ -145,6 +147,38 @@ module.exports = {
         .status(sc.INTERNAL_SERVER_ERROR)
         .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
     }
-  }
+  },
+
+  createMenu: async (req, res) => {
+    const restaurant_id = req.params.restaurant_id;
+    const branch_id = req.params.branch_id;
+    let imageFile = ''; // Initialize imageFile as an empty string
+
+    // Check if req.file exists and assign the location to imageFile
+    if (req.file) {
+      imageFile = req.file.location;
+      console.log(imageFile);
+    }
+
+    try {
+      const params = await webMenuService.createMenu(
+        restaurant_id,
+        branch_id,
+        imageFile,
+        req.body
+      );
+      return res
+        .status(sc.OK)
+        .send(ut.success(sc.OK, `Menu successfully created: menu id ${params}`));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(sc.INTERNAL_SERVER_ERROR)
+        .send(ut.fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    }
+
+  },
+
+
 };
 

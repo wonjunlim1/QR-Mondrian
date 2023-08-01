@@ -11,8 +11,20 @@ const {
   OptionCategory,
   OptionMenu,
 } = require("../models");
-const sequelize = require("sequelize");
-const Op = sequelize.Op;
+const Sequelize = require('sequelize');
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/config.json')[env];
+const db = {};
+
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
 module.exports = {
   /* Update menu status */
@@ -122,4 +134,97 @@ module.exports = {
     }
     return [updated_menu_category_id, updated_menu_id]
   },
+
+  createMenu: async (restaurant_id, branch_id, imageUrl, menuData) => {
+    let transaction;
+
+    try {
+      // Start a transaction
+      transaction = await sequelize.transaction();
+
+      // Parse option_categories JSON data
+      const optionCategories = JSON.parse(menuData.option_categories);
+
+      // Step 1: Add to MainCategory table
+      const mainCategory = await MainCategory.create(
+        {
+          restaurant_id: restaurant_id,
+          name: menuData.name,
+          display_order: menuData.display_order,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        { transaction }
+      );
+
+      // Step 2: Add to MainMenu table
+      const menu = await MainMenu.create(
+        {
+          main_category_id: mainCategory.id,
+          name: menuData.name,
+          price: menuData.price,
+          description: menuData.description,
+          image_url: imageUrl,
+          display_order: menuData.display_order,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        { transaction }
+      );
+
+      // Step 3: Add to OptionCategory and OptionMenu tables
+      for (const optionCategoryData of optionCategories) {
+        const optionCategory = await OptionCategory.create(
+          {
+            main_menu_id: menu.id,
+            name: optionCategoryData.option_category_name,
+            display_order: optionCategoryData.display_order,
+            created_at: new Date(),
+            updated_at: new Date(),
+          },
+          { transaction }
+        );
+
+        for (const optionMenuData of optionCategoryData.option_menus) {
+          await OptionMenu.create(
+            {
+              option_category_id: optionCategory.id,
+              name: optionMenuData.name,
+              price: optionMenuData.price,
+              description: optionMenuData.description,
+              display_order: optionMenuData.display_order,
+              created_at: new Date(),
+              updated_at: new Date(),
+            },
+            { transaction }
+          );
+        }
+      }
+
+      // Step 4: Add the associations of macin category <> main menu
+      await mainCategory.addMainMenu(menu, { transaction });
+
+      // Step 5: Add data to BranchMenuStatus table
+      const branchMenuStatus = await BranchMenuStatus.create(
+        {
+          branch_id: branch_id,
+          main_menu_id: menu.id,
+          active: true, // You can set the default value as needed
+          updated_at: new Date(),
+        },
+        { transaction }
+      );
+
+      // Commit the transaction
+      await transaction.commit();
+
+      // Return the created menu id
+      return menu.id;
+    } catch (error) {
+      // Rollback the transaction in case of an error
+      if (transaction) await transaction.rollback();
+      console.error('Error while creating menu:', error);
+      throw error;
+    }
+  }
 };

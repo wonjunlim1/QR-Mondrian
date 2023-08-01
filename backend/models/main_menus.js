@@ -2,7 +2,9 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define('MainMenu', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
+
     },
     main_category_id: {
       type: DataTypes.INTEGER

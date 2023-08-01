@@ -19,5 +19,7 @@ router.use('/order_w', require('./order_w'))
 /** Menu view for web */
 router.use('/menu_w', require('./menu_w'))
 
+/** S3 Setting */
+router.use('/multer', require('./multer'))
 
 module.exports = router;

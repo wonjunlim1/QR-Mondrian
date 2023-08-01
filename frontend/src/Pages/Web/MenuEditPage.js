@@ -31,24 +31,7 @@ const MenuAddPage = () => {
     menuPriceValue: "",
     menuDescriptionValue: "",
   });
-  const [optionCardWrappers, setOptionCardWrappers] = useState([
-    {
-      id: 0,
-      optionCategoryName: "",
-      options: [
-        { id: 0, optionName: "", optionPrice: "" },
-        { id: 1, optionName: "", optionPrice: "" },
-      ],
-    },
-    {
-      id: 1,
-      optionCategoryName: "",
-      options: [
-        { id: 0, optionName: "", optionPrice: "" },
-        { id: 1, optionName: "", optionPrice: "" },
-      ],
-    },
-  ]);
+  const [optionCardWrappers, setOptionCardWrappers] = useState(null);
 
   // Ref for the file input
   const fileInputRef = useRef();
@@ -58,12 +41,16 @@ const MenuAddPage = () => {
   const isBranchUser = location.state ? location.state.isBranchUser : false;
 
   // Extracting params from URL
-  const { restaurant_id: encodedRestaurantId, branch_id: encodedBranchId } =
-    useParams();
+  const {
+    restaurant_id: encodedRestaurantId,
+    branch_id: encodedBranchId,
+    id: encodedMenuId,
+  } = useParams();
 
   // Decoding params
   const restaurantId = decryptUrlParams(encodedRestaurantId);
   const branchId = decryptUrlParams(encodedBranchId);
+  const menuId = decryptUrlParams(encodedMenuId);
   const dummyTableNumber = 0;
 
   /** Event Handlers */
@@ -74,7 +61,7 @@ const MenuAddPage = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  // Function to
+  // Function to handle image file delete
   const onFileChangeDeleteButtonClick = () => {
     setSelectedImage(menuImageIcon);
     setSelectedFile(null);
@@ -153,6 +140,7 @@ const MenuAddPage = () => {
 
   // Function to handle click on edit submit button
   const onSubmitButtonClick = async () => {
+    return;
     if (!checkStateValues()) {
       return;
     }
@@ -335,26 +323,76 @@ const MenuAddPage = () => {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await fetch(
+        const responseMenu = await fetch(
           `${serverAddress}/menu/${restaurantId}/${branchId}/${dummyTableNumber}`
         );
-        const jsonData = await response.json();
-        const sortedData = jsonData.data.menu.sort(
+        const responseMenuDetails = await fetch(
+          `${serverAddress}/menu/${restaurantId}/${branchId}/${dummyTableNumber}/${menuId}`
+        );
+        const jsonDataMenu = await responseMenu.json();
+        const jsonDataMenuDetails = await responseMenuDetails.json();
+        const sortedDataMenu = jsonDataMenu.data.menu.sort(
           (a, b) => a.display_order - b.display_order
         );
-        setMenuData(sortedData);
-        /** For edit Page
-         * setCategorySelectedValue(sortedData[5].category_name);
-         */
+        setMenuData(sortedDataMenu);
+        const getCategoryName = (menu_id) => {
+          for (let category of sortedDataMenu) {
+            const found = category.main_menus.find(
+              (menu) => menu.id === menu_id
+            );
+            if (found) {
+              return category.category_name;
+            }
+          }
+        };
+        console.log(jsonDataMenuDetails);
+        setState((prevState) => ({
+          ...prevState,
+          categorySelectedValue: getCategoryName(Number(menuId)),
+        }));
+        setState((prevState) => ({
+          ...prevState,
+          menuNameValue: jsonDataMenuDetails.data.menu_details.name,
+        }));
+        setState((prevState) => ({
+          ...prevState,
+          menuPriceValue: jsonDataMenuDetails.data.menu_details.price,
+        }));
+        setState((prevState) => ({
+          ...prevState,
+          menuDescriptionValue:
+            jsonDataMenuDetails.data.menu_details.description,
+        }));
+        if (jsonDataMenuDetails.data.menu_details.image_url.trim() !== "") {
+          setSelectedImage(jsonDataMenuDetails.data.menu_details.image_url);
+        }
+        let transformedOptionCategories =
+          jsonDataMenuDetails.data.menu_details.option_categories.map(
+            (category, index) => {
+              return {
+                id: index,
+                optionCategoryName: category.option_category_name,
+                options: category.option_menus.map((option, optionIndex) => {
+                  return {
+                    id: optionIndex,
+                    optionName: option.name,
+                    optionPrice: option.price,
+                  };
+                }),
+              };
+            }
+          );
+        console.log(transformedOptionCategories);
+        setOptionCardWrappers(transformedOptionCategories);
       } catch (error) {
         console.log("Error fetching menu data:", error);
       }
     };
     fetchMenuData();
-  }, [serverAddress, restaurantId, branchId, dummyTableNumber]);
+  }, [serverAddress, restaurantId, branchId, dummyTableNumber, menuId]);
 
   // Return null while data is loading
-  if (!menuData) {
+  if (!menuData || !optionCardWrappers) {
     return <div></div>;
   }
 
@@ -377,17 +415,13 @@ const MenuAddPage = () => {
                 onClick={onBackIconClick}
               />
             </button>
-            <b className={styles.titleLabel}>메뉴 추가하기</b>
+            <b className={styles.titleLabel}>메뉴 수정하기</b>
           </div>
           <div className={styles.bodyLayout}>
             <div className={styles.menuWrapper} id="image_input_body">
               <div className={styles.menuImageWrapper} id="image_body">
                 <img
-                  className={
-                    selectedFile
-                      ? styles.menuImageIconWithFile
-                      : styles.menuImageIcon
-                  }
+                  className={styles.menuImageIcon}
                   alt=""
                   src={selectedImage}
                 />
@@ -396,7 +430,7 @@ const MenuAddPage = () => {
                     className={styles.menuImageButton}
                     onClick={onFileChangeAddButtonClick}
                   >
-                    <div className={styles.buttonLabel}>사진 추가</div>
+                    <div className={styles.buttonLabel}>사진 수정</div>
                   </button>
                   <input
                     type="file"
@@ -492,7 +526,13 @@ const MenuAddPage = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.optionWrapper}>
+            <div
+              className={`${
+                optionCardWrappers.length === 0
+                  ? styles.optionWrapperEmpty
+                  : styles.optionWrapper
+              }`}
+            >
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                   droppableId="options"
@@ -733,7 +773,7 @@ const MenuAddPage = () => {
             </div>
           </div>
           <button className={styles.submitButton} onClick={onSubmitButtonClick}>
-            <b className={styles.submitButtonLabel}>추가하기</b>
+            <b className={styles.submitButtonLabel}>수정완료</b>
           </button>
         </div>
       </div>

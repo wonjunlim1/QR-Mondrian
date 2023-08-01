@@ -11,6 +11,7 @@
   color: var(--text-normal);
   display: flex;
   justify-content: flex-start;
+  padding-bottom: 67px;
 }
 
 .content {
@@ -20,6 +21,16 @@
   flex-direction: column;
   justify-content: flex-start;
   margin-bottom: var(--gap-5xs);
+}
+
+.headerSpace {
+    align-self: stretch;
+    background-color: var(--background-normal);
+    justify-content: flex-end;
+    height: var(--hs-normal);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 .header {

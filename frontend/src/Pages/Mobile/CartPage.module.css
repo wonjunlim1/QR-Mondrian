@@ -12,6 +12,7 @@
   font-size: var(--label-2);
   color: var(--text-strong);
   font-family: var(--font-regular);
+  padding-bottom: 67px;
 }
 
 .content{
@@ -21,486 +22,488 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: var(--gap-5xs);
+  font-family: var(--font-regular);
 }
-  .header {
-    align-self: stretch;
-    background-color: var(--background-normal);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    padding: var(--padding-base) 0 var(--padding-base) 0;
-  }
 
-  .icon {
-    display: flex;
-    flex-direction: row;
-    padding: var(--padding-base);
-    align-items: flex-start;
-    justify-content: flex-start;
-    z-index: 9999;
-  }
+.header {
+  align-self: stretch;
+  background-color: var(--background-normal);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: var(--padding-base) 0 var(--padding-base) 0;
+}
 
-  .backIcon {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
+.icon {
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-base);
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 9999;
+}
 
-  .headerText {
-    position: absolute;
-    left: 0;
-    right: 0;
-    text-align: center; 
-    letter-spacing: 0.01em;
-    line-height: 26px;
-  }
+.backIcon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
-  .layout {
-    gap: var(--gap-5xs);
-    font-size: var(--title-1);
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
+.headerText {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center; 
+  letter-spacing: 0.01em;
+  line-height: 26px;
+}
 
-  .divCurrentCart{
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    background-color: var(--background-normal);
-    padding: var(--padding-5xl) var(--padding-base);
-    gap: var(--gap-5xl);
-  }
+.layout {
+  gap: var(--gap-5xs);
+  font-size: var(--title-1);
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
 
-  .titleAreaWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-xs);
-  }
+.divCurrentCart{
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-color: var(--background-normal);
+  padding: var(--padding-5xl) var(--padding-base);
+  gap: var(--gap-5xl);
+}
 
-  .titleArea {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-  }
+.titleAreaWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-xs);
+}
 
-  .titleCurrentCart {
-    position: relative;
-    letter-spacing: -0.01em;
-    line-height: 26px;
-  }
-  .priceCurrentCart{
-    position: relative;
-    font-size: var(--title-2);
-    line-height: 24px;
-    color: var(--text-normal);
-    text-align: right;
-  }
+.titleArea {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+}
 
-  .mainDivider {
-    align-self: stretch;
-    position: relative;
-    border-top: 1px solid var(--line-normal);
-    box-sizing: border-box;
-    height: 1px;
-  }
+.titleCurrentCart {
+  position: relative;
+  letter-spacing: -0.01em;
+  line-height: 26px;
+}
+.priceCurrentCart{
+  position: relative;
+  font-size: var(--title-2);
+  line-height: 24px;
+  color: var(--text-normal);
+  text-align: right;
+}
 
-  .divCurrentCartItemWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-base);
-    font-size: var(--label-2);
-    color: var(--text-alternative-1);
-  }
+.mainDivider {
+  align-self: stretch;
+  position: relative;
+  border-top: 1px solid var(--line-normal);
+  box-sizing: border-box;
+  height: 1px;
+}
 
-  .divItemWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-start;
-    gap: var(--gap-base);
-  }
+.divCurrentCartItemWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+  font-size: var(--label-2);
+  color: var(--text-alternative-1);
+}
 
-  .divCurrentCartItemHeader {
-    align-self: stretch;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--text-normal);
-  }
+.divItemWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+}
 
-  .currentCartItemName {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 24px;
-  }
+.divCurrentCartItemHeader {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-normal);
+}
 
-  .deleteIcon {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
+.currentCartItemName {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 24px;
+}
 
-  .divCurrentCartContent {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-direction: row;
-    gap: var(--gap-base);
-    font-size: var(--label-3);
-  }
+.deleteIcon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
-  .menuImage {
-    position: relative;
-    width: 72px;
-    height: 72px;
-    object-fit: cover;
-    border: 0px solid transparent;
-    border-radius: var(--br-9xs) ; 
-  }
+.divCurrentCartContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-direction: row;
+  gap: var(--gap-base);
+  font-size: var(--label-3);
+}
 
-  .divCurrentCartPriceWrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex: 1;
-    flex-direction: column;
-    gap: var(--gap-5xs);
-  }
+.menuImage {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 0px solid transparent;
+  border-radius: var(--br-9xs) ; 
+}
 
-  .divItemPriceWrapper {
-    display: flex;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.divCurrentCartPriceWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--gap-5xs);
+}
 
-  .priceBlack {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--gap-5xs);
-    color: var(--text-strong);
-    display: flex;
-    justify-content: flex-start;
-  }
+.divItemPriceWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
-  .priceBulletBlack {
-    position: relative;
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background-color: var(--text-strong);
-    width: 4px;
-    height: 4px;
-  }
+.priceBlack {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-5xs);
+  color: var(--text-strong);
+  display: flex;
+  justify-content: flex-start;
+}
 
-  .priceGrey {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--gap-5xs);
-  }
+.priceBulletBlack {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--text-strong);
+  width: 4px;
+  height: 4px;
+}
 
-  .priceLabel {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 20px;
-  }
+.priceGrey {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-5xs);
+}
 
-  .itemTotalPriceBlack {
-    align-self: stretch;
-    position: relative;
-    font-size: var(--label-2);
-    letter-spacing: 0.01em;
-    line-height: 24px;
-    color: var(--text-strong);
-  }
+.priceLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+}
 
-  .divOptionChange{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--gap-base);
-    font-size: var(--label-1);
-  }
+.itemTotalPriceBlack {
+  align-self: stretch;
+  position: relative;
+  font-size: var(--label-2);
+  letter-spacing: 0.01em;
+  line-height: 24px;
+  color: var(--text-strong);
+}
 
-  .buttonLabel {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 28px;
-  }
+.divOptionChange{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--gap-base);
+  font-size: var(--label-1);
+}
 
-  .quantityChangeWrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    text-align: center;
-  }
+.buttonLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 28px;
+}
 
-  .quantityChangeButton {
-    position: relative;
-    width: 40px;
-    height: 40px;
-  }
+.quantityChangeWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+}
 
-  .quantityChangeButtonChild {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: var(--br-9xs) 0 0 var(--br-9xs);
-    background-color: var(--background-normal);
-    width: 40px;
-    height: 40px;
-  }
+.quantityChangeButton {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
 
-  .quantityChangeIcon {
-    position: absolute;
-    top: calc(50% - 10px);
-    left: calc(50% - 10px);
-    width: 20px;
-    height: 20px;
-  }
+.quantityChangeButtonChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-9xs) 0 0 var(--br-9xs);
+  background-color: var(--background-normal);
+  width: 40px;
+  height: 40px;
+}
 
-  .quantityChangeLabelWrapper {
-    align-self: stretch;
-    background-color: var(--background-normal);
-    display: flex;
-    flex-direction: column;
-    padding: 0 var(--padding-base);
-    align-items: center;
-    justify-content: center;
-  }
+.quantityChangeIcon {
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 20px;
+}
 
-  .quantityChangeLabel {
-    position: relative;
-    letter-spacing: 0.01em;
-    line-height: 28px;
-  }
-  
-  .optionChangeButton {
-    border-radius: var(--br-5xs);
-    background-color: var(--background-normal);
-    border: 1px solid var(--color-gray-600);
-    display: flex;
-    flex-direction: row;
-    padding: var(--padding-5xs) var(--padding-base);
-    align-items: center;
-    justify-content: center;
-  }
+.quantityChangeLabelWrapper {
+  align-self: stretch;
+  background-color: var(--background-normal);
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--padding-base);
+  align-items: center;
+  justify-content: center;
+}
 
-  .subDivider {
-    align-self: stretch;
-    position: relative;
-    border-top: 1px solid var(--line-alternative);
-    box-sizing: border-box;
-    height: 1px;
-  }
+.quantityChangeLabel {
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 28px;
+}
 
-  .divPastOrders {
-    align-self: stretch;
-    flex-direction: column;
-    background-color: var(--background-normal);
-    border-bottom: 1px solid var(--line-alternative);
-    padding: var(--padding-5xl) var(--padding-base);
-    gap: var(--gap-5xl);
-    color: var(--text-alternative-2);
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
+.optionChangeButton {
+  border-radius: var(--br-5xs);
+  background-color: var(--background-normal);
+  border: 1px solid var(--color-gray-600);
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-5xs) var(--padding-base);
+  align-items: center;
+  justify-content: center;
+}
 
-  .pricePastOrders {
-    position: relative;
-    line-height: 24px;
-    font-size: var(--title-2);
-    text-align: right;
-  }
+.subDivider {
+  align-self: stretch;
+  position: relative;
+  border-top: 1px solid var(--line-alternative);
+  box-sizing: border-box;
+  height: 1px;
+}
 
-  .divPastOrdersItemWrapper{
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    align-self: stretch;
-    flex-direction: column;
-    gap: var(--gap-base);
-    font-size: var(--label-2);
-  }
+.divPastOrders {
+  align-self: stretch;
+  flex-direction: column;
+  background-color: var(--background-normal);
+  border-bottom: 1px solid var(--line-alternative);
+  padding: var(--padding-5xl) var(--padding-base);
+  gap: var(--gap-5xl);
+  color: var(--text-alternative-2);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
 
-  .divPastOrdersItemHeader{
-    display: flex;
-    flex-direction: row;
-    align-self: stretch;
-    align-items: center;
-    justify-content: space-between;
-  }
+.pricePastOrders {
+  position: relative;
+  line-height: 24px;
+  font-size: var(--title-2);
+  text-align: right;
+}
 
-  .pastOrdersItemName {
-    position: relative;
-    line-height: 24px;
-    letter-spacing: 0.01em;
-    opacity: 0.6;
-  }
+.divPastOrdersItemWrapper{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-direction: column;
+  gap: var(--gap-base);
+  font-size: var(--label-2);
+}
 
-  .labelPending {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    border-radius: var(--br-9xs);
-    background-color: var(--line-alternative);
-    overflow: hidden;
-    flex-direction: row;
-    padding: var(--padding-9xs) var(--padding-5xs);
-    gap: var(--gap-9xs);
-    font-size: var(--caption-1);
-    color: var(--text-alternative-1);
-    min-width: 81px;
-    max-width: 81px;
-  }
+.divPastOrdersItemHeader{
+  display: flex;
+  flex-direction: row;
+  align-self: stretch;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .labelAccepted {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    border-radius: var(--br-9xs);
-    background-color: var(--status-positive-2);
-    overflow: hidden;
-    flex-direction: row;
-    padding: var(--padding-9xs) var(--padding-5xs);
-    gap: var(--gap-9xs);
-    font-size: var(--caption-1);
-    color: var(--status-positive-1);
-    min-width: 67px;
-    max-width: 67px;
-  }
+.pastOrdersItemName {
+  position: relative;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  opacity: 0.6;
+}
 
-  .labelRejected {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    border-radius: var(--br-9xs);
-    background-color: var(--status-alert-2);
-    overflow: hidden;
-    flex-direction: row;
-    padding: var(--padding-9xs) var(--padding-5xs);
-    gap: var(--gap-9xs);
-    font-size: var(--caption-1);
-    color: var(--status-alert-1);
-    min-width: 67px;
-    max-width: 67px;
-  }
+.labelPending {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  border-radius: var(--br-9xs);
+  background-color: var(--line-alternative);
+  overflow: hidden;
+  flex-direction: row;
+  padding: var(--padding-9xs) var(--padding-5xs);
+  gap: var(--gap-9xs);
+  font-size: var(--caption-1);
+  color: var(--text-alternative-1);
+  min-width: 81px;
+  max-width: 81px;
+}
 
-  .statusIcon {
-    position: relative;
-    width: 16px;
-    height: 16px;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
+.labelAccepted {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border-radius: var(--br-9xs);
+  background-color: var(--status-positive-2);
+  overflow: hidden;
+  flex-direction: row;
+  padding: var(--padding-9xs) var(--padding-5xs);
+  gap: var(--gap-9xs);
+  font-size: var(--caption-1);
+  color: var(--status-positive-1);
+  min-width: 67px;
+  max-width: 67px;
+}
 
-  .status {
-    position: relative;
-    letter-spacing: 0.03em;
-    line-height: 16px;
-    white-space: nowrap;
-  }
+.labelRejected {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border-radius: var(--br-9xs);
+  background-color: var(--status-alert-2);
+  overflow: hidden;
+  flex-direction: row;
+  padding: var(--padding-9xs) var(--padding-5xs);
+  gap: var(--gap-9xs);
+  font-size: var(--caption-1);
+  color: var(--status-alert-1);
+  min-width: 67px;
+  max-width: 67px;
+}
 
-  .divPastOrdersPriceWrapper {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: var(--gap-5xs);
-    font-size: var(--label-3);
-    color: var(--line-normal);
-  }
+.statusIcon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
-  .priceBulletGrey {
-    position: relative;
-    border-radius: 50%;
-    background-color: var(--line-normal);
-    width: 4px;
-    height: 4px;
-  }
+.status {
+  position: relative;
+  letter-spacing: 0.03em;
+  line-height: 16px;
+  white-space: nowrap;
+}
 
-  .itemTotalPriceGrey {
-    align-self: stretch;
-    position: relative;
-    font-size: var(--label-2);
-    letter-spacing: 0.01em;
-    line-height: 24px;
-    color: var(--text-alternative-2);
-    opacity: 0.6;
-  }
+.divPastOrdersPriceWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-5xs);
+  font-size: var(--label-3);
+  color: var(--line-normal);
+}
 
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-self: stretch;
-    background-color: var(--background-normal);
-    box-shadow: 0-4px 20px rgba(0, 0, 0, 0.08);
-    border-top: 1px solid var(--line-alternative);
-    flex-direction: row;
-    padding: var(--padding-xs) var(--padding-base);
-    align-items: center;
-    gap: var(--gap-base);
-    font-size: var(--label-3);
-    color: var(--text-normal);
-  }
-  
-  .totalPriceWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-start;
-    gap: var(--gap-9xs);
-  }
+.priceBulletGrey {
+  position: relative;
+  border-radius: 50%;
+  background-color: var(--line-normal);
+  width: 4px;
+  height: 4px;
+}
 
-  .priceLabelSmall {
-    position: relative;
-    font-size: var(--caption-1);
-    letter-spacing: 0.03em;
-    line-height: 16px;
-  }
+.itemTotalPriceGrey {
+  align-self: stretch;
+  position: relative;
+  font-size: var(--label-2);
+  letter-spacing: 0.01em;
+  line-height: 24px;
+  color: var(--text-alternative-2);
+  opacity: 0.6;
+}
 
-  .submitButton{
-    flex: 1;
-    border-radius: var(--br-5xs);
-    background-color: var(--primary-normal);
-    display: flex;
-    flex-direction: row;
-    padding: var(--padding-5xs) var(--padding-base);
-    align-items: center;
-    justify-content: center;
-    font-size: var(--label-1);
-    color: var(--background-normal);
-  }
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-self: stretch;
+  background-color: var(--background-normal);
+  box-shadow: 0-4px 20px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--line-alternative);
+  flex-direction: row;
+  padding: var(--padding-xs) var(--padding-base);
+  align-items: center;
+  gap: var(--gap-base);
+  font-size: var(--label-3);
+  color: var(--text-normal);
+}
+
+.totalPriceWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: var(--gap-9xs);
+}
+
+.priceLabelSmall {
+  position: relative;
+  font-size: var(--caption-1);
+  letter-spacing: 0.03em;
+  line-height: 16px;
+}
+
+.submitButton{
+  flex: 1;
+  border-radius: var(--br-5xs);
+  background-color: var(--primary-normal);
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-5xs) var(--padding-base);
+  align-items: center;
+  justify-content: center;
+  font-size: var(--label-1);
+  color: var(--background-normal);
+}

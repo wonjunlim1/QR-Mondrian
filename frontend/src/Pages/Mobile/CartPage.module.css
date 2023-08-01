@@ -11,8 +11,7 @@
   text-align: left;
   font-size: var(--label-2);
   color: var(--text-strong);
-  font-family: var(--label-3);
-  height: calc(100vh - 69px);
+  font-family: var(--font-regular);
 }
 
 .content{
@@ -23,17 +22,6 @@
   justify-content: flex-start;
   margin-bottom: var(--gap-5xs);
 }
-
-.headerSpace {
-    align-self: stretch;
-    background-color: var(--background-normal);
-    justify-content: flex-end;
-    height: var(--hs-normal);
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
   .header {
     align-self: stretch;
     background-color: var(--background-normal);
@@ -376,7 +364,6 @@
     line-height: 24px;
     letter-spacing: 0.01em;
     opacity: 0.6;
-    margin-right: var(--gap-5xs);
   }
 
   .labelPending {

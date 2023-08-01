@@ -160,7 +160,6 @@ const MenuPage = () => {
   return (
     <div className={styles.mobile}>
       <div className={styles.headerFixed}>
-        <div className={styles.headerSpace}></div>
         <div className={styles.header}>
           <div className={styles.restaurantLogo}>
             <img

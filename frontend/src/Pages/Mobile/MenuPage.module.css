@@ -13,11 +13,6 @@
   font-family: var(--font-bold);
 }
 
-.headerSpace {
-  height: var(--hs-normal);
-  width: 100%;
-}
-
 .header {
   display: flex;
   align-self: stretch;
@@ -99,7 +94,7 @@
 
 .categoryScrollBarWrapperFixed{
   width: 100%;
-  top: 113px;
+  top: 88px;
   background-color: var(--white-white);
   position: fixed;
   z-index: 1;
@@ -173,7 +168,7 @@
   background-color: var(--background-alternative);
   gap: var(--gap-5xs);
   font-size: var(--title-1);
-  margin-top: 183px;
+  margin-top: 158px;
 }
 
 .menuCategoryWrapper {

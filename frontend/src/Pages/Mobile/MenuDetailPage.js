@@ -261,7 +261,6 @@ const MenuDetailPage = () => {
   return (
     <div className={styles.mobile}>
       <div className={styles.content}>
-        <div className={styles.headerSpace}></div>
         <div className={styles.header}>
           <button className={styles.icon} onClick={onBackIconClick}>
             <img className={styles.iconChild} alt="" src={backIcon} />

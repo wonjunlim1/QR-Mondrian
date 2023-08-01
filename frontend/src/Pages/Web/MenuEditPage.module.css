@@ -1,0 +1,516 @@
+html::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-color: var(--background-alternative); 
+  }
+  
+  .web {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    background-color: var(--background-alternative);
+    width: 100%;
+    text-align: left;
+    font-size: var(--label-1);
+    color: var(--white);
+    font-family: var(--font-regular);
+  }
+  
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex: 1;
+    padding: var(--padding-13xl);
+    font-size: var(--headline-1);
+    color: var(--color-gray-900);
+  }
+  
+  .layout {
+    align-self: stretch;
+    gap: var(--gap-13xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .titleArea {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--gap-5xs);
+  }
+  
+  .icon {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-5xs);
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .backIcon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  
+  .titleLabel {
+    position: relative;
+    letter-spacing: -0.02em;
+    line-height: 32px;
+    font-size: var(--headline-1);
+    color: var(--text-strong);
+  }
+  
+  .bodyLayout {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--gap-13xl);
+    font-size: var(--label-3);
+    color: var(--text-alternative-2);
+  }
+  
+  .menuWrapper {
+    align-self: stretch;
+    flex-direction: row;
+    gap: var(--gap-13xl);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .menuImageWrapper {
+    align-self: stretch;
+    display: flex;
+    width: 362.67px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-base);
+  }
+  
+  .menuImageIcon {
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    width: 362.66px;
+    overflow: hidden;
+    min-height: 255.76px;
+    max-height: 255.76px;
+  }
+  
+  .menuImageIconWithFile {
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    width: 362.66px;
+    overflow: hidden;
+    min-height: 255.76px;
+    max-height: 255.76px;
+    object-fit: cover;
+    border: 0px solid transparent;
+    border-radius: var(--br-9xs) ; 
+  }
+  
+  .menuImageButtonWrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    width: 100%;
+    gap: var(--gap-7xs);
+  }
+  
+  .menuImageButton {
+    cursor: pointer;
+    border: 1px solid var(--line-strong);
+    padding: var(--padding-5xs) var(--padding-base);
+    background-color: var(--secondary-normal);
+    border-radius: var(--br-5xs);
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    display: flex;
+    flex: 1;
+  }
+  
+  .buttonLabel {
+    position: relative;
+    font-size: var(--label-1);
+    letter-spacing: 0.01em;
+    line-height: 28px;
+    font-family: var(--font-regular);
+    color: var(--text-alternative-1);
+    text-align: left;
+  }
+  
+  .menuValueWrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-5xl)
+  }
+  
+  .menuValueRow {
+    align-self: stretch;
+    flex-direction: row;
+    gap: var(--gap-13xl);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  
+  .textField {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-9xs);
+  }
+  
+  .textFieldLabel {
+    margin: 0;
+    position: relative;
+    font-size: inherit;
+    letter-spacing: 0.01em;
+    line-height: 20px;
+    font-weight: 400;
+    font-family: inherit;
+  }
+  
+  .textFieldContainer {
+    border: 1px solid var(--line-strong);
+    background-color: var(--white);
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    box-sizing: border-box;
+    height: 40px;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  
+  .textFieldContainerLong {
+    border: 1px solid var(--line-strong);
+    background-color: var(--white);
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    box-sizing: border-box;
+    height: 120px;
+    flex-direction: row;
+    padding: var(--padding-5xs) var(--padding-base);
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  
+  .selectArea {
+    flex: 1;
+    align-self: stretch;
+    border-radius: var(--br-9xs);
+    box-sizing: border-box;
+    height: 40px;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  
+  .optionWrapper {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+    gap: var(--gap-5xl) ;
+  }
+  
+  .optionCard {
+    width: 362.67px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--br-5xs);
+    background-color: var(--white-white);
+    flex-direction: column;
+    padding: var(--padding-base) var(--padding-5xl) var(--padding-5xl);
+    box-sizing: border-box;
+    justify-content: flex-start;
+    gap: var(--gap-5xs);
+    position: relative;
+  }
+  
+  .dragHorizontalIconWrapper {
+    cursor: pointer;
+    border: 0;
+    padding: 0 0 0 var(--padding-3xs);
+    background-color: transparent;
+    width: 22px;
+    justify-content: flex-end;
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+    opacity: 0.6;
+    box-sizing: border-box;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    top: 30px; 
+  }
+  
+  .dragIcon {
+    position: relative;
+    width: 12px;
+    height: 20px;
+  }
+  
+  .optionCardContent {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-5xl);
+  }
+  
+  .optionCategoryWrapper{
+    display: flex;
+    flex-direction: row;
+    width: 314.67px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: var(--gap-6xl);
+  }
+  
+  .deleteIconWrapper {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-11xs);
+    background-color: transparent;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .deleteIcon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .optionItemWrapper{
+    display: flex;
+    justify-content: flex-start;
+    width: 330px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-base);
+    height: 150px;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  
+  .optionItemWrapper::-webkit-scrollbar {
+    width: 5px; /* change the number to make it even thinner or thicker */
+  }
+  
+  .optionItemWrapper::-webkit-scrollbar-thumb {
+    background: #888; /* color of the scroll bar */
+    border-radius: 2px; /* if you want it to have rounded corners */
+  }
+  
+  .optionItemWrapper::-webkit-scrollbar-thumb:hover {
+    background: #555; /* color of the scroll bar when hovered */
+  }
+  
+  .optionItemRow {
+    width: 314.67px;
+    align-items: flex-end;
+    gap: var(--gap-5xs);
+    display: flex;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--white-white);
+  }
+  
+  .textFieldOption {
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: var(--gap-6xl);
+    width: 114.33px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--gap-9xs);
+    display: flex;
+  }
+  
+  .minusIconArea {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .minusIconWrapper {
+    border-radius: var(--br-9xs);
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: var(--secondary-normal);
+    width: 40px;
+  }
+  
+  .minusIcon {
+    position: absolute;
+    top: calc(50% - 1px);
+    left: calc(50% - 11px);
+    width: 22px;
+    height: 2px;
+  }
+  
+  .dragVerticalIconWrapper {
+    cursor: pointer;
+    border: 0;
+    padding: 0 0 0 var(--padding-3xs);
+    background-color: transparent;
+    height: 40px;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+    opacity: 0.6;
+  }
+  
+  .optionAddButton {
+    align-self: stretch;
+    display: flex;
+    cursor: pointer;
+    border: 1px solid var(--line-strong);
+    padding: var(--padding-xs) var(--padding-base);
+    background-color: var(--secondary-normal);
+    border-radius: var(--br-5xs);
+    box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-5xs);
+  }
+  
+  .optionCardAdd {
+    cursor: pointer;
+    border: 1px solid var(--line-strong);
+    padding: var(--gap-xs);
+    background-color: var(--secondary-normal);
+    border-radius: var(--br-5xs);
+    box-sizing: border-box;
+    min-width: 218px;
+    max-width: 218px;
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .plusIconWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+    align-items: center;
+    gap: var(--gap-5xs);
+  }
+  
+  .plusIcon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .submitButton {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-xs) var(--padding-base);
+    background-color: var(--primary-normal);
+    align-self: stretch;
+    flex: 1;
+    border-radius: var(--br-5xs);
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .submitButtonLabel {
+    position: relative;
+    font-size: var(--label-1);
+    letter-spacing: 0.01em;
+    line-height: 28px;
+    font-family: var(--font-bold);
+    color: var(--white-white);
+    text-align: left;
+  }
+  
+  @media screen and (max-width: 960px) {
+    .menuImageWrapper {
+      flex: 1;
+    }
+    .menuImageWrapper,
+    .bodyLayout {
+      height: auto;
+    }
+    .optionWrapper{
+      flex-direction: column;
+    }
+  }
+  @media screen and (max-width: 840px) {
+    .menuValueWrapper {
+      flex: unset;
+      align-self: stretch;
+    }
+    .menuWrapper {
+      flex-direction: column;
+    } 
+  }

@@ -30,9 +30,20 @@ const MenuAddPage = () => {
     menuDescriptionValue: "",
   });
   const [optionCardWrappers, setOptionCardWrappers] = useState([
-    { id: 0, options: [] },
+    {
+      id: 0,
+      optionClass: "",
+      options: [{ id: 0, optionName: "", optionPrice: "" }],
+      options: [{ id: 1, optionName: "", optionPrice: "" }],
+    },
+    {
+      id: 1,
+      optionClass: "",
+      options: [{ id: 0, optionName: "", optionPrice: "" }],
+      options: [{ id: 1, optionName: "", optionPrice: "" }],
+    },
   ]);
-  const [nextOptionId, setNextOptionId] = useState(0);
+  const [nextOptionId, setNextOptionId] = useState(1);
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
@@ -56,7 +67,7 @@ const MenuAddPage = () => {
     });
   }, [navigate, isHQUser, isBranchUser]);
 
-  // Function to handle change function for inputs
+  // Function to handle change function for menu inputs
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -69,9 +80,54 @@ const MenuAddPage = () => {
     }));
   };
 
+  // Function to handle change function for option inputs
+  const handleOptionChange = (event, cardId, optionId) => {
+    const { name, value } = event.target;
+
+    setOptionCardWrappers(
+      optionCardWrappers.map((card) => {
+        if (card.id === cardId) {
+          if (name === "optionClass") {
+            return { ...card, optionClass: value };
+          } else {
+            return {
+              ...card,
+              options: card.options.map((option) => {
+                if (option.id === optionId) {
+                  if (name === "optionPrice" && isNaN(Number(value))) {
+                    return option;
+                  } else {
+                    return { ...option, [name]: value };
+                  }
+                } else {
+                  return option;
+                }
+              }),
+            };
+          }
+        } else {
+          return card;
+        }
+      })
+    );
+  };
+
   // Function to handle click on edit submit button
   const onSubmitButtonClick = async () => {
-    const data = {};
+    const data = {
+      category: state.categorySelectedValue,
+      name: state.menuNameValue,
+      price: Number(state.menuPriceValue),
+      description: state.menuDescriptionValue,
+      option_categories: optionCardWrappers.map((wrapper) => ({
+        option_category_name: wrapper.optionClass,
+        option_menus: wrapper.options.map((option) => ({
+          name: option.optionName,
+          price: Number(option.optionPrice),
+        })),
+      })),
+    };
+    console.log(data);
     navigate(
       `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(branchId)}`,
       {
@@ -100,7 +156,13 @@ const MenuAddPage = () => {
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
         card.id === cardId
-          ? { ...card, options: [...card.options, { id: nextOptionId }] }
+          ? {
+              ...card,
+              options: [
+                ...card.options,
+                { id: nextOptionId, optionName: "", optionPrice: "" },
+              ],
+            }
           : card
       )
     );
@@ -121,9 +183,17 @@ const MenuAddPage = () => {
   };
 
   const addOptionWrapper = () => {
+    let maxId = Math.max(...optionCardWrappers.map((card) => card.id));
+    if (maxId === -Infinity) {
+      maxId = -1;
+    }
     setOptionCardWrappers([
       ...optionCardWrappers,
-      { id: optionCardWrappers.length, options: [] },
+      {
+        id: maxId + 1,
+        optionClass: "",
+        options: [{ id: 0, optionName: "", optionPrice: "" }],
+      },
     ]);
   };
 
@@ -261,7 +331,7 @@ const MenuAddPage = () => {
                     </h2>
                     <input
                       className={styles.textFieldContainer}
-                      type="number"
+                      type="text"
                       name="menuPriceValue"
                       value={state.menuPriceValue}
                       onChange={handleChange}
@@ -282,6 +352,7 @@ const MenuAddPage = () => {
                         boxSizing: "border-box",
                         alignSelf: "stretch",
                         top: "5px",
+                        fontSize: "14px",
                       }}
                       MenuProps={{
                         anchorOrigin: {
@@ -292,7 +363,6 @@ const MenuAddPage = () => {
                           vertical: "top",
                           horizontal: "left",
                         },
-                        getContentAnchorEl: null,
                         PaperProps: {
                           style: {
                             maxHeight: 40 * 4.5,
@@ -310,7 +380,13 @@ const MenuAddPage = () => {
                   </div>
                   <div className={styles.textField}>
                     <div className={styles.textFieldLabel}>메뉴 설명</div>
-                    <input className={styles.textFieldContainer} type="text" />
+                    <input
+                      className={styles.textFieldContainer}
+                      type="text"
+                      name="menuDescriptionValue"
+                      value={state.menuDescriptionValue}
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
               </div>
@@ -368,6 +444,11 @@ const MenuAddPage = () => {
                                       <input
                                         className={styles.textFieldContainer}
                                         type="text"
+                                        name="optionClass"
+                                        value={card.optionClass}
+                                        onChange={(event) =>
+                                          handleOptionChange(event, card.id)
+                                        }
                                       />
                                     </div>
                                     <button
@@ -428,6 +509,15 @@ const MenuAddPage = () => {
                                                         styles.textFieldContainer
                                                       }
                                                       type="text"
+                                                      name="optionName"
+                                                      value={option.optionName}
+                                                      onChange={(event) =>
+                                                        handleOptionChange(
+                                                          event,
+                                                          card.id,
+                                                          option.id
+                                                        )
+                                                      }
                                                     />
                                                   </div>
                                                   <div
@@ -446,7 +536,16 @@ const MenuAddPage = () => {
                                                       className={
                                                         styles.textFieldContainer
                                                       }
-                                                      type="number"
+                                                      type="text"
+                                                      name="optionPrice"
+                                                      value={option.optionPrice}
+                                                      onChange={(event) =>
+                                                        handleOptionChange(
+                                                          event,
+                                                          card.id,
+                                                          option.id
+                                                        )
+                                                      }
                                                     />
                                                   </div>
                                                   <button

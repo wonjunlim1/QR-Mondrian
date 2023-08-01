@@ -140,7 +140,7 @@ html::before {
   justify-content: center;
   align-self: stretch;
   width: 100%;
-  gap: var(--gap-11xs);
+  gap: var(--gap-7xs);
 }
 
 .menuImageButton {

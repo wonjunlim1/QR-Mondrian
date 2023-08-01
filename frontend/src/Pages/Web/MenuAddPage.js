@@ -34,13 +34,13 @@ const MenuAddPage = () => {
   const [optionCardWrappers, setOptionCardWrappers] = useState([
     {
       id: 0,
-      optionClass: "",
+      optionCategoryName: "",
       options: [{ id: 0, optionName: "", optionPrice: "" }],
       options: [{ id: 1, optionName: "", optionPrice: "" }],
     },
     {
       id: 1,
-      optionClass: "",
+      optionCategoryName: "",
       options: [{ id: 5, optionName: "", optionPrice: "" }],
       options: [{ id: 6, optionName: "", optionPrice: "" }],
     },
@@ -109,8 +109,8 @@ const MenuAddPage = () => {
     setOptionCardWrappers(
       optionCardWrappers.map((card) => {
         if (card.id === cardId) {
-          if (name === "optionClass") {
-            return { ...card, optionClass: value };
+          if (name === "optionCategoryName") {
+            return { ...card, optionCategoryName: value };
           } else {
             return {
               ...card,
@@ -140,13 +140,9 @@ const MenuAddPage = () => {
       return str !== null && str.trim().length > 0;
     };
 
-    const { categorySelectedValue, menuNameValue, menuPriceValue } = state;
+    const { categorySelectedValue, menuNameValue } = state;
 
-    if (
-      hasValue(categorySelectedValue) &&
-      hasValue(menuNameValue) &&
-      hasValue(menuPriceValue)
-    ) {
+    if (hasValue(categorySelectedValue) && hasValue(menuNameValue)) {
       return true;
     }
     return false;
@@ -166,45 +162,57 @@ const MenuAddPage = () => {
       ? Math.max(...category.main_menus.map((menu) => menu.display_order))
       : Number.MIN_SAFE_INTEGER;
 
-    const imageData = new FormData();
-    console.log(selectedFile);
-    imageData.append("myImage", selectedFile);
-    const data = {
-      category: state.categorySelectedValue,
-      name: state.menuNameValue,
-      price: Number(state.menuPriceValue),
-      image: imageData,
-      description: state.menuDescriptionValue,
-      display_order: maxDisplayOrder + 1,
-      option_categories: optionCardWrappers.map((wrapper, index) => ({
-        option_category_name: wrapper.optionClass,
-        display_order: index + 1,
-        option_menus: wrapper.options.map((option, index) => ({
-          name: option.optionName,
-          price: Number(option.optionPrice),
+    const transformedOptionCardWrappers = optionCardWrappers
+      .filter((wrapper) => wrapper.optionCategoryName.trim() !== "") // Remove any wrapper where the optionClass is empty
+      .map((wrapper) => ({
+        ...wrapper,
+        options: wrapper.options
+          .filter((option) => option.optionName.trim() !== "") // Remove any option where the optionName is empty
+          .map((option) => ({
+            ...option,
+            optionPrice:
+              option.optionPrice.trim() !== "" ? option.optionPrice : "0", // If optionPrice is empty, make it "0"
+          })),
+      }));
+
+    let formData = new FormData();
+    formData.append("image", selectedFile); // This is the image
+    formData.append("category", state.categorySelectedValue);
+    formData.append("name", state.menuNameValue);
+    formData.append("price", state.menuPriceValue.toString()); // FormData accepts only strings or blobs
+    formData.append("description", state.menuDescriptionValue);
+    formData.append("display_order", (maxDisplayOrder + 1).toString());
+    formData.append(
+      "option_categories",
+      JSON.stringify(
+        transformedOptionCardWrappers.map((wrapper, index) => ({
+          option_category_name: wrapper.optionCategoryName,
           display_order: index + 1,
-        })),
-      })),
-    };
-    console.log(data);
-    navigate(
-      `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(branchId)}`,
-      {
-        state: { isHQUser, isBranchUser },
-      }
+          option_menus: wrapper.options.map((option, index) => ({
+            name: option.optionName,
+            price: Number(option.optionPrice),
+            display_order: index + 1,
+          })),
+        }))
+      )
     );
     try {
       const response = await fetch(
-        `${serverAddress}/menu_w/${restaurantId}/${branchId}/TBD`,
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/menu`,
         {
-          method: "TBD",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+          method: "POST",
+          body: formData,
         }
       );
       console.log(response);
+      navigate(
+        `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}`,
+        {
+          state: { isHQUser, isBranchUser },
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -252,7 +260,7 @@ const MenuAddPage = () => {
       ...optionCardWrappers,
       {
         id: maxId + 1,
-        optionClass: "",
+        optionCategoryName: "",
         options: [{ id: 0, optionName: "", optionPrice: "" }],
       },
     ]);
@@ -265,6 +273,7 @@ const MenuAddPage = () => {
     );
   };
 
+  // Function to handle drag on items
   const onDragEnd = (result) => {
     const { source, destination, type } = result;
 
@@ -527,8 +536,8 @@ const MenuAddPage = () => {
                                       <input
                                         className={styles.textFieldContainer}
                                         type="text"
-                                        name="optionClass"
-                                        value={card.optionClass}
+                                        name="optionCategoryName"
+                                        value={card.optionCategoryName}
                                         onChange={(event) =>
                                           handleOptionChange(event, card.id)
                                         }

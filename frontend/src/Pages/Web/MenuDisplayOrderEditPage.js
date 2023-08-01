@@ -185,7 +185,7 @@ const MenuDisplayOrderEditPage = () => {
     }
   };
 
-  // Function to handle click on edit submit button
+  // Function to handle drag on items
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
     console.log(draggableId);

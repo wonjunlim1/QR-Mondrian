@@ -151,6 +151,7 @@ const MenuAddPage = () => {
     }
   };
 
+  // Function to handle add option item row
   const addOptionRow = (cardId) => {
     console.log(optionCardWrappers);
     setOptionCardWrappers(
@@ -169,6 +170,7 @@ const MenuAddPage = () => {
     setNextOptionId((prevId) => prevId + 1);
   };
 
+  // Function to handle delete option item row
   const removeOptionRow = (cardId, optionId) => {
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
@@ -182,6 +184,7 @@ const MenuAddPage = () => {
     );
   };
 
+  // Function to handle add option category
   const addOptionWrapper = () => {
     let maxId = Math.max(...optionCardWrappers.map((card) => card.id));
     if (maxId === -Infinity) {
@@ -197,6 +200,7 @@ const MenuAddPage = () => {
     ]);
   };
 
+  // Function to handle delete option category
   const removeOptionCardWrapper = (cardId) => {
     setOptionCardWrappers(
       optionCardWrappers.filter((card) => card.id !== cardId)

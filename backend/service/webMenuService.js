@@ -142,14 +142,22 @@ module.exports = {
       // Start a transaction
       transaction = await sequelize.transaction();
 
-      // Parse option_categories JSON data
+      // Parse option_categories JSON data (in array)
       const optionCategories = JSON.parse(menuData.option_categories);
 
+      // Get max Main menu Id
+      const getMaxMainMenuId = await MainMenu.findOne({
+        attributes: [
+          [Sequelize.fn('MAX', Sequelize.col('id')), 'maxId'],
+        ],
+        raw: true
+
+      })
       // Step 1: Add to MainCategory table
       const mainCategory = await MainCategory.create(
         {
           restaurant_id: restaurant_id,
-          name: menuData.name,
+          name: menuData.category,
           display_order: menuData.display_order,
           created_at: new Date(),
           updated_at: new Date(),
@@ -160,6 +168,7 @@ module.exports = {
       // Step 2: Add to MainMenu table
       const menu = await MainMenu.create(
         {
+          id: getMaxMainMenuId.maxId + 1,
           main_category_id: mainCategory.id,
           name: menuData.name,
           price: menuData.price,
@@ -209,7 +218,7 @@ module.exports = {
         {
           branch_id: branch_id,
           main_menu_id: menu.id,
-          active: true, // You can set the default value as needed
+          active: true,
           updated_at: new Date(),
         },
         { transaction }

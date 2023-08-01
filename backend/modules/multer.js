@@ -3,16 +3,14 @@ const multerS3 = require('multer-s3');
 const { MainMenu } = require("../models");
 const { S3Client } = require('@aws-sdk/client-s3');
 const sequelize = require("sequelize");
-const webMenuService = require('../service/webMenuService')
-
-// S3Client.config.loadFromPath(__dirname + '/../config/s3.json');
+const CONFIG = require('../config/s3')
 
 const s3 = new S3Client(
     {
-        region: 'ap-northeast-2',
+        region: CONFIG.region,
         credentials: {
-            accessKeyId: "",
-            secretAccessKey: "",
+            accessKeyId: CONFIG.accessKeyId,
+            secretAccessKey: CONFIG.secretAccessKey,
         },
         sslEnabled: false,
         s3ForcePathStyle: true,
@@ -21,20 +19,20 @@ const s3 = new S3Client(
 
 );
 
-function getMaxMenuId() {
-    return MainMenu.findOne({
-        attributes: [
-            [sequelize.fn('MAX', sequelize.col('id')), 'maxId'],
-        ],
-        raw: true
-    })
-        .then((result) => {
-            return result.maxId + 1;
-        })
-        .catch((error) => {
-            console.error('Error while retrieving max id from MainMenu table:', error);
-            throw error;
+async function getMaxMenuId() {
+    try {
+        const maxMenuId = await MainMenu.findOne({
+            attributes: [
+                [sequelize.fn('MAX', sequelize.col('id')), 'maxId'],
+            ],
+            raw: true
         });
+
+        return maxMenuId.maxId + 1;
+    } catch (error) {
+        console.error('Error while retrieving max id from MainMenu table:', error);
+        throw error;
+    }
 }
 
 const upload = multer({

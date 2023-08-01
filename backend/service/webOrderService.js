@@ -12,7 +12,6 @@ const {
   OptionMenu,
 } = require("../models");
 const sequelize = require("sequelize");
-const Op = sequelize.Op;
 
 module.exports = {
   /* Get all menu */

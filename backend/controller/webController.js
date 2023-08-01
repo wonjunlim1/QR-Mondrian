@@ -1,11 +1,8 @@
-const sequelize = require("sequelize");
 const webMenuService = require("../service/webMenuService");
 const webOrderService = require("../service/webOrderService");
 const ut = require("../modules/util");
 const rm = require("../modules/responseMessage");
 const sc = require("../modules/statusCode");
-const upload = require('../modules/multer');
-
 
 module.exports = {
   /* GET: [ /:restaurant_id/:branch_id/] */
@@ -84,6 +81,7 @@ module.exports = {
     }
   },
 
+  /* DELETE: [/menu_w/:restaurant_id/:branch_id/request_type/:request_id] */
   deleteMenuCategory: async (req, res) => {
     const restaurant_id = req.params.restaurant_id;
     const branch_id = req.params.branch_id;
@@ -107,6 +105,7 @@ module.exports = {
     }
   },
 
+  /* POST: [/menu_w/:restaurant_id/:branch_id/category] */
   createMenuCategory: async (req, res) => {
     const restaurant_id = req.params.restaurant_id;
     const branch_id = req.params.branch_id;
@@ -128,6 +127,7 @@ module.exports = {
     }
   },
 
+  /* PUT: [/menu_w/:restaurant_id/:branch_id/display_order] */
   putDisplayOrder: async (req, res) => {
     const restaurant_id = req.params.restaurant_id;
     const branch_id = req.params.branch_id;
@@ -149,6 +149,7 @@ module.exports = {
     }
   },
 
+  /* POST: [/menu_w/:restaurant_id/:branch_id/create] */
   createMenu: async (req, res) => {
     const restaurant_id = req.params.restaurant_id;
     const branch_id = req.params.branch_id;
@@ -179,6 +180,7 @@ module.exports = {
 
   },
 
+  /* PUT: [/menu_w/:restaurant_id/:branch_id/:menu_id/edit] */
   updateMenu: async (req, res) => {
     const restaurant_id = req.params.restaurant_id;
     const branch_id = req.params.branch_id;

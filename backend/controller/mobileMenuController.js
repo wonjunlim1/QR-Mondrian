@@ -1,4 +1,3 @@
-const sequelize = require('sequelize');
 const mobileMenuService = require('../service/mobileMenuService')
 const ut = require('../modules/util');
 const rm = require('../modules/responseMessage');

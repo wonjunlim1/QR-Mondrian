@@ -118,16 +118,6 @@ html::before {
   overflow: hidden;
   min-height: 255.76px;
   max-height: 255.76px;
-}
-
-.menuImageIconWithFile {
-  align-self: stretch;
-  flex: 1;
-  position: relative;
-  width: 362.66px;
-  overflow: hidden;
-  min-height: 255.76px;
-  max-height: 255.76px;
   object-fit: cover;
   border: 0px solid transparent;
   border-radius: var(--br-9xs) ; 
@@ -254,6 +244,16 @@ html::before {
   align-items: flex-start;
   box-sizing: border-box;
   gap: var(--gap-5xl) ;
+}
+
+.optionWrapperEmpty {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
 .optionCard {
@@ -446,6 +446,8 @@ html::before {
   box-sizing: border-box;
   min-width: 218px;
   max-width: 218px;
+  min-height: 404px;
+  max-height: 404px;
   align-self: stretch;
   display: flex;
   flex-direction: row;

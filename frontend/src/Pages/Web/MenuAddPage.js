@@ -74,7 +74,7 @@ const MenuAddPage = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  // Function to
+  // Function to handle image file delete
   const onFileChangeDeleteButtonClick = () => {
     setSelectedImage(menuImageIcon);
     setSelectedFile(null);
@@ -343,9 +343,6 @@ const MenuAddPage = () => {
           (a, b) => a.display_order - b.display_order
         );
         setMenuData(sortedData);
-        /** For edit Page
-         * setCategorySelectedValue(sortedData[5].category_name);
-         */
       } catch (error) {
         console.log("Error fetching menu data:", error);
       }
@@ -383,11 +380,7 @@ const MenuAddPage = () => {
             <div className={styles.menuWrapper} id="image_input_body">
               <div className={styles.menuImageWrapper} id="image_body">
                 <img
-                  className={
-                    selectedFile
-                      ? styles.menuImageIconWithFile
-                      : styles.menuImageIcon
-                  }
+                  className={styles.menuImageIcon}
                   alt=""
                   src={selectedImage}
                 />
@@ -492,7 +485,13 @@ const MenuAddPage = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.optionWrapper}>
+            <div
+              className={`${
+                optionCardWrappers.length === 0
+                  ? styles.optionWrapperEmpty
+                  : styles.optionWrapper
+              }`}
+            >
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                   droppableId="options"

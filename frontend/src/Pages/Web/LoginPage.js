@@ -33,12 +33,12 @@ function LoginPage() {
     });
 
     const user = new CognitoUser({
-      Username: username,
+      Username: username.trim(),
       Pool: userPool,
     });
 
     const authDetails = new AuthenticationDetails({
-      Username: username,
+      Username: username.trim(),
       Password: password,
     });
 
@@ -81,6 +81,7 @@ function LoginPage() {
         });
       },
       onFailure: (err) => {
+        window.alert("로그인 정보가 올바르지 않습니다");
         console.error(err);
       },
     });

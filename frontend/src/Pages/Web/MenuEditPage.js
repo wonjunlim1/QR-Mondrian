@@ -153,6 +153,7 @@ const MenuEditPage = () => {
     }
 
     let dpOrder = state.menuDisplayOrder;
+    console.log(dpOrder);
     if (state.defaultCategoryValue !== state.categorySelectedValue) {
       const category = menuData.find(
         (cat) => cat.category_name === state.categorySelectedValue
@@ -383,7 +384,7 @@ const MenuEditPage = () => {
         }));
         setState((prevState) => ({
           ...prevState,
-          menuDisplayOrder: getCategoryNameAndDisplayOrder.displayOrder,
+          menuDisplayOrder: getFunctionInfo.displayOrder,
         }));
         if (jsonDataMenuDetails.data.menu_details.image_url.trim() !== "") {
           setSelectedImage(

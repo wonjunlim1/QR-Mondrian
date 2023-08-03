@@ -112,6 +112,7 @@ const WebHeader = ({ isHQUser, isBranchUser, restaurantId, branchId }) => {
               <b className={styles.boldLabel}>주문</b>
             </div>
           )}
+          {/* 
           <div
             className={
               currentTab === "Data"
@@ -122,6 +123,7 @@ const WebHeader = ({ isHQUser, isBranchUser, restaurantId, branchId }) => {
           >
             <b className={styles.boldLabel}>데이터</b>
           </div>
+          */}
         </div>
         <div className={styles.button} onClick={onLogoutButtonClick}>
           <b className={styles.buttonLabel}>로그아웃</b>

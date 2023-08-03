@@ -147,8 +147,14 @@ const MenuDisplayOrderEditPage = () => {
       }
     });
     if (categoryDiffList.length === 0 && menuDiffList.length === 0) {
-      console.log("empty");
-      return;
+      navigate(
+        `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
+          branchId
+        )}`,
+        {
+          state: { isHQUser, isBranchUser },
+        }
+      );
     }
     const data = {
       category_edit: categoryDiffList.map(({ id, display_order }) => ({

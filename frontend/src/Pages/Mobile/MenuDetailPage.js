@@ -144,7 +144,6 @@ const MenuDetailPage = () => {
         menu_quantity: currentQuantity,
         option_menus: checkedOptions,
       });
-      console.log(newCart);
 
       // Parse the existing data to convert it back to an object
       existingCart = existingCart ? existingCart : [];
@@ -160,10 +159,6 @@ const MenuDetailPage = () => {
 
       // Store the updated data back in local storage
       localStorage.setItem("cart", JSON.stringify(finalCart));
-      let check_cart = localStorage.getItem("cart");
-      console.log(check_cart);
-      //localStorage.removeItem("cart");
-      console.log(currentTempId);
       if (currentTempId !== 0) {
         navigate(
           `/cart_m/${encryptUrlParams(restaurantId)}/${encryptUrlParams(

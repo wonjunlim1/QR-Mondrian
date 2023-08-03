@@ -130,8 +130,6 @@ const CartPage = () => {
     [currentCartData]
   );
 
-  console.log(JSON.parse(localStorage.getItem("cart")) || []);
-
   // Callback function to submit the order
   const onSubmitButtonClick = useCallback(async () => {
     // Check and get current order data from local storage

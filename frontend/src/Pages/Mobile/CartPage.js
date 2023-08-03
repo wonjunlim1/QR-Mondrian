@@ -210,7 +210,7 @@ const CartPage = () => {
             )
           : [];
 
-        setPastOrdersData(flattenedPastOrders);
+        setPastOrdersData(flattenedPastOrders.reverse());
 
         const totalPrice = flattenedPastOrders.reduce((acc, order) => {
           return (

@@ -18,7 +18,8 @@ const MenuPage = () => {
   const [isAutomaticScroll, setIsAutomaticScroll] = useState(false);
 
   // Setting cart count
-  const cartCount = JSON.parse(localStorage.getItem("cart")).length;
+  const cart = JSON.parse(localStorage.getItem("cart"));
+  const cartCount = (cart && cart.length) || 0;
 
   // Setting default to enable horizontal scroll
   const menuCategoryRefs = useRef([]);

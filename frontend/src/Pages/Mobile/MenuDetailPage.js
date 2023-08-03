@@ -25,7 +25,8 @@ const MenuDetailPage = () => {
   const currentTempId = location.state ? location.state.temp_id : 0;
 
   // Setting cart count
-  const cartCount = JSON.parse(localStorage.getItem("cart")).length;
+  const cart = JSON.parse(localStorage.getItem("cart"));
+  const cartCount = (cart && cart.length) || 0;
 
   // Extracting params from URL
   const {

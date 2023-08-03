@@ -73,7 +73,7 @@ const MenuPage = () => {
   // Function to handle clicks on category pills
   const onCategoryClick = async (index) => {
     setIsAutomaticScroll(true); // Set manual scroll to false
-    const y = menuCategoryRefs.current[index].offsetTop - 183;
+    const y = menuCategoryRefs.current[index].offsetTop - 158;
     await smoothScrollTo(y);
     setIsAutomaticScroll(false);
     setSelectedCategory(index);
@@ -104,7 +104,6 @@ const MenuPage = () => {
             (menu) => menu.menu_status === true
           ),
         }));
-        console.log(updatedData);
         const finalData = updatedData.filter(
           (category) => category.main_menus.length > 0
         );
@@ -127,8 +126,8 @@ const MenuPage = () => {
 
       const index = current.findIndex(
         (categoryRef) =>
-          scrollTop >= categoryRef.offsetTop - 183 &&
-          scrollTop < categoryRef.offsetTop - 183 + categoryRef.offsetHeight
+          scrollTop >= categoryRef.offsetTop - 158 &&
+          scrollTop < categoryRef.offsetTop - 158 + categoryRef.offsetHeight
       );
 
       if (index !== -1) {

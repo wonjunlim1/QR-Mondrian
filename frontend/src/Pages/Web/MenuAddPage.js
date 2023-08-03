@@ -166,16 +166,19 @@ const MenuAddPage = () => {
       : Number.MIN_SAFE_INTEGER;
 
     const transformedOptionCardWrappers = optionCardWrappers
-      .filter((wrapper) => wrapper.optionCategoryName.trim() !== "") // Remove any wrapper where the optionClass is empty
       .map((wrapper) => ({
         ...wrapper,
         options: wrapper.options
-          .filter((option) => option.optionName.trim() !== "") // Remove any option where the optionName is empty
+          .filter((option) => option.optionName.trim() !== "")
           .map((option) => ({
             ...option,
             optionPrice: Number(option.optionPrice),
           })),
-      }));
+      }))
+      .filter(
+        (wrapper) =>
+          wrapper.optionCategoryName.trim() !== "" && wrapper.options.length > 0
+      );
 
     let formData = new FormData();
     formData.append("image", selectedFile);

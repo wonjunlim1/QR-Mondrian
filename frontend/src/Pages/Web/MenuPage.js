@@ -314,7 +314,7 @@ const MenuPage = () => {
                               : styles.menuImageInactive
                           }
                           alt=""
-                          src={menuItem.image_url}
+                          src={menuItem.image_url + "?v=" + Date.now()}
                           loading="lazy"
                         />
                       )}

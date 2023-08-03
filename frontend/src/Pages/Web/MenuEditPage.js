@@ -13,7 +13,7 @@ import minusIcon from "../../Assets/Images/minus-web.svg";
 import plusIcon from "../../Assets/Images/plus.svg";
 import backIcon from "../../Assets/Images/arrow-back.svg";
 
-const MenuAddPage = () => {
+const MenuEditPage = () => {
   // Navigation and location utility from React Router
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,12 +26,15 @@ const MenuAddPage = () => {
   const [selectedImage, setSelectedImage] = useState(menuImageIcon); // For selected image
   const [selectedFile, setSelectedFile] = useState(null);
   const [state, setState] = useState({
+    defaultCategoryValue: "",
     categorySelectedValue: "",
     menuNameValue: "",
     menuPriceValue: "",
     menuDescriptionValue: "",
+    menuDisplayOrder: "",
   });
   const [optionCardWrappers, setOptionCardWrappers] = useState(null);
+  const [imageDeleted, setImageDeleted] = useState(false);
 
   // Ref for the file input
   const fileInputRef = useRef();
@@ -65,6 +68,7 @@ const MenuAddPage = () => {
   const onFileChangeDeleteButtonClick = () => {
     setSelectedImage(menuImageIcon);
     setSelectedFile(null);
+    setImageDeleted(true);
   };
 
   // Function to handle image file add
@@ -140,21 +144,24 @@ const MenuAddPage = () => {
 
   // Function to handle click on edit submit button
   const onSubmitButtonClick = async () => {
-    return;
     if (!checkStateValues()) {
       return;
     }
+    let image_deleted = true;
+    if (!imageDeleted && !selectedFile) {
+      image_deleted = false;
+    }
 
-    const category = menuData.find(
-      (cat) => cat.category_name === state.categorySelectedValue
-    );
-
-    const maxDisplayOrder = category
-      ? Math.max(...category.main_menus.map((menu) => menu.display_order))
-      : Number.MIN_SAFE_INTEGER;
-
+    let dpOrder = state.menuDisplayOrder;
+    if (state.defaultCategoryValue !== state.categorySelectedValue) {
+      const category = menuData.find(
+        (cat) => cat.category_name === state.categorySelectedValue
+      );
+      dpOrder = category
+        ? Math.max(...category.main_menus.map((menu) => menu.display_order)) + 1
+        : Number.MIN_SAFE_INTEGER;
+    }
     const transformedOptionCardWrappers = optionCardWrappers
-      .filter((wrapper) => wrapper.optionCategoryName.trim() !== "") // Remove any wrapper where the optionClass is empty
       .map((wrapper) => ({
         ...wrapper,
         options: wrapper.options
@@ -163,7 +170,11 @@ const MenuAddPage = () => {
             ...option,
             optionPrice: Number(option.optionPrice),
           })),
-      }));
+      }))
+      .filter(
+        (wrapper) =>
+          wrapper.optionCategoryName.trim() !== "" && wrapper.options.length > 0
+      );
 
     let formData = new FormData();
     formData.append("image", selectedFile);
@@ -171,7 +182,8 @@ const MenuAddPage = () => {
     formData.append("name", state.menuNameValue);
     formData.append("price", state.menuPriceValue.toString());
     formData.append("description", state.menuDescriptionValue);
-    formData.append("display_order", (maxDisplayOrder + 1).toString());
+    formData.append("display_order", dpOrder);
+    formData.append("image_deleted", image_deleted);
     formData.append(
       "option_categories",
       JSON.stringify(
@@ -188,9 +200,9 @@ const MenuAddPage = () => {
     );
     try {
       const response = await fetch(
-        `${serverAddress}/menu_w/${restaurantId}/${branchId}/menu`,
+        `${serverAddress}/menu_w/${restaurantId}/${branchId}/${menuId}/menu`,
         {
-          method: "POST",
+          method: "PUT",
           body: formData,
         }
       );
@@ -234,7 +246,6 @@ const MenuAddPage = () => {
 
   // Function to handle delete option item row
   const removeOptionRow = (cardId, optionId) => {
-    console.log(optionCardWrappers);
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
         card.id === cardId
@@ -335,20 +346,27 @@ const MenuAddPage = () => {
           (a, b) => a.display_order - b.display_order
         );
         setMenuData(sortedDataMenu);
-        const getCategoryName = (menu_id) => {
+        const getCategoryNameAndDisplayOrder = (menu_id) => {
           for (let category of sortedDataMenu) {
             const found = category.main_menus.find(
               (menu) => menu.id === menu_id
             );
             if (found) {
-              return category.category_name;
+              return {
+                categoryName: category.category_name,
+                displayOrder: found.display_order,
+              };
             }
           }
         };
-        console.log(jsonDataMenuDetails);
+        const getFunctionInfo = getCategoryNameAndDisplayOrder(Number(menuId));
         setState((prevState) => ({
           ...prevState,
-          categorySelectedValue: getCategoryName(Number(menuId)),
+          categorySelectedValue: getFunctionInfo.categoryName,
+        }));
+        setState((prevState) => ({
+          ...prevState,
+          defaultCategoryValue: getFunctionInfo.categoryName,
         }));
         setState((prevState) => ({
           ...prevState,
@@ -363,9 +381,16 @@ const MenuAddPage = () => {
           menuDescriptionValue:
             jsonDataMenuDetails.data.menu_details.description,
         }));
+        setState((prevState) => ({
+          ...prevState,
+          menuDisplayOrder: getCategoryNameAndDisplayOrder.displayOrder,
+        }));
         if (jsonDataMenuDetails.data.menu_details.image_url.trim() !== "") {
-          setSelectedImage(jsonDataMenuDetails.data.menu_details.image_url);
+          setSelectedImage(
+            jsonDataMenuDetails.data.menu_details.image_url + "?v=" + Date.now()
+          );
         }
+        console.log(jsonDataMenuDetails.data.menu_details.image_url);
         let transformedOptionCategories =
           jsonDataMenuDetails.data.menu_details.option_categories.map(
             (category, index) => {
@@ -382,7 +407,6 @@ const MenuAddPage = () => {
               };
             }
           );
-        console.log(transformedOptionCategories);
         setOptionCardWrappers(transformedOptionCategories);
       } catch (error) {
         console.log("Error fetching menu data:", error);
@@ -781,4 +805,4 @@ const MenuAddPage = () => {
   );
 };
 
-export default MenuAddPage;
+export default MenuEditPage;

@@ -84,12 +84,25 @@
   margin-left: auto;
 }
 
+.cartCount{
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  color: var(--white-white);
+  font-size: var(--label-1);
+}
+
 .iconChild {
   position: relative;
   width: 24px;
   height: 24px;
   overflow: hidden;
   flex-shrink: 0;
+  z-index: 0;
 }
 
 .categoryScrollBarWrapperFixed{

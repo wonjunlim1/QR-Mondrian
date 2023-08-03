@@ -24,6 +24,9 @@ const MenuDetailPage = () => {
   // Check if user comes from edit page
   const currentTempId = location.state ? location.state.temp_id : 0;
 
+  // Setting cart count
+  const cartCount = JSON.parse(localStorage.getItem("cart")).length;
+
   // Extracting params from URL
   const {
     restaurant_id: encodedRestaurantId,
@@ -262,6 +265,9 @@ const MenuDetailPage = () => {
           </button>
           <div className={styles.icon} onClick={onCartIconClick}>
             <img className={styles.iconChild} alt="" src={cartIcon} />
+            {cartCount > 0 && (
+              <div className={styles.cartCount}> {cartCount} </div>
+            )}
           </div>
         </div>
         <div className={styles.layout}>

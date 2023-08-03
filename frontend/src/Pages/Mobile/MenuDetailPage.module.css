@@ -54,6 +54,18 @@
   align-items: flex-start;
 }
 
+.cartCount {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  font-weight: 700;
+  font-size: var(--label-1);
+}
+
 .iconChild {
     position: relative;
     width: 24px;

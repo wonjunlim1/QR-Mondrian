@@ -16,6 +16,11 @@ const MenuPage = () => {
   const [menuData, setMenuData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [isAutomaticScroll, setIsAutomaticScroll] = useState(false);
+
+  // Setting cart count
+  const cartCount = JSON.parse(localStorage.getItem("cart")).length;
+
+  // Setting default to enable horizontal scroll
   const menuCategoryRefs = useRef([]);
   const categoryPillRefs = useRef([]);
 
@@ -173,6 +178,9 @@ const MenuPage = () => {
           </div>
           <div className={styles.icon} onClick={() => onCartIconClick()}>
             <img className={styles.iconChild} alt="" src={cartIcon} />
+            {cartCount > 0 && (
+              <div className={styles.cartCount}> {cartCount} </div>
+            )}
           </div>
         </div>
       </div>

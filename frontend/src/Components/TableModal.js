@@ -124,7 +124,7 @@ const TableModal = ({ onClose, orders, id, setEventCounter }) => {
               className={styles.buttonCompleted}
               onClick={onCompleteButtonClick}
             >
-              <b className={styles.buttonCompletedLabel}>수락</b>
+              <b className={styles.buttonCompletedLabel}>결제 완료</b>
             </button>
           </div>
         </div>

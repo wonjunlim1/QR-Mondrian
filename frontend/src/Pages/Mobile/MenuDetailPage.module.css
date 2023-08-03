@@ -191,8 +191,8 @@
   position: relative;
   min-width: 24px;
   min-height: 24px;
-  border-radius: var(--br-9xs);
-  border: 2px solid var(--line-strong) !important;
+  border-radius: var(--br-11xs);
+  border: 1px solid var(--line-strong) !important;
   box-sizing: border-box;
 }
 

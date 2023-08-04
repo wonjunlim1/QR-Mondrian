@@ -1,11 +1,12 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import WebHeader from "../../Components/WebHeader";
 import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
 import styles from "./MenuDisplayOrderEditPage.module.css";
 import dragIcon from "../../Assets/Images/drag.svg";
+import backIcon from "../../Assets/Images/arrow-back.svg";
 
 const MenuDisplayOrderEditPage = () => {
   // Navigation and location utility from React Router
@@ -35,6 +36,13 @@ const MenuDisplayOrderEditPage = () => {
   const dummyTableNumber = 0;
 
   /** Event Handlers */
+
+  // Function to handle click on back icon
+  const onBackIconClick = useCallback(() => {
+    navigate(-1, {
+      state: { isHQUser, isBranchUser },
+    });
+  }, [navigate, isHQUser, isBranchUser]);
 
   // Function to handle click on category add button
   const onAddNewCategoryButtonClick = async () => {
@@ -315,6 +323,7 @@ const MenuDisplayOrderEditPage = () => {
     return <div></div>;
   }
 
+  // Render the component
   return (
     <>
       <div className={styles.web}>
@@ -326,8 +335,18 @@ const MenuDisplayOrderEditPage = () => {
         />
         <div className={styles.contentWrapper} id="current_menu_body">
           <div className={styles.titleArea} id="title_div">
+            <button className={styles.backIconWrapper}>
+              <img
+                className={styles.backIcon}
+                alt=""
+                src={backIcon}
+                onClick={onBackIconClick}
+              />
+            </button>
+            <b className={styles.titleLabel}>메뉴 순서 변경</b>
+            <div className={styles.placeholder}> / </div>
             <div className={styles.titleWrapper}>
-              <h1 className={styles.titleLabel}>메뉴 구분 추가</h1>
+              <h1 className={styles.titleLabelCategoryAdd}>메뉴 구분 추가</h1>
             </div>
             <input
               className={styles.inputWrapper}

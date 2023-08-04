@@ -40,11 +40,12 @@ html::before {
 .titleArea {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   align-self: stretch;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding-top: 7px;
   padding-bottom: 7px;
+  gap: var(--gap-5xs)
 }
 
 .titleWrapper {
@@ -66,6 +67,18 @@ html::before {
   text-align: center;
 }
 
+.titleLabelCategoryAdd{
+  margin: 0;
+  font-size: inherit;
+  font-family: inherit;
+  position: relative;
+  letter-spacing: -0.02em;
+  line-height: 40px;
+  font-weight: 700;
+  font-size: var(--headline-1);
+  text-align: center;
+}
+
 .inputWrapper {
   display: flex;
   flex-direction: column;
@@ -77,8 +90,6 @@ html::before {
   border-radius: var(--br-9xs);
   box-sizing: border-box;
   height: 40px;
-  margin-left: 10px;
-  margin-right: 10px;
   padding: var(--padding-5xs) var(--padding-base);
   flex-grow: 1;
 }
@@ -182,6 +193,30 @@ html::before {
 }
 
 .icon {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.backIcon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.backIconWrapper {
   display: flex;
   flex-direction: row;
   cursor: pointer;

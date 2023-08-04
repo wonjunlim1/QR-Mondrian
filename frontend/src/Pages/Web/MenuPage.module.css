@@ -227,6 +227,7 @@ html::before {
   position: relative;
   letter-spacing: 0.03em;
   line-height: 16px;
+  white-space: nowrap;
 }
 
 .inactiveStatusBadge {
@@ -241,6 +242,7 @@ html::before {
   justify-content: center;
   margin-right: auto;
   opacity: 0.5;
+  white-space: nowrap;
 }
 
 .inactiveStatusLabel {

@@ -184,7 +184,7 @@ const MenuPage = () => {
                   {menuCategory.category_name}
                 </h2>
                 {isHQUser && (
-                  <button className={styles.iconWrapper}>
+                  <button className={styles.iconWrapperDelete}>
                     <div
                       className={styles.icon}
                       onClick={() => {
@@ -282,7 +282,7 @@ const MenuPage = () => {
                         )}
                         {isHQUser && (
                           <button
-                            className={styles.iconWrapperDelete}
+                            className={styles.iconWrapper}
                             onClick={() => {
                               const confirmMessage =
                                 "메뉴를 정말 삭제하시겠습니까?";

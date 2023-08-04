@@ -7,7 +7,8 @@ import deleteIcon from "../Assets/Images/delete.svg";
 const OrderQueueModal = ({ onClose, setEventCounter }) => {
   // Initializing states
   const [pendingOrdersData, setPendingOrdersData] = useState(null);
-  const [buttonClickCounter, setButtonClickCounter] = useState(0);
+  const [refresh, setRefresh] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   //Server address variable assignment
   const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
@@ -22,9 +23,19 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
 
   /** Event Handlers */
 
+  //Function to handle window size change
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  //Funtion to refresh render
+  const toggleRefresh = () => {
+    setRefresh(!refresh);
+  };
+
   // Function to handle click on button
   const onButtonClick = async (id, action) => {
-    setButtonClickCounter(buttonClickCounter + 1);
+    console.log(pendingOrdersData);
     setEventCounter((prevCounter) => prevCounter + 1);
     const data = {
       update_sub_order: [
@@ -46,6 +57,7 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
         }
       );
       console.log(response);
+      toggleRefresh();
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +80,17 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
     };
 
     fetchOrderData();
-  }, [serverAddress, restaurantId, branchId, buttonClickCounter]);
+  }, [serverAddress, restaurantId, branchId, refresh]);
+
+  // Effect to handle window resize
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    // This is cleanup to remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // Return null while data is loading
   if (!pendingOrdersData) {
@@ -169,12 +191,13 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
           ))}
 
         {pendingOrdersData.flatMap((order) => order.sub_orders).length % 2 !==
-          0 && (
-          <div
-            className={styles.orderWrapper}
-            style={{ visibility: "hidden" }}
-          ></div>
-        )}
+          0 &&
+          windowWidth >= 1050 && (
+            <div
+              className={styles.orderWrapper}
+              style={{ visibility: "hidden" }}
+            ></div>
+          )}
       </div>
     </div>
   );

@@ -277,7 +277,11 @@ html::before {
   flex-direction: row;
   align-items: flex-start;
   gap: var(--gap-2xl);
-  overflow-x: hidden;
+  overflow-x: scroll;
+}
+
+.menuInfoLayout::-webkit-scrollbar {
+  display: none;
 }
 
 .menuInfoLayoutInactive {
@@ -289,6 +293,12 @@ html::before {
   gap: var(--gap-2xl);
   font-size: var(--title-2);
   color: var(--text-alternative-2);
+  overflow-x: scroll;
+}
+
+
+.menuInfoLayoutInactive::-webkit-scrollbar {
+  display: none;
 }
 
 .menuImage {
@@ -318,7 +328,6 @@ html::before {
   gap: var(--gap-base);
   display: flex;
   justify-content: flex-start;
-  overflow-x: hidden;
 }
 
 .menuContentInactive {

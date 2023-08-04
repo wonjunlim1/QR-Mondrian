@@ -39,29 +39,75 @@ const OrderPage = () => {
   //Server address variable assignment
   const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
 
-  //Handle OrderQueueModalPopUp open
+  /** Event Handlers */
+
+  // Funtion to handle OrderQueueModalPopUp open
   const openOrderQueueModalPopup = useCallback(() => {
     setOrderQueueModalPopupOpen(true);
   }, []);
 
-  //Handle OrderQueueModalPopUp close
+  // Funtion to handle OrderQueueModalPopUp close
   const closeOrderQueueModalPopup = useCallback(() => {
     setMainRefresh(!mainRefresh);
     setOrderQueueModalPopupOpen(false);
   }, [mainRefresh]);
 
-  //Handle TableModalPopUp open
+  // Funtion to handle TableModalPopUp open
   const openTableModalPopup = useCallback((orders, id) => {
     setSelectedTableOrders(orders);
     setSelectedTableId(id);
     setTableModalPopupOpen(true);
   }, []);
 
-  //Handle TableModalPopUp close
+  // Funtion to handle TableModalPopUp close
   const closeTableModalPopup = useCallback(() => {
     setMainRefresh(!mainRefresh);
     setTableModalPopupOpen(false);
   }, [mainRefresh]);
+
+  // Function to handle retrieving order data
+  const fetchOrderData = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${serverAddress}/order_w/${restaurantId}/${branchId}`
+      );
+      const jsonData = await response.json();
+      const combinedOrderData = jsonData.data.Accepted.reduce((acc, order) => {
+        const { table_number, sub_orders, order_id } = order;
+        const tableMenus = sub_orders.flatMap((subOrder) =>
+          subOrder.main_menus.map((menu) => ({ ...menu, order_id }))
+        );
+        acc[table_number] = acc[table_number]
+          ? acc[table_number].concat(tableMenus)
+          : tableMenus;
+        return acc;
+      }, {});
+      const finalOrderData = Object.fromEntries(
+        Object.entries(combinedOrderData).sort(
+          ([tableNumberA], [tableNumberB]) => {
+            return tableNumberA - tableNumberB;
+          }
+        )
+      );
+      setAcceptedOrdersData(finalOrderData);
+      setAcceptedOrderCount(jsonData.data.Accepted.length);
+      setPendingOrderCount(
+        jsonData.data.Pending.reduce(
+          (acc, order) => acc + order.sub_orders.length,
+          0
+        )
+      );
+    } catch (error) {
+      console.log("Error fetching menu data:", error);
+    }
+  }, [
+    serverAddress,
+    restaurantId,
+    branchId,
+    setAcceptedOrdersData,
+    setAcceptedOrderCount,
+    setPendingOrderCount,
+  ]);
 
   /** Effect Hooks */
 
@@ -83,50 +129,17 @@ const OrderPage = () => {
 
   // Effect to fetch order data
   useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const response = await fetch(
-          `${serverAddress}/order_w/${restaurantId}/${branchId}`
-        );
-        const jsonData = await response.json();
-        const combinedOrderData = jsonData.data.Accepted.reduce(
-          (acc, order) => {
-            const { table_number, sub_orders, order_id } = order;
-            const tableMenus = sub_orders.flatMap((subOrder) =>
-              subOrder.main_menus.map((menu) => ({ ...menu, order_id }))
-            );
-            acc[table_number] = acc[table_number]
-              ? acc[table_number].concat(tableMenus)
-              : tableMenus;
-            return acc;
-          },
-          {}
-        );
-        const finalOrderData = Object.fromEntries(
-          Object.entries(combinedOrderData).sort(
-            ([tableNumberA], [tableNumberB]) => {
-              return tableNumberA - tableNumberB;
-            }
-          )
-        );
-        setAcceptedOrdersData(finalOrderData);
-        setAcceptedOrderCount(jsonData.data.Accepted.length);
-        setPendingOrderCount(
-          jsonData.data.Pending.reduce(
-            (acc, order) => acc + order.sub_orders.length,
-            0
-          )
-        );
-      } catch (error) {
-        console.log("Error fetching menu data:", error);
-      }
-    };
-
-    const intervalId = setInterval(fetchOrderData, 5000);
-
+    const intervalId = setInterval(() => {
+      fetchOrderData();
+    }, 5000);
     // Clear interval on component unmount
     return () => clearInterval(intervalId);
-  }, [serverAddress, restaurantId, branchId, mainRefresh]);
+  }, [serverAddress, restaurantId, branchId, fetchOrderData]);
+
+  // Effect to fetch order data when refreshing
+  useEffect(() => {
+    fetchOrderData();
+  }, [mainRefresh, fetchOrderData]);
 
   // Return null while data is loading
   if (!acceptedOrdersData) {

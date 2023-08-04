@@ -140,6 +140,17 @@ html::before {
   opacity: 0.3;
 }
 
+.iconWrapperDelete {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+}
+
 .icon {
   cursor: pointer;
   border: 0;

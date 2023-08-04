@@ -282,7 +282,7 @@ const MenuPage = () => {
                         )}
                         {isHQUser && (
                           <button
-                            className={styles.iconWrapper}
+                            className={styles.iconWrapperDelete}
                             onClick={() => {
                               const confirmMessage =
                                 "메뉴를 정말 삭제하시겠습니까?";

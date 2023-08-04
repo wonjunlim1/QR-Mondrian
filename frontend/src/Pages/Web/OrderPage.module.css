@@ -142,7 +142,6 @@ html::before {
   justify-content: flex-start;
   gap: var(--gap-5xl);
   cursor: pointer;
-  overflow-x: scroll;
 }
 
 .tableContentWrapper {
@@ -153,6 +152,11 @@ html::before {
   height: 180px;
   align-self: stretch;
   gap: var(--gap-base);
+  overflow-x: scroll;
+}
+
+.tableContentWrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .tableContentTitle {
@@ -246,6 +250,7 @@ html::before {
   letter-spacing: 0.01em;
   line-height: 24px;
   font-weight: 700;
-  display: inline-block;
-  width: 320px;
+  display: inline-flex;
+  max-width: 320px;
+  word-wrap: break-word;
 }

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styles from "./TableModal.module.css";
 import deleteIcon from "../Assets/Images/delete.svg";
 
-const TableModal = ({ onClose, orders, id, setEventCounter }) => {
+const TableModal = ({ onClose, orders, id, setMainRefresh }) => {
   // Initializing variables
   const acceptedOrdersData = orders;
   const tableId = id;
@@ -24,7 +24,6 @@ const TableModal = ({ onClose, orders, id, setEventCounter }) => {
 
   // Function to handle click on button
   const onCompleteButtonClick = async () => {
-    setEventCounter((prevCounter) => prevCounter + 1);
     const data = {
       close_order: [
         {
@@ -44,6 +43,7 @@ const TableModal = ({ onClose, orders, id, setEventCounter }) => {
         }
       );
       console.log(response);
+      setMainRefresh((prevRefresh) => !prevRefresh);
       onClose();
     } catch (error) {
       console.log(error);

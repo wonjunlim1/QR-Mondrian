@@ -4,7 +4,7 @@ import { decryptUrlParams } from "../utils/encryption";
 import styles from "./OrderQueueModal.module.css";
 import deleteIcon from "../Assets/Images/delete.svg";
 
-const OrderQueueModal = ({ onClose, setEventCounter }) => {
+const OrderQueueModal = ({ onClose, setMainRefresh }) => {
   // Initializing states
   const [pendingOrdersData, setPendingOrdersData] = useState(null);
   const [refresh, setRefresh] = useState(false);
@@ -35,8 +35,6 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
 
   // Function to handle click on button
   const onButtonClick = async (id, action) => {
-    console.log(pendingOrdersData);
-    setEventCounter((prevCounter) => prevCounter + 1);
     const data = {
       update_sub_order: [
         {
@@ -58,6 +56,17 @@ const OrderQueueModal = ({ onClose, setEventCounter }) => {
       );
       console.log(response);
       toggleRefresh();
+      setMainRefresh((prevRefresh) => !prevRefresh);
+      let subOrderIdCount = 0;
+      if (pendingOrdersData) {
+        subOrderIdCount = pendingOrdersData.reduce(
+          (count, table) => count + table.sub_orders.length,
+          0
+        );
+      }
+      if (subOrderIdCount <= 1) {
+        onClose();
+      }
     } catch (error) {
       console.log(error);
     }

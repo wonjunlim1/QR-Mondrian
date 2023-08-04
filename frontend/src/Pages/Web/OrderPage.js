@@ -32,40 +32,42 @@ const OrderPage = () => {
   const [acceptedOrdersData, setAcceptedOrdersData] = useState(null);
   const [pendingOrderCount, setPendingOrderCount] = useState(null);
   const [acceptedOrderCount, setAcceptedOrderCount] = useState(null);
-  const [eventCounter, setEventCounter] = useState(0);
+  const [mainRefresh, setMainRefresh] = useState(false);
   const [selectedTableOrders, setSelectedTableOrders] = useState(null);
   const [selectedTableId, setSelectedTableId] = useState(null);
 
   //Server address variable assignment
   const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
 
+  //Handle OrderQueueModalPopUp open
   const openOrderQueueModalPopup = useCallback(() => {
     setOrderQueueModalPopupOpen(true);
   }, []);
 
+  //Handle OrderQueueModalPopUp close
   const closeOrderQueueModalPopup = useCallback(() => {
-    setEventCounter(eventCounter + 1);
+    setMainRefresh(!mainRefresh);
     setOrderQueueModalPopupOpen(false);
-  }, [eventCounter]);
+  }, [mainRefresh]);
 
+  //Handle TableModalPopUp open
   const openTableModalPopup = useCallback((orders, id) => {
     setSelectedTableOrders(orders);
     setSelectedTableId(id);
     setTableModalPopupOpen(true);
   }, []);
 
+  //Handle TableModalPopUp close
   const closeTableModalPopup = useCallback(() => {
-    setEventCounter(eventCounter + 1);
+    setMainRefresh(!mainRefresh);
     setTableModalPopupOpen(false);
-  }, [eventCounter]);
+  }, [mainRefresh]);
 
   /** Effect Hooks */
 
   // Effect to redirect user based on user type
   useEffect(() => {
     if (isHQUser) {
-      console.log(restaurantId);
-      console.log(branchId);
       navigate(
         `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
           branchId
@@ -107,7 +109,6 @@ const OrderPage = () => {
             }
           )
         );
-        console.log(finalOrderData);
         setAcceptedOrdersData(finalOrderData);
         setAcceptedOrderCount(jsonData.data.Accepted.length);
         setPendingOrderCount(
@@ -122,7 +123,7 @@ const OrderPage = () => {
     };
 
     fetchOrderData();
-  }, [serverAddress, restaurantId, branchId, eventCounter]);
+  }, [serverAddress, restaurantId, branchId, mainRefresh]);
 
   // Return null while data is loading
   if (!acceptedOrdersData) {
@@ -241,7 +242,7 @@ const OrderPage = () => {
         >
           <OrderQueueModal
             onClose={closeOrderQueueModalPopup}
-            setEventCounter={setEventCounter}
+            setMainRefresh={setMainRefresh}
           />
         </PortalPopup>
       )}
@@ -255,7 +256,7 @@ const OrderPage = () => {
             onClose={closeTableModalPopup}
             orders={selectedTableOrders}
             id={selectedTableId}
-            setEventCounter={setEventCounter}
+            setMainRefresh={setMainRefresh}
           />
         </PortalPopup>
       )}

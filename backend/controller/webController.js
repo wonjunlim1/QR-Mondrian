@@ -94,9 +94,15 @@ module.exports = {
         request_type,
         request_id
       );
+      let message;
+      if (request_type == 1) {
+        message = `Menu category successfully deleted for menu category id ${request_id}`;
+      } else {
+        message = `Menu successfully deleted for menu id ${request_id}`;
+      }
       return res
         .status(sc.OK)
-        .send(ut.success(sc.OK));
+        .send(ut.success(sc.OK, message));
     } catch (error) {
       console.error(error);
       return res

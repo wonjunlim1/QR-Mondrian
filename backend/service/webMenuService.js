@@ -14,6 +14,7 @@ const {
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
+const s3 = require("../modules/s3-delete");
 const db = {};
 
 let sequelize;
@@ -55,7 +56,7 @@ module.exports = {
         }
       );
       return affectedRows;
-    } catch (error) {}
+    } catch (error) { }
   },
   deleteMenuCategory: async (
     restaurant_id,
@@ -66,6 +67,19 @@ module.exports = {
     // If the request is for menu category
     if (request_type == 1) {
       try {
+        // Look up rows in MainMenu table with mainCategoryId to use for deleting table
+        const mainMenurows = await MainMenu.findAll({
+          where: {
+            main_category_id: request_id
+          },
+        })
+        // Accessing the id column for each menu item
+        const menuIds = mainMenurows.map((menuItem) => menuItem.id);
+        // Delete image from S3 bucket
+        for (const menuId of menuIds) {
+          const filename = `${restaurant_id}/${menuId}.png`;
+          s3.deleteFileFromS3(filename)
+        }
         const affectedRows = await MainCategory.destroy({
           where: {
             id: request_id,
@@ -81,7 +95,12 @@ module.exports = {
           where: {
             id: request_id,
           },
+
         });
+        // Delete image from S3 bucket
+        const filename = `${restaurant_id}/${request_id}.png`;
+        s3.deleteFileFromS3(filename)
+        return affectedRows
       } catch (error) {
         console.error("Error deleting menu item:", error);
       }
@@ -100,7 +119,7 @@ module.exports = {
         updated_at: new Date(),
       });
       return category.id;
-    } catch (error) {}
+    } catch (error) { }
   },
   putDisplayOrder: async (restaurant_id, branch_id, curr_request) => {
     const category_update = curr_request.category_edit;
@@ -279,7 +298,7 @@ module.exports = {
           restaurant_id +
           "/" +
           menu_id +
-          ".PNG";
+          ".png";
       }
 
       // Step 2: Update the MainMenu table

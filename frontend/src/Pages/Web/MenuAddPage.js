@@ -154,6 +154,7 @@ const MenuAddPage = () => {
   // Function to handle click on edit submit button
   const onSubmitButtonClick = async () => {
     if (!checkStateValues()) {
+      window.alert("메뉴 이름, 메뉴 구분이 비어있습니다");
       return;
     }
 

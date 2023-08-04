@@ -125,36 +125,36 @@ const MenuDisplayOrderEditPage = () => {
 
     let menuDiffList = [];
 
-    initialData.forEach((initialDataCategory, i) => {
-      const newDataCategory = newData[i];
+    // Flatten all main menus from initialData and newData
+    const flattenedInitialData = initialData.flatMap((data) => data.main_menus);
+    const flattenedNewData = newData.flatMap((data) => data.main_menus);
 
-      // convert both arrays to maps for easy lookup
-      const initialDataMenuMap = new Map(
-        initialDataCategory.main_menus.map((item) => [
-          item.id,
-          { display_order: item.display_order, name: item.name },
-        ])
-      );
-      const newDataMenuMap = new Map(
-        newDataCategory.main_menus.map((item) => [
-          item.id,
-          { display_order: item.display_order, name: item.name },
-        ])
-      );
+    // Convert the arrays to maps for easy lookup
+    const initialDataMenuMap = new Map(
+      flattenedInitialData.map((item) => [
+        item.id,
+        { display_order: item.display_order, name: item.name },
+      ])
+    );
+    const newDataMenuMap = new Map(
+      flattenedNewData.map((item) => [
+        item.id,
+        { display_order: item.display_order, name: item.name },
+      ])
+    );
 
-      for (let [id, data] of initialDataMenuMap) {
-        if (
-          newDataMenuMap.has(id) &&
-          newDataMenuMap.get(id).display_order !== data.display_order
-        ) {
-          menuDiffList.push({
-            id: id,
-            display_order: newDataMenuMap.get(id).display_order,
-            name: newDataMenuMap.get(id).name,
-          });
-        }
+    for (let [id, data] of initialDataMenuMap) {
+      if (
+        newDataMenuMap.has(id) &&
+        newDataMenuMap.get(id).display_order !== data.display_order
+      ) {
+        menuDiffList.push({
+          id: id,
+          display_order: newDataMenuMap.get(id).display_order,
+          name: newDataMenuMap.get(id).name,
+        });
       }
-    });
+    }
     if (categoryDiffList.length === 0 && menuDiffList.length === 0) {
       navigate(
         `/menu_w/${encryptUrlParams(restaurantId)}/${encryptUrlParams(
@@ -175,8 +175,6 @@ const MenuDisplayOrderEditPage = () => {
         display_order,
       })),
     };
-    console.log(data);
-    return;
     try {
       const response = await fetch(
         `${serverAddress}/menu_w/${restaurantId}/${branchId}/display_order`,

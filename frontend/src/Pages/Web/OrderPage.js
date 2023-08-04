@@ -7,6 +7,7 @@ import TableModal from "../../Components/TableModal";
 import WebHeader from "../../Components/WebHeader";
 import styles from "./OrderPage.module.css";
 import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
+import refreshIcon from "../../Assets/Images/refresh.svg";
 
 const OrderPage = () => {
   // Navigation and location utility from React Router
@@ -158,7 +159,15 @@ const OrderPage = () => {
                     {pendingOrderCount ? pendingOrderCount : 0}
                   </div>
                 </div>
-                <div className={styles.buttonLabel}>신규주문</div>
+                <div className={styles.buttonLabel}>
+                  <div>신규주문</div>{" "}
+                  <div
+                    className={styles.iconWrapper}
+                    onClick={() => window.location.reload()}
+                  >
+                    <img className={styles.icon} src={refreshIcon} alt=""></img>
+                  </div>
+                </div>
               </div>
             </div>
             <div className={styles.tableList}>

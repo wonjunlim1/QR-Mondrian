@@ -112,7 +112,7 @@
   background-color: var(--white-white);
   position: fixed;
   z-index: 1;
-  border-bottom: 1px solid var(--line-alternative);
+  border-bottom: 0.5px solid var(--line-alternative);
 }
 
 .categoryScrollBarWrapper {

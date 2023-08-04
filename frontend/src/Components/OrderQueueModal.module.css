@@ -14,6 +14,7 @@
   overflow-y: scroll;
   text-align: left;
   font-size: var(--headline-1);
+  overflow-x: scroll;
   color: var(--text-strong);
   font-family: var(--body-2);
 }

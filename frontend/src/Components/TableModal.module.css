@@ -16,6 +16,7 @@
   font-size: var(--headline-1);
   color: var(--text-strong);
   font-family: var(--body-2);
+  overflow-x: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none; 
 }

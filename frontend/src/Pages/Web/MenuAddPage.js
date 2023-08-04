@@ -249,7 +249,6 @@ const MenuAddPage = () => {
 
   // Function to handle delete option item row
   const removeOptionRow = (cardId, optionId) => {
-    console.log(optionCardWrappers);
     setOptionCardWrappers(
       optionCardWrappers.map((card) =>
         card.id === cardId

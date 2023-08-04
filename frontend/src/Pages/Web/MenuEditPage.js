@@ -153,7 +153,6 @@ const MenuEditPage = () => {
     }
 
     let dpOrder = state.menuDisplayOrder;
-    console.log(dpOrder);
     if (state.defaultCategoryValue !== state.categorySelectedValue) {
       const category = menuData.find(
         (cat) => cat.category_name === state.categorySelectedValue
@@ -391,7 +390,6 @@ const MenuEditPage = () => {
             jsonDataMenuDetails.data.menu_details.image_url + "?v=" + Date.now()
           );
         }
-        console.log(jsonDataMenuDetails.data.menu_details.image_url);
         let transformedOptionCategories =
           jsonDataMenuDetails.data.menu_details.option_categories.map(
             (category, index) => {

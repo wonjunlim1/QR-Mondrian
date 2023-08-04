@@ -16,26 +16,6 @@ const s3 = new S3Client({
   signatureVersion: "v4",
 });
 
-
-async function deleteMenuImageFromS3(key) {
-  try {
-    const params = {
-      Bucket: 'spqr-menu',
-      Delete: {
-        Objects: [{ Key: key }],
-        Quiet: false,
-      },
-    };
-    const command = new DeleteObjectsCommand(params);
-    const data = await s3.send(command);
-    console.log('Delete successfully', data);
-    return data;
-  } catch (error) {
-    console.error('Error while deleting object:', error);
-    throw error;
-  }
-}
-
 async function getMaxMenuId() {
   try {
     const maxMenuId = await MainMenu.findOne({
@@ -60,13 +40,13 @@ const upload = multer({
       // If menu updated
       if (req.params.menu_id) {
         menuId = req.params.menu_id;
-        cb(null, req.params.restaurant_id + "/" + menuId + ".png");
+        cb(null, req.params.restaurant_id + "/" + menuId + ".PNG");
       } else {
         // If new menu, get maxmenuId from Menu table
         getMaxMenuId()
           .then((maxId) => {
             menuId = maxId;
-            cb(null, req.params.restaurant_id + "/" + menuId + ".png");
+            cb(null, req.params.restaurant_id + "/" + menuId + ".PNG");
           })
           .catch((error) => {
             console.error("Error while retrieving max id:", error);
@@ -78,4 +58,4 @@ const upload = multer({
   }),
 });
 
-module.exports = upload, deleteMenuImageFromS3;
+module.exports = upload;

@@ -15,6 +15,8 @@ const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 const s3 = require("../modules/s3-delete");
+const CONFIG = require("../config/s3");
+
 const db = {};
 
 let sequelize;
@@ -77,7 +79,7 @@ module.exports = {
         const menuIds = mainMenurows.map((menuItem) => menuItem.id);
         // Delete image from S3 bucket
         for (const menuId of menuIds) {
-          const filename = `${restaurant_id}/${menuId}.png`;
+          const filename = `${restaurant_id}/${menuId}.PNG`;
           s3.deleteFileFromS3(filename)
         }
         const affectedRows = await MainCategory.destroy({
@@ -98,7 +100,8 @@ module.exports = {
 
         });
         // Delete image from S3 bucket
-        const filename = `${restaurant_id}/${request_id}.png`;
+        const filename = `${restaurant_id}/${request_id}.PNG`;
+        console.log(filename)
         s3.deleteFileFromS3(filename)
         return affectedRows
       } catch (error) {
@@ -282,7 +285,6 @@ module.exports = {
       if (!mainMenu) {
         throw new Error(`Menu with id ${menu_id} not found`);
       }
-
       // Step 1: Find MainCategory
       const mainCategory = await MainCategory.findOne({
         where: {
@@ -294,11 +296,11 @@ module.exports = {
 
       if (menuData.image_deleted == "false") {
         imageUrl =
-          "https://spqr-menu.s3.ap-northeast-2.amazonaws.com/" +
-          restaurant_id +
-          "/" +
-          menu_id +
-          ".png";
+          CONFIG.aws_url + `${restaurant_id}/${menu_id}.PNG`;
+      } else {
+        // If image is empty, delete from S3
+        const filename = `${restaurant_id}/${menu_id}.PNG`;
+        s3.deleteFileFromS3(filename)
       }
 
       // Step 2: Update the MainMenu table

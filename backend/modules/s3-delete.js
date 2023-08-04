@@ -20,9 +20,6 @@ exports.deleteFileFromS3 = (key, next) => {
         Bucket: "spqr-menu",
         Key: key,
     });
-
-
     const response = s3.send(deleteParams);
-    console.log(response);
 
 }

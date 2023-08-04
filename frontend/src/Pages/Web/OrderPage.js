@@ -7,7 +7,6 @@ import TableModal from "../../Components/TableModal";
 import WebHeader from "../../Components/WebHeader";
 import styles from "./OrderPage.module.css";
 import { encryptUrlParams, decryptUrlParams } from "../../utils/encryption";
-import refreshIcon from "../../Assets/Images/refresh.svg";
 
 const OrderPage = () => {
   // Navigation and location utility from React Router
@@ -123,7 +122,10 @@ const OrderPage = () => {
       }
     };
 
-    fetchOrderData();
+    const intervalId = setInterval(fetchOrderData, 5000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, [serverAddress, restaurantId, branchId, mainRefresh]);
 
   // Return null while data is loading
@@ -161,12 +163,6 @@ const OrderPage = () => {
                 </div>
                 <div className={styles.buttonLabel}>
                   <div>신규주문</div>{" "}
-                  <div
-                    className={styles.iconWrapper}
-                    onClick={() => window.location.reload()}
-                  >
-                    <img className={styles.icon} src={refreshIcon} alt=""></img>
-                  </div>
                 </div>
               </div>
             </div>

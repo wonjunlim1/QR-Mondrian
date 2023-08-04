@@ -82,29 +82,6 @@ html::before {
   gap: var(--gap-5xs);
 }
 
-.iconWrapper{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: var(--padding-11xs);
-}
-
-.icon {
-  cursor: pointer;
-  border: 0;
-  background-color: transparent;
-  padding: 0;
-  position: relative;
-  width: 20px;
-  height: 20px;
-  object-fit: cover;
-  overflow: hidden;
-  flex-shrink: 0;
-  opacity: 1;
-}
-
-
 .badge {
   border-radius: var(--br-81xl);
   background-color: var(--color-gray-900);

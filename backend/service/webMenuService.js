@@ -58,7 +58,7 @@ module.exports = {
         }
       );
       return affectedRows;
-    } catch (error) { }
+    } catch (error) {}
   },
   deleteMenuCategory: async (
     restaurant_id,
@@ -72,15 +72,15 @@ module.exports = {
         // Look up rows in MainMenu table with mainCategoryId to use for deleting table
         const mainMenurows = await MainMenu.findAll({
           where: {
-            main_category_id: request_id
+            main_category_id: request_id,
           },
-        })
+        });
         // Accessing the id column for each menu item
         const menuIds = mainMenurows.map((menuItem) => menuItem.id);
         // Delete image from S3 bucket
         for (const menuId of menuIds) {
           const filename = `${restaurant_id}/${menuId}.PNG`;
-          s3.deleteFileFromS3(filename)
+          s3.deleteFileFromS3(filename);
         }
         const affectedRows = await MainCategory.destroy({
           where: {
@@ -97,13 +97,12 @@ module.exports = {
           where: {
             id: request_id,
           },
-
         });
         // Delete image from S3 bucket
         const filename = `${restaurant_id}/${request_id}.PNG`;
-        console.log(filename)
-        s3.deleteFileFromS3(filename)
-        return affectedRows
+        console.log(filename);
+        s3.deleteFileFromS3(filename);
+        return affectedRows;
       } catch (error) {
         console.error("Error deleting menu item:", error);
       }
@@ -122,7 +121,7 @@ module.exports = {
         updated_at: new Date(),
       });
       return category.id;
-    } catch (error) { }
+    } catch (error) {}
   },
   putDisplayOrder: async (restaurant_id, branch_id, curr_request) => {
     const category_update = curr_request.category_edit;
@@ -295,12 +294,12 @@ module.exports = {
       });
 
       if (menuData.image_deleted == "false") {
-        imageUrl =
-          CONFIG.aws_url + `${restaurant_id}/${menu_id}.PNG`;
+        imageUrl = CONFIG.aws_url + `${restaurant_id}/${menu_id}.PNG`;
       } else {
-        // If image is empty, delete from S3
-        const filename = `${restaurant_id}/${menu_id}.PNG`;
-        s3.deleteFileFromS3(filename)
+        if (imageUrl.trim() === "") {
+          const filename = `${restaurant_id}/${menu_id}.PNG`;
+          s3.deleteFileFromS3(filename);
+        }
       }
 
       // Step 2: Update the MainMenu table

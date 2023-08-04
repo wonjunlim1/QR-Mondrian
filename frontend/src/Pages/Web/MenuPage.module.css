@@ -275,6 +275,7 @@ html::before {
   flex-direction: row;
   align-items: flex-start;
   gap: var(--gap-2xl);
+  overflow-x: hidden;
 }
 
 .menuInfoLayoutInactive {
@@ -378,6 +379,7 @@ html::before {
   line-height: 24px;
   font-weight: 700;
   font-family: inherit;
+  white-space: nowrap;
 }
 
 .floatingButtonWrapper {

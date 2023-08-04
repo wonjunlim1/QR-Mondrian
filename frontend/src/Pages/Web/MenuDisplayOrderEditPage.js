@@ -19,8 +19,8 @@ const MenuDisplayOrderEditPage = () => {
   // Initializing states
   const [menuData, setMenuData] = useState(null);
   const [initialMenuData, setInitialMenuData] = useState(null);
-  const [eventCounter, setEventCounter] = useState(0);
   const [categoryInputValue, setCategoryInputValue] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   // If the state was passed in the route, use it, otherwise default to false
   const isHQUser = location.state ? location.state.isHQUser : false;
@@ -67,8 +67,9 @@ const MenuDisplayOrderEditPage = () => {
         }
       );
       console.log(response);
-      setEventCounter(eventCounter + 1);
       setCategoryInputValue("");
+      setRefresh(!refresh);
+      setInitialMenuData(null);
     } catch (error) {
       console.log(error);
     }
@@ -174,6 +175,8 @@ const MenuDisplayOrderEditPage = () => {
         display_order,
       })),
     };
+    console.log(data);
+    return;
     try {
       const response = await fetch(
         `${serverAddress}/menu_w/${restaurantId}/${branchId}/display_order`,
@@ -314,7 +317,7 @@ const MenuDisplayOrderEditPage = () => {
     restaurantId,
     branchId,
     dummyTableNumber,
-    eventCounter,
+    refresh,
     initialMenuData,
   ]);
 

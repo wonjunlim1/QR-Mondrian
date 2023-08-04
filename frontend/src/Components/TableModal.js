@@ -56,6 +56,7 @@ const TableModal = ({ onClose, orders, id, setMainRefresh }) => {
     return <div></div>;
   }
 
+  // Render the component
   return (
     <div className={styles.modal}>
       <div className={styles.modalHeader}>

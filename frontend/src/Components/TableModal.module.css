@@ -20,11 +20,6 @@
   scrollbar-width: none; 
 }
 
-.modal::-webkit-scrollbar {
-  display: none;
-}
-
-
 .modalHeader {
   align-self: stretch;
   padding: var(--padding-5xl) var(--padding-base) var(--padding-base)
@@ -132,6 +127,10 @@
   font-size: var(--label-3);
   height: 200px;
   overflow-y: scroll;
+}
+
+.orderContentWrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .orderContentColumn {

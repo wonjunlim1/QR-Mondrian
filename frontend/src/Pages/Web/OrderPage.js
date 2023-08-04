@@ -130,6 +130,7 @@ const OrderPage = () => {
     return <div></div>;
   }
 
+  // Render the component
   return (
     <>
       <div className={styles.web}>

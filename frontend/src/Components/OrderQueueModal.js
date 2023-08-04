@@ -106,6 +106,7 @@ const OrderQueueModal = ({ onClose, setMainRefresh }) => {
     return <div></div>;
   }
 
+  // Render the component
   return (
     <div className={styles.modal}>
       <div className={styles.modalHeader}>

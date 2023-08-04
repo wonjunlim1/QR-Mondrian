@@ -94,6 +94,7 @@ function App() {
           element={<MobileCartPage />}
         />
         <Route path="/login_w" element={<WebLoginPage />} />
+        <Route path="/" element={<WebLoginPage />} />
         <Route
           path="/order_w/:restaurant_id/:branch_id/"
           element={<WebOrderPage />}
